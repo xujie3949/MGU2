@@ -61,6 +61,6 @@ typings/
 .idea
 
 # Webpack output files
-public
-dll
+public/
+dll/
 
