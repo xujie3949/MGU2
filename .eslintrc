@@ -1,0 +1,140 @@
+{
+  // 使用babel-eslint支持es6新特性
+  "parser": "babel-eslint",
+  // 使用插件处理webpack别名问题
+  "plugins": [
+    "import"
+  ],
+  // 让eslint能够感知webpack的resolver
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "config/webpack.base.config.js"
+      }
+    }
+  },
+  // 使用eslint-config-airbnb预定义规则
+  "extends": "airbnb",
+  // 添加全局函数和对象
+  "globals": {
+    "localStorage": true,
+    "window": true,
+    "document": true,
+    "WebSocket": true,
+    "URLSearchParams": true
+  },
+  /**
+   * "off" 或 0 - 关闭规则
+   * "warn" 或 1 - 开启规则，使用警告级别的错误：warn (不会导致程序退出),
+   * "error" 或 2 - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)
+   */
+  "rules": {
+    //修改规则，箭头函数函数体有歧义时必须添加大括号
+    "no-confusing-arrow": [
+      "error"
+    ],
+    // 关闭规则，因为此条规则会导致npm run lint崩溃,主要用于处理async/await
+    "generator-star-spacing": "off",
+    // 关闭规则，允许函数中的参数不被使用
+    "no-unused-vars": "off",
+    // 关闭规则，允许使用类方式创建无状态react组件
+    "react/prefer-stateless-function": "off",
+    // 关闭规则，允许关闭标签之前没有空格
+    "react/jsx-space-before-closing": "off",
+    // 关闭规则，忽略行结尾符
+    "linebreak-style": "off",
+    // 修改规则，只有一个参数时不适用括号
+    "arrow-parens": [
+      "error",
+      "as-needed"
+    ],
+    // 关闭规则，允许在js文件中写jsx代码
+    "react/jsx-filename-extension": "off",
+    // 关闭规则，对象属性不采用简写形式
+    "object-shorthand": "off",
+    // 关闭规则, img标签可以不写alt属性
+    "jsx-a11y/alt-text": "off",
+    // 关闭规则, 允许类写默认构造函数
+    "no-useless-constructor": "off",
+    // 关闭规则, 允许使用object类型的propTypes验证
+    "react/forbid-prop-types": "off",
+    // 关闭规则, 允许有未使用的属性
+    "react/no-unused-prop-types": "off",
+    // 修改规则, 允许空行和注释中使用空格
+    "no-trailing-spaces": [
+      "error",
+      {
+        "skipBlankLines": true,
+        "ignoreComments": true
+      }
+    ],
+    // 关闭规则, 允许非交互元素监听键盘鼠标事件
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    // 关闭规则, 允许使用++和--
+    "no-plusplus": "off",
+    // 关闭规则, 允许类成员方法中不使用this
+    "class-methods-use-this": "off",
+    // 关闭规则, 允许使用index作为key
+    "react/no-array-index-key": "off",
+    // 关闭规则, 允许静态元素绑定事件
+    "jsx-a11y/no-static-element-interactions": "off",
+    // 修改规则, 允许自关闭标签结束括号前不加空格
+    "react/jsx-tag-spacing": [
+      "error",
+      {
+        "closingSlash": "never",
+        "beforeSelfClosing": "never",
+        "afterOpening": "never"
+      }
+    ],
+    // 修改规则, 定义运算符混用规则
+    "no-mixed-operators": [
+      "error",
+      {
+        "groups": [
+          [
+            "&",
+            "|",
+            "^",
+            "~",
+            "<<",
+            ">>",
+            ">>>"
+          ],
+          [
+            "==",
+            "!=",
+            "===",
+            "!==",
+            ">",
+            ">=",
+            "<",
+            "<="
+          ],
+          [
+            "&&",
+            "||"
+          ],
+          [
+            "in",
+            "instanceof"
+          ]
+        ],
+        "allowSamePrecedence": true
+      }
+    ],
+    // 关闭规则, 允许使用continue
+    "no-continue": "off",
+    // 修改规则, 允许修改函数参数的属性
+    "no-param-reassign": [
+      "error",
+      {
+        "props": false
+      }
+    ],
+    // 关闭规则, 可以使用一些新特性
+    "no-restricted-syntax": "off",
+    // 关闭规则, 允许变量前面添加下划线
+    "no-underscore-dangle": "off"
+  }
+}

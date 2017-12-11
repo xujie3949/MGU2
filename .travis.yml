@@ -1,0 +1,21 @@
+language: node_js
+node_js:
+  - "6.11.0"
+before_install:
+  - npm install -g npm
+  - npm install --g yarn
+script:
+  - yarn run lint
+  - yarn run dll:prod
+  - yarn run compile
+before_deploy:
+  - zip -rq MGU2.zip ./public/*
+  - echo "deploying MGU2.zip to GitHub releases"
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file: MGU2.zip
+  skip_cleanup: true
+  on:
+    tags: true
+cache: yarn

@@ -57,3 +57,10 @@ typings/
 # dotenv environment variables file
 .env
 
+# Webstrom project setting file
+.idea
+
+# Webpack output files
+public
+dll
+

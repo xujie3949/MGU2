@@ -1,0 +1,19 @@
+{
+  "extends" : "../.eslintrc",
+
+  /**
+ * "off" 或 0 - 关闭规则
+ * "warn" 或 1 - 开启规则，使用警告级别的错误：warn (不会导致程序退出),
+ * "error" 或 2 - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)
+ */
+  "rules": {
+    // 关闭规则，允许使用的包不放在dependencies中
+    "import/no-extraneous-dependencies": 0,
+
+    // 关闭规则，允许在require中使用表达式
+    "import/no-dynamic-require": 0,
+
+    // 关闭规则，允许变量名使用下划线
+    "no-underscore-dangle": 0
+  }
+}
