@@ -1,4 +1,5 @@
 import forge from 'node-forge';
+import logger from 'Utils/logger';
 
 class Encryptor {
   key = '';
@@ -48,22 +49,32 @@ class Encryptor {
   }
 
   encrypt(value) {
-    const cipher = forge.cipher.createCipher(this.algorithm, this.key);
-    cipher.start({ iv: this.iv });
-    cipher.update(forge.util.createBuffer(value));
-    cipher.finish();
-    const encrypted = cipher.output;
-    return encrypted.toHex();
+    try {
+      const cipher = forge.cipher.createCipher(this.algorithm, this.key);
+      cipher.start({iv: this.iv});
+      cipher.update(forge.util.createBuffer(value));
+      cipher.finish();
+      const encrypted = cipher.output;
+      return encrypted.toHex();
+    } catch (err) {
+      logger(`加密失败:${err}`);
+      return null;
+    }
   }
 
   decrypt(value) {
-    const decipher = forge.cipher.createDecipher(this.algorithm, this.key);
-    decipher.start({ iv: this.iv });
-    const buffer = this.createBufferFromHex(value);
-    decipher.update(buffer);
-    decipher.finish();
-    const decrypted = decipher.output;
-    return decrypted.toString();
+    try {
+      const decipher = forge.cipher.createDecipher(this.algorithm, this.key);
+      decipher.start({iv: this.iv});
+      const buffer = this.createBufferFromHex(value);
+      decipher.update(buffer);
+      decipher.finish();
+      const decrypted = decipher.output;
+      return decrypted.toString();
+    } catch (err) {
+      logger(`解密失败:${err}`);
+      return null;
+    }
   }
 }
 
