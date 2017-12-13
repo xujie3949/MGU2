@@ -8,14 +8,25 @@ class BrowserStore {
 
   static getItem(key) {
     const value = localStorage.getItem(key);
-    if (value) {
-      return JSON.parse(encryptor.decrypt(value));
+    if (!value) {
+      return null;
     }
-    return null;
+
+    const res = encryptor.decrypt(value);
+    if (!res) {
+      return null;
+    }
+
+    return JSON.parse(res);
   }
 
   static setItem(key, value) {
-    localStorage.setItem(key, encryptor.encrypt(JSON.stringify(value)));
+    const res = encryptor.encrypt(JSON.stringify(value));
+    if (!res) {
+      return;
+    }
+
+    localStorage.setItem(key, res);
   }
 
   static removeItem(key) {
