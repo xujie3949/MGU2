@@ -7,8 +7,8 @@ class Encryptor {
 
   constructor(key, iv, algorithm) {
     this.algorithm = algorithm || this.algorithm;
-    this.key = key || 'Navinfo';
-    this.iv = iv || 'Navinfo';
+    this.key = key || 'Navinfo123456789';
+    this.iv = iv || 'Navinfo123456789';
   }
 
   setKey(key) {
