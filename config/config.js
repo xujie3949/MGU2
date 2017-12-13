@@ -15,7 +15,7 @@ const vendors = Object
   });
 
 const config = {
-  host: '0.0.0.0',
+  host: 'localhost',
   port: '3000',
   path: {
     root: cwd,
