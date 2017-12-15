@@ -12,18 +12,27 @@ import popupStore from 'Stores/popupStore';
 import loadingStore from 'Stores/loadingStore';
 
 class UserStore {
+  @observable username;
+  @observable password;
   @observable rememberMe;
   @observable user;
 
   constructor() {
-    this.rememberMe = false;
-    this.user = new User();
+    this.username = '';
+    this.password = '';
+    this.rememberMe = true;
+    this.user = null;
     this.loadUserInfo();
   }
 
   @action
-  setRememberMe(value) {
-    this.rememberMe = value;
+  setUsername(value) {
+    this.username = value;
+  }
+
+  @action
+  setPassword(value) {
+    this.password = value;
   }
 
   @action
@@ -56,9 +65,17 @@ class UserStore {
       loadingStore.close();
 
       if (data.errcode === 0) {
-        this.user.setToken(data.data.token);
+        const user = new User();
+        user.fromJson({
+          name: this.username,
+          password: this.password,
+          token: data.data.token,
+        });
+        this.setUser(user);
         if (this.rememberMe) {
           this.saveUserInfo();
+        }else {
+          this.clearUserInfo();
         }
       } else {
         popupStore.showError(data.errmsg);
@@ -70,7 +87,7 @@ class UserStore {
   }
 
   logout() {
-    this.user.setToken(null);
+    this.setUser(null);
     this.clearUserInfo();
   }
 
@@ -78,7 +95,11 @@ class UserStore {
   loadUserInfo() {
     if (BrowserStore.hasItem('userInfo')) {
       const userInfo = BrowserStore.getItem('userInfo');
-      this.user.fromJson(userInfo);
+      const user = new User();
+      user.fromJson(userInfo);
+      this.user = user;
+      this.username = this.user.name;
+      this.password = this.user.password;
     }
   }
 }

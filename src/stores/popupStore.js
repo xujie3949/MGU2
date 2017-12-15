@@ -6,45 +6,50 @@ import {
 
 class PopupStore {
   @observable isVisible;
-  @observable options;
+  @observable type;
+  @observable title;
+  @observable message;
+  @observable confirmButton;
+  @observable confirmButtonText;
+  @observable confirmButtonFunc;
+  @observable cancelButton;
+  @observable cancelButtonText;
+  @observable cancelButtonFunc;
 
   constructor() {
     this.isVisible = false;
-    this.options = null;
+    this.type = 'info';
+    this.title = '信息';
+    this.message = '';
+    this.confirmButton = true;
+    this.confirmButtonText = '确定';
+    this.confirmButtonFunc = null;
+    this.cancelButton = true;
+    this.cancelButtonText = '取消';
+    this.cancelButtonFunc = null;
   }
 
   @action
   show(options) {
     this.isVisible = true;
-    this.options = options
+    this.type = options.type || 'info';
+    this.title = options.title || '信息';
+    this.message = options.message || '';
+    this.confirmButton = options.confirmButton || true;
+    this.confirmButtonText = options.confirmButtonText || '确定';
+    this.confirmButtonFunc = options.confirmButtonFunc || null;
+    this.cancelButton = options.cancelButton || true;
+    this.cancelButtonText = options.cancelButtonText || '取消';
+    this.cancelButtonFunc = options.cancelButtonFunc || null;
   }
 
   @action
   close() {
     this.isVisible = false;
-    this.options = null;
-  }
-
-  showPopup(options){
-    const defaultOptions = {
-      type: 'info',
-      title: '信息',
-      message: '',
-      confirmButton: true,
-      confirmButtonText: '确定',
-      confirmButtonFunc: null,
-      cancelButton: true,
-      confirmButtonText: '取消',
-      confirmButtonFunc: null,
-    };
-
-    const res = Object.assign(options, defaultOptions);
-
-    this.show(res);
   }
 
   showError(message, confirmFunc) {
-    this.showPopup({
+    this.show({
       type: 'error',
       title: '错误',
       message: message,
@@ -56,7 +61,7 @@ class PopupStore {
   }
 
   showWarning(message, confirmFunc, cancelFunc) {
-    this.showPopup({
+    this.show({
       type: 'warning',
       title: '警告',
       message: message,
@@ -64,13 +69,13 @@ class PopupStore {
       confirmButtonText: '确定',
       confirmButtonFunc: confirmFunc,
       cancelButton: true,
-      confirmButtonText: '取消',
-      confirmButtonFunc: cancelFunc,
+      cancelButtonText: '取消',
+      cancelButtonFunc: cancelFunc,
     });
   }
 
   showInfo(message, confirmFunc, cancelFunc) {
-    this.showPopup({
+    this.show({
       type: 'error',
       title: '信息',
       message: message,

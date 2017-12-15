@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
+import { View } from 'react-desktop/windows';
 
 import stores from 'Stores/stores';
+import Login from 'Components/login/Login';
+import Editor from 'Components/editor/Editor';
+import Loading from 'Components/loading/Loading';
+import Popup from 'Components/popup/Popup';
 import style from './styles/style.styl';
 
 @observer
@@ -43,14 +48,50 @@ export default class App extends Component {
     document.body.style.transformOrigin = '0 0';
   }
 
+  renderComponent() {
+    if (!stores.userStore.user) {
+      return (
+        <Login/>
+      );
+    }
+
+    return (
+      <Editor/>
+    );
+  }
+
+  renderLoading() {
+    if (!stores.loadingStore.isVisible) {
+      return null;
+    }
+
+    return (
+      <Loading/>
+    );
+  }
+
+  renderPopup() {
+    if (!stores.popupStore.isVisible) {
+      return null;
+    }
+
+    return (
+      <Popup/>
+    );
+  }
+
   render() {
     this.updateBodyTransform();
     return (
-      <div
-        className={style.container}
+      <View
+        theme='dark'
+        width={ `100%` }
+        height={ `100%` }
       >
-        App
-      </div>
+        { this.renderComponent() }
+        { this.renderLoading() }
+        { this.renderPopup() }
+      </View>
     );
   }
 }
