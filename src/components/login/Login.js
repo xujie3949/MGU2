@@ -5,12 +5,11 @@ import {
   Text,
   TextInput,
   Checkbox,
-  Button
+  Button,
 } from 'react-desktop/macOs';
 
 import stores from 'Stores/stores';
 import style from './styles/style.styl';
-import bg from './images/map.jpg';
 import userIcon from './images/user_icon.png';
 import passwordIcon from './images/password_icon.png';
 
@@ -42,81 +41,81 @@ export default class Login extends Component {
 
   renderIcon(src) {
     return (
-      <View
-        height="100%"
-        width="100%"
-        horizontalAlignment="left"
-        verticalAlignment="center"
-      >
+      <div className={style.iconContainer}>
         <img
-          className={ style.icon }
-          src={ src }
+          className={style.icon}
+          src={src}
         />
-      </View>
+      </div>
     );
   }
 
   render() {
     return (
-      <View
-        width="100%"
-        height="100%"
-        horizontalAlignment='center'>
-        <View className={ style.loginForm }
-              width="463px"
-              paddingTop="30px"
-              paddingBottom="50px"
-              layout="column"
-              horizontalAlignment='center'>
-          <View className={ style.loginContent }
-                width="365px"
-                layout="column">
-            <View width="100%">
+      <div
+        className={style.container}
+      >
+        <div
+          className={style.loginForm}
+        >
+          <div
+            className={style.loginContent}
+            width="365px"
+          >
+            <div className={style.title}>
               <Text size="30">欢迎使用MGU2系统</Text>
-              <View marginTop="10px"
-                    height="1px"
-                    background="#2E71F2"/>
-            </View>
-            <View marginTop="40px"
-                  width="100%">
+              <div className={style.titleLine}/>
+            </div>
+            <div className={style.inputContainer}>
               <TextInput
+                style={{
+                  paddingLeft: '62px',
+                }}
                 id="username"
                 placeholder="用户名"
                 size="25"
                 width="100%"
-                value={ stores.userStore.username }
-                onChange={ this.onChange }
+                value={stores.userStore.username}
+                onChange={this.onChange}
               />
-              { this.renderIcon(userIcon) }
-            </View>
-            <View marginTop="40px"
-                  width="100%">
+              {this.renderIcon(userIcon)}
+            </div>
+            <div className={style.inputContainer}>
               <TextInput
+                style={{
+                  paddingLeft: '62px',
+                }}
                 id="password"
                 placeholder="密码"
                 password
                 size="25"
                 width="100%"
-                value={ stores.userStore.password }
-                onChange={ this.onChange }
+                value={stores.userStore.password}
+                onChange={this.onChange}
               />
-              { this.renderIcon(passwordIcon) }
-            </View>
-            <Checkbox
-              id="rememberMe"
-              label="记住我"
-              checked={ stores.userStore.rememberMe }
-              onChange={ this.onChange }
-            />
+              {this.renderIcon(passwordIcon)}
+            </div>
+            <div className={style.rememberMe}>
+              <Checkbox
+                id="rememberMe"
+                label="记住我"
+                defaultValue={stores.userStore.rememberMe}
+                onChange={this.onChange}
+              />
+            </div>
             <Button
-              className={ style.loginButton }
-              onClick={ this.onLoginClick }
+              className={style.loginButton}
+              color="blue"
+              size="25"
+              paddingTop="10"
+              paddingBottom="10"
+              onClick={this.onLoginClick}
             >
               登录
             </Button>
-          </View>
-        </View>
-      </View>
+          </div>
+        </div>
+      </div>
     );
   }
 }

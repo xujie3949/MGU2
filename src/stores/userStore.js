@@ -36,7 +36,12 @@ class UserStore {
   }
 
   @action
-  setUser(user) {
+  setRememberMe(value) {
+    this.rememberMe = value;
+  }
+
+  @action
+  setUser(value) {
     this.user = value;
   }
 
