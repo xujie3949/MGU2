@@ -1,6 +1,7 @@
 import axios from 'axios';
 import appStore from 'Stores/appStore';
 import userStore from 'Stores/userStore';
+import mockData from 'Services/mockData';
 
 class Service {
   axiosInstance = null;
@@ -76,8 +77,9 @@ class Service {
     const params = new URLSearchParams();
     params.append('username', username);
     params.append('password', password);
-    const response = await this.axiosInstance.get('user/login', { params: params });
-    return response.data;
+    // const response = await this.axiosInstance.get('user/login', { params: params });
+    // return response.data;
+    return mockData.loginSuccess;
   }
 }
 

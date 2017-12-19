@@ -46,6 +46,11 @@ class AppState {
   get scaleY() {
     return this.windowHeight / this.viewHeight;
   }
+
+  @computed
+  get bestScale() {
+    return Math.min(this.scaleX, this.scaleY);
+  }
 }
 
 const appState = new AppState();

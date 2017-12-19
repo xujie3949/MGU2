@@ -6,19 +6,23 @@ import {
 
 class LoadingStore {
   @observable isVisible;
+  @observable message;
 
   constructor() {
     this.isVisible = false;
+    this.message = null;
   }
 
   @action
-  show() {
-    this.isVisible = value;
+  show(message) {
+    this.isVisible = true;
+    this.message = message || '请稍等……';
   }
 
   @action
   close() {
-    this.isVisible = value;
+    this.isVisible = false;
+    this.message = null;
   }
 }
 

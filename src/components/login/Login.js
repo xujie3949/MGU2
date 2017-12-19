@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import {
-  View,
-  Text,
-  TextInput,
-  Checkbox,
+  Form,
+  Row,
+  Col,
+  Icon,
+  Input,
   Button,
-} from 'react-desktop/macOs';
+  Checkbox
+} from 'antd';
 
 import stores from 'Stores/stores';
 import style from './styles/style.styl';
-import userIcon from './images/user_icon.png';
-import passwordIcon from './images/password_icon.png';
 
 @observer
 export default class Login extends Component {
@@ -19,103 +19,121 @@ export default class Login extends Component {
     super(props);
   }
 
-  componentDidMount() {
-    console.log(this.refs.test);
-  }
-
   onLoginClick = e => {
-    stores.userStore.login();
-  };
-
-  onChange = e => {
-    if (e.target.id === 'username') {
-      stores.userStore.setUsername(e.target.value);
-    }
-    if (e.target.id === 'password') {
-      stores.userStore.setPassword(e.target.value);
-    }
-    if (e.target.id === 'rememberMe') {
-      stores.userStore.setRememberMe(e.target.value);
+    stores.loginStore.checkUsername();
+    stores.loginStore.checkPassword();
+    if (stores.loginStore.usernameStatus === 'success' &&
+      stores.loginStore.passwordStatus === 'success') {
+      stores.loginStore.login();
     }
   };
 
-  renderIcon(src) {
+  onUsernameChange = e => {
+    stores.loginStore.setUsername(e.target.value);
+  };
+
+  onUsernameBlur = e => {
+    stores.loginStore.checkUsername();
+  };
+
+  onPasswordChange = e => {
+    stores.loginStore.setPassword(e.target.value);
+  };
+
+  onPasswordBlur = e => {
+    stores.loginStore.checkPassword();
+  };
+
+  onRememberMeChange = e => {
+    stores.loginStore.setRememberMe(e.target.value);
+  };
+
+  renderIcon(iconType) {
     return (
-      <div className={style.iconContainer}>
-        <img
-          className={style.icon}
-          src={src}
-        />
-      </div>
+      <Icon
+        type="lock"
+        className={ style.icon }
+      />
     );
   }
 
   render() {
     return (
-      <div
-        className={style.container}
+      <Row
+        className={ style.container }
+        type="flex"
+        justify="center"
+        align="middle"
       >
-        <div
-          className={style.loginForm}
+        <Row
+          className={ style.loginForm }
+          type="flex"
+          justify="center"
         >
-          <div
-            className={style.loginContent}
-            width="365px"
-          >
-            <div className={style.title}>
-              <Text size="30">欢迎使用MGU2系统</Text>
-              <div className={style.titleLine}/>
-            </div>
-            <div className={style.inputContainer}>
-              <TextInput
-                style={{
-                  paddingLeft: '62px',
-                }}
-                id="username"
-                placeholder="用户名"
-                size="25"
-                width="100%"
-                value={stores.userStore.username}
-                onChange={this.onChange}
-              />
-              {this.renderIcon(userIcon)}
-            </div>
-            <div className={style.inputContainer}>
-              <TextInput
-                style={{
-                  paddingLeft: '62px',
-                }}
-                id="password"
-                placeholder="密码"
-                password
-                size="25"
-                width="100%"
-                value={stores.userStore.password}
-                onChange={this.onChange}
-              />
-              {this.renderIcon(passwordIcon)}
-            </div>
-            <div className={style.rememberMe}>
-              <Checkbox
-                id="rememberMe"
-                label="记住我"
-                defaultValue={stores.userStore.rememberMe}
-                onChange={this.onChange}
-              />
-            </div>
-            <Button
-              className={style.loginButton}
-              color="blue"
-              size="25"
-              paddingTop="10"
-              paddingBottom="10"
-              onClick={this.onLoginClick}
+          <Col className={ style.loginContent }>
+            <Row
+              className={ style.title }
+              type="flex"
+              justify="center"
+              align="middle"
             >
-              登录
-            </Button>
-          </div>
-        </div>
-      </div>
+              <div>
+                <div className={ style.titleText }>
+                  欢迎使用MGU2系统
+                </div>
+                <div className={ style.titleLine }/>
+              </div>
+            </Row>
+            <Form.Item
+              validateStatus={ stores.loginStore.usernameStatus }
+              help={ stores.loginStore.usernameMsg }
+            >
+              <Input
+                prefix={ this.renderIcon('user') }
+                placeholder="用户名"
+                value={ stores.loginStore.username }
+                onChange={ this.onUsernameChange }
+                onBlur={ this.onUsernameBlur }
+              />
+            </Form.Item>
+            <Form.Item
+              className={ style.inputContainer }
+              validateStatus={ stores.loginStore.passwordStatus }
+              help={ stores.loginStore.passwordMsg }
+            >
+              <Input
+                prefix={ this.renderIcon('lock') }
+                type="password"
+                placeholder="密码"
+                value={ stores.loginStore.password }
+                onChange={ this.onPasswordChange }
+                onBlur={ this.onPasswordBlur }
+              />
+            </Form.Item>
+            <Form.Item>
+              <Row
+                type="flex"
+                justify="end"
+              >
+                <Checkbox
+                  value={ stores.loginStore.rememberMe }
+                  onChange={ this.onRememberMeChange }
+                >
+                  记住我
+                </Checkbox>
+              </Row>
+              <Button
+                className={ style.loginButton }
+                type="primary"
+                htmlType="button"
+                onClick={ this.onLoginClick }
+              >
+                登录
+              </Button>
+            </Form.Item>
+          </Col>
+        </Row>
+      </Row>
     );
   }
 }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { Window, TitleBar, Text } from 'react-desktop/windows';
+import {
+  Row
+} from 'antd';
 
 import stores from 'Stores/stores';
 import style from './styles/style.styl';
@@ -13,14 +15,10 @@ export default class Editor extends Component {
 
   render() {
     return (
-      <Window
-        theme='dark'
-        width={ `100%` }
-        height={ `100%` }
+      <Row className={style.container}
       >
-        <TitleBar title="My Windows Application" controls/>
-        <input value="Hello World"/>
-      </Window>
+        Editor
+      </Row>
     );
   }
 }

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { View, ProgressCircle } from 'react-desktop/windows';
+import {
+  Row,
+  Spin
+} from 'antd';
 
 import stores from 'Stores/stores';
 import style from './styles/style.styl';
@@ -13,11 +16,17 @@ export default class Loading extends Component {
 
   render() {
     return (
-      <View
-        width="100%"
-        height="100%">
-        <ProgressCircle/>
-      </View>
+      <Row
+        className={ style.container }
+        type="flex"
+        justify="center"
+        align="middle"
+      >
+        <Spin
+          size="large"
+          tip={ stores.loadingStore.message }
+        />
+      </Row>
     );
   }
 }

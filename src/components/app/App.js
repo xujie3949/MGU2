@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { View } from 'react-desktop/windows';
+import { LocaleProvider } from 'antd';
+import zhCN from 'antd/lib/locale-provider/zh_CN';
 
 import stores from 'Stores/stores';
 import Login from 'Components/login/Login';
 import Editor from 'Components/editor/Editor';
 import Loading from 'Components/loading/Loading';
-import Popup from 'Components/popup/Popup';
 import style from './styles/style.styl';
+
+import 'Styles/common.styl';
+import 'antd/dist/antd.css';
 
 @observer
 export default class App extends Component {
@@ -40,11 +43,14 @@ export default class App extends Component {
   }
 
   updateBodyTransform() {
-    const scaleX = `scaleX(${stores.appStore.scaleX})`;
-    const scaleY = `scaleY(${stores.appStore.scaleY})`;
+    const scaleX = `scaleX(${stores.appStore.bestScale})`;
+    const scaleY = `scaleY(${stores.appStore.bestScale})`;
+    const tx = Math.abs(stores.appStore.windowWidth - stores.appStore.viewWidth * stores.appStore.bestScale) / 2;
+    const ty = Math.abs(stores.appStore.windowHeight - stores.appStore.viewHeight * stores.appStore.bestScale) / 2;
+    const translate = `translate(${tx}px, ${ty}px)`;
     document.body.style.width = `${stores.appStore.viewWidth}px`;
     document.body.style.height = `${stores.appStore.viewHeight}px`;
-    document.body.style.transform = `${scaleX} ${scaleY}`;
+    document.body.style.transform = `${translate} ${scaleX} ${scaleY}`;
     document.body.style.transformOrigin = '0 0';
   }
 
@@ -70,28 +76,17 @@ export default class App extends Component {
     );
   }
 
-  renderPopup() {
-    if (!stores.popupStore.isVisible) {
-      return null;
-    }
-
-    return (
-      <Popup/>
-    );
-  }
-
   render() {
     this.updateBodyTransform();
     return (
-      <View
-        theme='dark'
-        width={ `100%` }
-        height={ `100%` }
+      <LocaleProvider
+        locale={ zhCN }
       >
-        { this.renderComponent() }
-        { this.renderLoading() }
-        { this.renderPopup() }
-      </View>
+        <div className={ style.container }>
+          { this.renderComponent() }
+          { this.renderLoading() }
+        </div>
+      </LocaleProvider>
     );
   }
 }

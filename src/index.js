@@ -5,8 +5,6 @@ import { useStrict } from 'mobx';
 import App from 'Components/app/App';
 import constValues from 'Utils/constants';
 
-import 'Styles/common.styl';
-
 useStrict(true);
 
 const renderApp = component => {

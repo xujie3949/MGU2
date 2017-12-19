@@ -29,17 +29,18 @@ export default class User {
     this.token = value;
   }
 
+  @action
+  fromJson(json) {
+    this.name = json.name;
+    this.password = json.password;
+    this.token = json.token;
+  }
+
   toJson() {
     return {
       name: this.name,
       password: this.password,
       token: this.token,
     };
-  }
-
-  fromJson(json) {
-    this.name = json.name;
-    this.password = json.password;
-    this.token = json.token;
   }
 }

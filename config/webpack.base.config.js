@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const Autoprefixer = require('autoprefixer');
 
@@ -106,10 +105,6 @@ module.exports = {
       root: config.path.root,
       verbose: true,
     }),
-    new CopyWebpackPlugin([
-      { from: `${config.path.root}/node_modules/sanitize.css/sanitize.css` },
-      { from: `${config.path.root}/node_modules/bootstrap/dist/css/bootstrap.css` },
-    ]),
     new HtmlWebpackPlugin({
       template: config.path.htmlTemplate,
       favicon: config.path.favicon,
