@@ -34,6 +34,7 @@ class UserStore {
       const userInfo = BrowserStore.getItem('userInfo');
       const user = new User();
       user.fromJson(userInfo);
+      this.user = user;
     }
   }
 }
