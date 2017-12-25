@@ -7,6 +7,7 @@ import stores from 'Stores/stores';
 import Login from 'Components/login/Login';
 import Editor from 'Components/editor/Editor';
 import Loading from 'Components/loading/Loading';
+import initApp from './initApp';
 import style from './styles/style.styl';
 
 import 'Styles/common.styl';
@@ -19,40 +20,16 @@ export default class App extends Component {
   }
 
   componentWillMount() {
-    this.updateWindowSize();
-    window.addEventListener('resize', this.onWindowResize);
-    window.addEventListener('selectstart', this.onSelectStart);
+    initApp.startup();
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.onWindowResize);
-    window.removeEventListener('selectstart', this.onSelectStart);
+    initApp.shutdown();
   }
-
-  onWindowResize = () => {
-    this.updateWindowSize();
-  };
 
   onSelectStart = e => {
     e.preventDefault();
   };
-
-  updateWindowSize() {
-    stores.appStore.setWindowWidth(window.innerWidth);
-    stores.appStore.setWindowHeight(window.innerHeight);
-  }
-
-  updateBodyTransform() {
-    const scaleX = `scaleX(${stores.appStore.bestScale})`;
-    const scaleY = `scaleY(${stores.appStore.bestScale})`;
-    const tx = Math.abs(stores.appStore.windowWidth - stores.appStore.viewWidth * stores.appStore.bestScale) / 2;
-    const ty = Math.abs(stores.appStore.windowHeight - stores.appStore.viewHeight * stores.appStore.bestScale) / 2;
-    const translate = `translate(${tx}px, ${ty}px)`;
-    document.body.style.width = `${stores.appStore.viewWidth}px`;
-    document.body.style.height = `${stores.appStore.viewHeight}px`;
-    document.body.style.transform = `${translate} ${scaleX} ${scaleY}`;
-    document.body.style.transformOrigin = '0 0';
-  }
 
   renderComponent() {
     if (!stores.userStore.user) {
@@ -77,7 +54,6 @@ export default class App extends Component {
   }
 
   render() {
-    this.updateBodyTransform();
     return (
       <LocaleProvider
         locale={ zhCN }

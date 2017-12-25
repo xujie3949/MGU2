@@ -23,6 +23,7 @@ module.exports = {
       Models: config.path.models,
       Stores: config.path.stores,
       Services: config.path.services,
+      Commands: config.path.commands,
     },
   },
   entry: [

@@ -7,7 +7,6 @@ import {
 import service from 'Services/service';
 import delay from 'Utils/delay';
 import User from 'Models/User';
-import popupStore from 'Stores/popupStore';
 import loadingStore from 'Stores/loadingStore';
 import userStore from 'Stores/userStore';
 
@@ -28,7 +27,6 @@ class LoginStore {
     this.passwordStatus = 'success';
     this.passwordMsg = '';
     this.rememberMe = true;
-    this.loadUserInfo();
   }
 
   @action
@@ -80,8 +78,8 @@ class LoginStore {
 
       const diff = Date.now() - start;
 
-      if (diff < 2000) {
-        await delay(2000 - diff);
+      if (diff < 1000) {
+        await delay(1000 - diff);
       }
 
       loadingStore.close();
@@ -100,11 +98,11 @@ class LoginStore {
           userStore.clearUserInfo();
         }
       } else {
-        popupStore.showError(data.errmsg);
+        // popupStore.showError(data.errmsg);
       }
     } catch (err) {
       loadingStore.close();
-      popupStore.showError(err.message);
+      // popupStore.showError(err.message);
     }
   }
 

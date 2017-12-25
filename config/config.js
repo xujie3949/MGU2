@@ -32,6 +32,7 @@ const config = {
     models: path.join(cwd, 'src/models/'),
     stores: path.join(cwd, 'src/stores/'),
     services: path.join(cwd, 'src/services/'),
+    commands: path.join(cwd, 'src/commands/'),
   },
   vendors: vendors,
 };
