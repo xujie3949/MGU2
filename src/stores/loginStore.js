@@ -30,6 +30,14 @@ class LoginStore {
   }
 
   @action
+  initialize() {
+    if (userStore.user) {
+      this.username = userStore.user.name;
+      this.password = userStore.user.password;
+    }
+  }
+
+  @action
   setUsername(value) {
     this.username = value;
   }
@@ -109,14 +117,6 @@ class LoginStore {
   logout() {
     userStore.setUser(null);
     userStore.clearUserInfo();
-  }
-
-  @action
-  loadUserInfo() {
-    if (userStore.user) {
-      this.username = userStore.user.name;
-      this.password = userStore.user.password;
-    }
   }
 }
 

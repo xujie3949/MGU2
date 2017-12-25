@@ -12,7 +12,16 @@ class UserStore {
 
   constructor() {
     this.user = null;
-    this.loadUserInfo();
+  }
+
+  @action
+  initialize(){
+    if (BrowserStore.hasItem('userInfo')) {
+      const userInfo = BrowserStore.getItem('userInfo');
+      const user = new User();
+      user.fromJson(userInfo);
+      this.user = user;
+    }
   }
 
   @action
@@ -26,16 +35,6 @@ class UserStore {
 
   clearUserInfo() {
     BrowserStore.removeItem('userInfo');
-  }
-
-  @action
-  loadUserInfo() {
-    if (BrowserStore.hasItem('userInfo')) {
-      const userInfo = BrowserStore.getItem('userInfo');
-      const user = new User();
-      user.fromJson(userInfo);
-      this.user = user;
-    }
   }
 }
 

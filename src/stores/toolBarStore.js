@@ -16,17 +16,18 @@ class ToolBarStore {
   }
 
   @action
-  setItemId(value){
-    this.itemId = value;
-  }
-
-  @action
-  init(){
+  initialize(){
+    this.items = [];
     this.items.push(commandManager.getCommand('select'));
     this.items.push(commandManager.getCommand('add'));
     this.items.push('divider');
     this.items.push(commandManager.getCommand('del'));
     this.items.push(commandManager.getCommand('info'));
+  }
+
+  @action
+  setItemId(value){
+    this.itemId = value;
   }
 }
 

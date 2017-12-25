@@ -19,6 +19,10 @@ export default class Login extends Component {
     super(props);
   }
 
+  componentWillMount() {
+    stores.loginStore.initialize();
+  }
+
   onLoginClick = e => {
     stores.loginStore.checkUsername();
     stores.loginStore.checkPassword();
@@ -110,7 +114,11 @@ export default class Login extends Component {
                 onBlur={ this.onPasswordBlur }
               />
             </Form.Item>
-            <Form.Item>
+            <Form.Item
+              style={ {
+                marginBottom: '0',
+              } }
+            >
               <Row
                 type="flex"
                 justify="end"
