@@ -1,9 +1,9 @@
 const loginSuccess = {
-  errcode: 0,
-  errmsg: '登录成功',
-  data: {
-    token: 'abc'
-  },
+    errcode: 0,
+    errmsg: '登录成功',
+    data: {
+        token: 'abc',
+    },
 };
 
 const loginFail = {
@@ -13,8 +13,8 @@ const loginFail = {
 };
 
 const mockData = {
-  loginSuccess: loginSuccess,
-  loginFail: loginFail,
+    loginSuccess: loginSuccess,
+    loginFail: loginFail,
 };
 
 export default mockData;

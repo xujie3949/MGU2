@@ -15,54 +15,54 @@ import 'antd/dist/antd.css';
 
 @observer
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-  }
+    constructor(props) {
+        super(props);
+    }
 
-  componentWillMount() {
-    initApp.startup();
-  }
+    componentWillMount() {
+        initApp.startup();
+    }
 
-  componentWillUnmount() {
-    initApp.shutdown();
-  }
+    componentWillUnmount() {
+        initApp.shutdown();
+    }
 
   onSelectStart = e => {
-    e.preventDefault();
+      e.preventDefault();
   };
 
   renderComponent() {
-    if (!stores.userStore.user) {
-      return (
-        <Login/>
-      );
-    }
+      if (!stores.userStore.user) {
+          return (
+            <Login/>
+          );
+      }
 
-    return (
-      <Editor/>
-    );
+      return (
+        <Editor/>
+      );
   }
 
   renderLoading() {
-    if (!stores.loadingStore.isVisible) {
-      return null;
-    }
+      if (!stores.loadingStore.isVisible) {
+          return null;
+      }
 
-    return (
-      <Loading/>
-    );
+      return (
+        <Loading/>
+      );
   }
 
   render() {
-    return (
-      <LocaleProvider
-        locale={ zhCN }
-      >
-        <div className={ style.container }>
-          { this.renderComponent() }
-          { this.renderLoading() }
-        </div>
-      </LocaleProvider>
-    );
+      return (
+        <LocaleProvider
+            locale={zhCN}
+          >
+            <div className={style.container}>
+                { this.renderComponent() }
+                { this.renderLoading() }
+              </div>
+          </LocaleProvider>
+      );
   }
 }

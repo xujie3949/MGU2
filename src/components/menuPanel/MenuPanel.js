@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import {
-  Row,
-  Button,
-  Icon,
-  Menu,
+    Row,
+    Button,
+    Icon,
+    Menu,
 } from 'antd';
 
 import style from './styles/style.styl';
@@ -15,162 +15,161 @@ const { SubMenu, Item, Divider } = Menu;
 @observer
 export default class MenuPanel extends Component {
   static propTypes = {
-    items: PropTypes.array,
-    width: PropTypes.string,
+      items: PropTypes.array,
+      width: PropTypes.string,
   };
 
   static defaultProps = {
-    items: [
-      {
-        title: '菜单项',
-        type: 'item',
-        items: [
+      items: [
           {
-            title: '菜单项',
-            type: 'item',
+              title: '菜单项',
+              type: 'item',
+              items: [
+                  {
+                      title: '菜单项',
+                      type: 'item',
+                  },
+                  {
+                      title: '菜单项',
+                      type: 'item',
+                  },
+                  {
+                      type: 'divider',
+                  },
+                  {
+                      title: '菜单项',
+                      type: 'item',
+                  },
+              ],
           },
           {
-            title: '菜单项',
-            type: 'item',
+              title: '菜单项',
+              type: 'item',
+              items: [
+                  {
+                      title: '菜单项',
+                      type: 'item',
+                  },
+                  {
+                      title: '菜单项',
+                      type: 'item',
+                  },
+                  {
+                      type: 'divider',
+                  },
+                  {
+                      title: '菜单项',
+                      type: 'item',
+                  },
+              ],
           },
           {
-            type: 'divider',
+              type: 'divider',
           },
           {
-            title: '菜单项',
-            type: 'item',
-          }
-        ]
-      },
-      {
-        title: '菜单项',
-        type: 'item',
-        items: [
-          {
-            title: '菜单项',
-            type: 'item',
+              title: '菜单项',
+              type: 'item',
+              items: [
+                  {
+                      title: '菜单项',
+                      type: 'item',
+                  },
+                  {
+                      title: '菜单项',
+                      type: 'item',
+                  },
+                  {
+                      type: 'divider',
+                  },
+                  {
+                      title: '菜单项',
+                      type: 'item',
+                  },
+              ],
           },
-          {
-            title: '菜单项',
-            type: 'item',
-          },
-          {
-            type: 'divider',
-          },
-          {
-            title: '菜单项',
-            type: 'item',
-          }
-        ]
-      },
-      {
-        type: 'divider',
-      },
-      {
-        title: '菜单项',
-        type: 'item',
-        items: [
-          {
-            title: '菜单项',
-            type: 'item',
-          },
-          {
-            title: '菜单项',
-            type: 'item',
-          },
-          {
-            type: 'divider',
-          },
-          {
-            title: '菜单项',
-            type: 'item',
-          }
-        ]
-      }
-    ],
-    width: '150px',
+      ],
+      width: '150px',
   };
 
   constructor(props) {
-    super(props);
-    this.state = {
-      mouseOnButton: false,
-    };
+      super(props);
+      this.state = {
+          mouseOnButton: false,
+      };
   }
 
   onMouserEnter = e => {
-    this.setState({
-      mouseOnButton: true,
-    });
+      this.setState({
+          mouseOnButton: true,
+      });
   };
 
   onMouserLeave = e => {
-    this.setState({
-      mouseOnButton: false,
-    });
+      this.setState({
+          mouseOnButton: false,
+      });
   };
 
   renderItem(item, index) {
-    if (item.items && item.items.length > 0) {
-      return (
-        <SubMenu
-          key={ index }
-          title={ <span><Icon type="setting"/><span>{ item.title }</span></span> }
-        >
-          { this.renderItems(item.items) }
-        </SubMenu>
-      );
-    }
+      if (item.items && item.items.length > 0) {
+          return (
+            <SubMenu
+                key={index}
+                title={<span><Icon type="setting"/><span>{ item.title }</span></span>}
+              >
+                { this.renderItems(item.items) }
+              </SubMenu>
+          );
+      }
 
-    return (
-      <Item key={ index }>
-        <Icon type="setting"/>
-        { item.title }
-      </Item>
-    );
+      return (
+        <Item key={index}>
+              <Icon type="setting"/>
+            { item.title }
+          </Item>
+      );
   }
 
   renderItems(items) {
-    return items.map((item, index) => {
-      if (item.type === 'item') {
-        return this.renderItem(item, index)
-      } else {
-        return (
-          <Divider key={ index }/>
-        )
-      }
-    })
+      return items.map((item, index) => {
+          if (item.type === 'item') {
+              return this.renderItem(item, index);
+          }
+          return (
+              <Divider key={index}/>
+          );
+      });
   }
 
   renderMenu() {
-    if (!this.state.mouseOnButton) {
-      return null;
-    }
+      if (!this.state.mouseOnButton) {
+          return null;
+      }
 
-    return (
-      <Menu
-        style={ {
-          width: this.props.menuWidth,
-          position: 'relative',
-          zIndex: 100,
-        } }
-      >
-        { this.renderItems(this.props.menuItems) }
-      </Menu>
-    );
+      return (
+        <Menu
+            style={{
+                  width: this.props.menuWidth,
+                  position: 'relative',
+                  zIndex: 100,
+              }}
+          >
+            { this.renderItems(this.props.menuItems) }
+          </Menu>
+      );
   }
 
   render() {
-    return (
-      <Menu
-        style={ {
-          width: this.props.width,
-          position: 'relative',
-          zIndex: 100,
-        } }
-      >
-        { this.renderItems(this.props.items) }
-      </Menu>
+      return (
+        <Menu
+            style={{
+                  width: this.props.width,
+                  position: 'relative',
+                  zIndex: 100,
+              }}
+          >
+            { this.renderItems(this.props.items) }
+          </Menu>
       // <Row
       //   className={ style.container }
       //   type="flex"
@@ -191,6 +190,6 @@ export default class MenuPanel extends Component {
       //     { this.renderMenu() }
       //   </Row>
       // </Row>
-    );
+      );
   }
 }

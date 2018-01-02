@@ -1,31 +1,31 @@
 class CommandManager {
-  constructor(props){
-    this.commands = {};
-  }
-
-  add(command){
-    if(this.commands.hasOwnProperty(command.key)){
-      return;
+    constructor(props) {
+        this.commands = {};
     }
 
-    this.commands[command.key] = command;
-  }
+    add(command) {
+        if (this.commands.hasOwnProperty(command.key)) {
+            return;
+        }
 
-  del(key){
-    if(!this.commands.hasOwnProperty(key)){
-      return;
+        this.commands[command.key] = command;
     }
 
-    delete this.commands[key];
-  }
+    del(key) {
+        if (!this.commands.hasOwnProperty(key)) {
+            return;
+        }
 
-  getCommand(key){
-    if(!this.commands.hasOwnProperty(key)){
-      return  null;
+        delete this.commands[key];
     }
 
-    return this.commands[key];
-  }
+    getCommand(key) {
+        if (!this.commands.hasOwnProperty(key)) {
+            return null;
+        }
+
+        return this.commands[key];
+    }
 }
 
 const commandManager = new CommandManager();

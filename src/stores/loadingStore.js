@@ -1,7 +1,7 @@
 import {
-  observable,
-  action,
-  computed,
+    observable,
+    action,
+    computed,
 } from 'mobx';
 
 class LoadingStore {
@@ -9,20 +9,20 @@ class LoadingStore {
   @observable message;
 
   constructor() {
-    this.isVisible = false;
-    this.message = null;
+      this.isVisible = false;
+      this.message = null;
   }
 
   @action
   show(message) {
-    this.isVisible = true;
-    this.message = message || '请稍等……';
+      this.isVisible = true;
+      this.message = message || '请稍等……';
   }
 
   @action
   close() {
-    this.isVisible = false;
-    this.message = null;
+      this.isVisible = false;
+      this.message = null;
   }
 }
 

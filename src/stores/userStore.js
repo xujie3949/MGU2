@@ -1,7 +1,7 @@
 import {
-  observable,
-  action,
-  computed,
+    observable,
+    action,
+    computed,
 } from 'mobx';
 
 import BrowserStore from 'Utils/browserStore';
@@ -11,30 +11,30 @@ class UserStore {
   @observable user;
 
   constructor() {
-    this.user = null;
+      this.user = null;
   }
 
   @action
-  initialize(){
-    if (BrowserStore.hasItem('userInfo')) {
-      const userInfo = BrowserStore.getItem('userInfo');
-      const user = new User();
-      user.fromJson(userInfo);
-      this.user = user;
-    }
+  initialize() {
+      if (BrowserStore.hasItem('userInfo')) {
+          const userInfo = BrowserStore.getItem('userInfo');
+          const user = new User();
+          user.fromJson(userInfo);
+          this.user = user;
+      }
   }
 
   @action
   setUser(value) {
-    this.user = value;
+      this.user = value;
   }
 
   saveUserInfo() {
-    BrowserStore.setItem('userInfo', this.user.toJson());
+      BrowserStore.setItem('userInfo', this.user.toJson());
   }
 
   clearUserInfo() {
-    BrowserStore.removeItem('userInfo');
+      BrowserStore.removeItem('userInfo');
   }
 }
 

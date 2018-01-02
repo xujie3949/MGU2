@@ -1,7 +1,7 @@
 import {
-  observable,
-  action,
-  computed,
+    observable,
+    action,
+    computed,
 } from 'mobx';
 
 import commandManager from 'Commands/commandManager';
@@ -11,23 +11,23 @@ class ToolBarStore {
   @observable.ref items;
 
   constructor() {
-    this.itemId = null;
-    this.items = [];
+      this.itemId = null;
+      this.items = [];
   }
 
   @action
-  initialize(){
-    this.items = [];
-    this.items.push(commandManager.getCommand('select'));
-    this.items.push(commandManager.getCommand('add'));
-    this.items.push('divider');
-    this.items.push(commandManager.getCommand('del'));
-    this.items.push(commandManager.getCommand('info'));
+  initialize() {
+      this.items = [];
+      this.items.push(commandManager.getCommand('select'));
+      this.items.push(commandManager.getCommand('add'));
+      this.items.push('divider');
+      this.items.push(commandManager.getCommand('del'));
+      this.items.push(commandManager.getCommand('info'));
   }
 
   @action
-  setItemId(value){
-    this.itemId = value;
+  setItemId(value) {
+      this.itemId = value;
   }
 }
 

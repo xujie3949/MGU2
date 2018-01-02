@@ -7,19 +7,26 @@ import {
 
 import stores from 'Stores/stores';
 import Panel from 'Components/panel/Panel';
+import mapInit from './MapInit';
 import style from './styles/style.styl';
 
 @observer
-export default class PropertyEdit extends Component {
+export default class Map extends Component {
     constructor(props) {
         super(props);
     }
 
+    componentDidMount() {
+        mapInit.initialize('editorMap');
+    }
+
+    componentWillUnmount() {
+        mapInit.unInitialize();
+    }
+
     render() {
         return (
-          <Panel title="属性面板">
-              <div className={style.container}/>
-            </Panel>
+            <div id="editorMap" className={ style.container }/>
         );
     }
 }
