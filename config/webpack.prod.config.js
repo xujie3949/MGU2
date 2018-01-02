@@ -9,11 +9,11 @@ const manifest = require(`${config.path.dll}/manifest.prod.json`);
 
 base.plugins.push(new webpack.HashedModuleIdsPlugin());
 base.plugins.push(new webpack.DllReferencePlugin({
-  context: config.path.root,
-  manifest: manifest,
+    context: config.path.root,
+    manifest: manifest,
 }));
 base.plugins.push(new AddAssetHtmlPlugin({
-  filepath: `${config.path.dll}/*.prod.dll.js`,
+    filepath: `${config.path.dll}/*.prod.dll.js`,
 }));
 
 module.exports = base;

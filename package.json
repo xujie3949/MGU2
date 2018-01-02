@@ -75,7 +75,6 @@
     "clean-webpack-plugin": "^0.1.16",
     "copy-webpack-plugin": "^4.2.0",
     "css-loader": "^0.28.4",
-    "debug": "^3.1.0",
     "eslint": "^4.3.0",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-import-resolver-webpack": "^0.8.3",
@@ -102,15 +101,22 @@
     "axios": "^0.16.2",
     "bcryptjs": "^2.4.3",
     "classnames": "^2.2.5",
+    "debug": "^3.1.0",
     "format-number": "^3.0.0",
+    "jsts": "^1.5.0",
+    "leaflet": "^1.2.0",
+    "lodash": "^4.17.4",
     "mapbox-gl": "^0.40.0",
     "mobx": "^3.2.2",
     "mobx-react": "^4.2.2",
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.13",
     "node-forge": "^0.7.1",
+    "proj4": "^2.4.4",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "uuid": "^3.1.0",
+    "wolfy87-eventemitter": "^5.2.4"
   }
 }

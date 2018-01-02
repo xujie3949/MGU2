@@ -21,7 +21,10 @@
     "window": true,
     "document": true,
     "WebSocket": true,
-    "URLSearchParams": true
+    "URLSearchParams": true,
+    "Image": true,
+    "L": true,
+    "XMLHttpRequest": true
   },
   /**
    * "off" 或 0 - 关闭规则
@@ -29,6 +32,37 @@
    * "error" 或 2 - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)
    */
   "rules": {
+    // 开启4个空格缩进规则
+    "indent": [
+      "error",
+      4,
+      {
+        "SwitchCase": 1,
+        "ObjectExpression": "first",
+        "ArrayExpression": "first",
+        "CallExpression": {
+          "arguments": "first"
+        },
+        "FunctionExpression": {
+          "body": 1,
+          "parameters": "first"
+        },
+        "FunctionDeclaration": {
+          "parameters": "first"
+        },
+        "MemberExpression": 1,
+        "VariableDeclarator": {
+          "var": 2,
+          "let": 2,
+          "const": 3
+        }
+      }
+    ],
+    // 修改规则,每行最多140个字符
+    "max-len": [
+      "error",
+      140
+    ],
     //修改规则，箭头函数函数体有歧义时必须添加大括号
     "no-confusing-arrow": [
       "error"
@@ -135,6 +169,16 @@
     // 关闭规则, 可以使用一些新特性
     "no-restricted-syntax": "off",
     // 关闭规则, 允许变量前面添加下划线
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    // 关闭规则, 允许使用prototype中方法
+    "no-prototype-builtins": "off",
+    // 关闭规则
+    "no-restricted-properties": "off",
+    // 关闭规则, 允许使用位操作符
+    "no-bitwise": "off",
+    // 关闭规则, 允许使用单独的if
+    "no-lonely-if": "off",
+    // 关闭规则, 允许在case分支中声明变量
+    "no-case-declarations": "off"
   }
 }
