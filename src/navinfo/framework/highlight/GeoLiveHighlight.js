@@ -14,13 +14,13 @@ export default class GeoLiveHighlight {
     /**
      * 初始化构造函数.
      * @param {Object} options - 模型对象高亮类
+     * @param {Object} rule - 模型对象高亮规则
      * @return {undefined}
      */
-    constructor(options) {
-        this.geoLiveObject = options;
+    constructor(geoLiveObject, rule) {
+        this.geoLiveObject = geoLiveObject;
+        this.rule = rule;
         this.items = [];
-        // todo:构造时传入高亮配置文件
-        this.highlightConfig = FM.mapApi.render.highlight;
         this.feedback = new Feedback();
 
         this.symbolFactory = SymbolFactory.getInstance();
@@ -44,11 +44,8 @@ export default class GeoLiveHighlight {
             return;
         }
 
-        const type = this.geoLiveObject.geoLiveType;
-        const rule = this.getRuleByType(type);
-
         // 高亮要素
-        this.highlightObject(this.geoLiveObject, rule);
+        this.highlightObject(this.geoLiveObject, this.rule);
 
         this.addToFeedback();
     }

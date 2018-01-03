@@ -19,8 +19,30 @@ export default class HighlightController {
         this.eventController = EventController.getInstance();
         this.feedbackController = FeedbackController.getInstance();
         this.highlightItems = {};
+        this.highlightRules = {};
 
-        this.eventController.on('TilesLoaded', this.refresh());
+        this.eventController.on('TileLayersLoaded', this.refresh());
+    }
+
+    loadConfig(config) {
+        if (!config) {
+            return;
+        }
+
+        Util.forOwn(config, (value, key) => {
+            if (Util.has(this.highlightRules, key)) {
+                throw new Error(`高亮规则存在重复:${key}`);
+            }
+            this.highlightRules[key] = value;
+        });
+    }
+
+    getRule(key) {
+        if (!Util.has(this.highlightRules, key)) {
+            return null;
+        }
+
+        return this.highlightRules[key];
     }
 
     /**
@@ -33,9 +55,15 @@ export default class HighlightController {
             return null;
         }
 
+        const type = this.geoLiveObject.geoLiveType;
+        const rule = this.getRule(type);
+        if (!rule) {
+            return null;
+        }
+
         const key = Util.uuid();
 
-        const highlight = new GeoLiveHighlight(geoLiveObject);
+        const highlight = new GeoLiveHighlight(geoLiveObject, rule);
         highlight.highlight();
         this.highlightItems[key] = highlight;
         this.feedbackController.add(highlight.feedback);
@@ -106,7 +134,8 @@ export default class HighlightController {
      * @returns {undefined}
      */
     destroy() {
-        this.eventController.off('TilesLoaded');
+        this.highlightRules = {};
+        this.eventController.off('TileLayersLoaded');
         HighlightController.instance = null;
     }
 

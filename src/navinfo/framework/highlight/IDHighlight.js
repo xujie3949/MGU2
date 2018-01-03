@@ -1,8 +1,9 @@
-import Feedback from '../../feedback/Feedback';
+import Feedback from '../../mapApi/feedback/Feedback';
 import SymbolFactory from '../../symbol/SymbolFactory';
-import SceneController from '../../scene/SceneController';
+import SceneController from '../../mapApi/scene/SceneController';
 import GeometryAlgorithm from '../../geometry/GeometryAlgorithm';
-import FeatureSelector from '../../FeatureSelector';
+import FeatureSelector from '../../mapApi/FeatureSelector';
+import Util from '../../common/Util';
 
 /**
  * 包主要实现要素模型的高亮.可以按照高亮规则来高亮要素模型的指定部分.
@@ -14,7 +15,7 @@ export default class IDHighlight {
      * @return {undefined}
      */
     constructor(value, options = {}) {
-        if (FM.Util.isArray(value)) {
+        if (Util.isArray(value)) {
             this.items = value;
         } else {
             this.items = [value];

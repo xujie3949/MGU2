@@ -1,6 +1,7 @@
 import IDHighlight from './IDHighlight';
-import FeedbackController from '../../feedback/FeedbackController';
-import uuid from 'uuid/v4';
+import FeedbackController from '../../mapApi/feedback/FeedbackController';
+import Util from '../../common/Util';
+import EventController from '../../common/EventController';
 
 /**
  * 高亮模块控制器,负责管理所有被高亮的对象。
@@ -15,23 +16,12 @@ export default class IDHighlightController {
      * @return {undefined}
      */
     constructor() {
+        this.eventController = EventController.getInstance();
         this.feedbackController = FeedbackController.getInstance();
         this.highlightItems = {};
         this.map = null;
-    }
 
-    /**
-     * 设置map对象
-     * @param {Object} map对象
-     */
-    setMap(map) {
-        if (this.map) {
-            this.map.off('TileLayersLoaded', this.refresh, this);
-        }
-
-        this.map = map;
-
-        this.map.on('TileLayersLoaded', this.refresh, this);
+        this.eventController.on('TileLayersLoaded', this.refresh);
     }
 
     /**
@@ -45,7 +35,7 @@ export default class IDHighlightController {
             return null;
         }
 
-        const key = uuid();
+        const key = Util.uuid();
 
         const highlight = new IDHighlight(value, options);
         highlight.highlight();
@@ -118,9 +108,7 @@ export default class IDHighlightController {
      * @returns {undefined}
      */
     destroy() {
-        if (this.map) {
-            this.map.off('TileLayersLoaded', this.refresh, this);
-        }
+        this.eventController.off('TileLayersLoaded');
         IDHighlightController.instance = null;
     }
 
