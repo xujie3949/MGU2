@@ -23,7 +23,8 @@ module.exports = {
             Models: config.path.models,
             Stores: config.path.stores,
             Services: config.path.services,
-            Commands: config.path.commands,
+            Navinfo: config.path.navinfo,
+            Business: config.path.business,
         },
     },
     entry: [

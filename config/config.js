@@ -3,16 +3,7 @@ const path = require('path');
 const cwd = process.cwd();
 const packageJson = require(`${cwd}/package.json`);
 
-const vendors = Object
-    .keys(packageJson.dependencies)
-    .filter(item => {
-    // sanitize.css在使用ExtractTextPlugin插件单独抽取css时会报错,原因未知
-    // 这里将sanitize.css库排除
-        if (item === 'sanitize.css') {
-            return false;
-        }
-        return true;
-    });
+const vendors = Object.keys(packageJson.dependencies);
 
 const config = {
     host: 'localhost',
@@ -32,7 +23,8 @@ const config = {
         models: path.join(cwd, 'src/models/'),
         stores: path.join(cwd, 'src/stores/'),
         services: path.join(cwd, 'src/services/'),
-        commands: path.join(cwd, 'src/commands/'),
+        navinfo: path.join(cwd, 'src/navinfo/'),
+        business: path.join(cwd, 'src/business/'),
     },
     vendors: vendors,
 };
