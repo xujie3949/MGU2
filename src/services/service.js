@@ -13,10 +13,12 @@ class Service {
     }
 
     createAxiosInstance() {
-        const axiosInstance = axios.create({
-                                               baseURL: 'http://fs-road.navinfo.com/dev/trunk/service',
-                                               timeout: 10000,
-                                           });
+        const axiosInstance = axios.create(
+            {
+                baseURL: 'http://192.168.4.129/service/mapspotter',
+                timeout: 10000,
+            },
+        );
 
         this.addInterceptor(axiosInstance);
 
@@ -73,16 +75,28 @@ class Service {
         return false;
     }
 
-    async login(username, password) {
+    async loginMap(username, password) {
         const params = new URLSearchParams();
         params.append('parameter', JSON.stringify(
             {
-                userNickName: 'hanxuesong01664',
-                userPassword: '016640',
+                userNickName: username,
+                userPassword: password,
             },
         ));
-        const response = await this.axiosInstance.get('man/userInfo/login', { params: params });
+        const response = await this.axiosInstance.get(
+            'http://fs-road.navinfo.com/dev/trunk/service/man/userInfo/login',
+            { params: params },
+        );
         return response.data;
+    }
+
+    async login(username, password) {
+        const params = new URLSearchParams();
+        params.append('username', username);
+        params.append('password', password);
+        // const response = await this.axiosInstance.get('user/login', { params: params });
+        // return response.data;
+        return mockData.loginSuccess;
     }
 }
 

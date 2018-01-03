@@ -83,6 +83,7 @@ class LoginStore {
           const start = Date.now();
 
           const data = await service.login(this.username, this.password);
+          const mapData = await service.loginMap('hanxuesong01664', '016640');
 
           const diff = Date.now() - start;
 
@@ -98,6 +99,7 @@ class LoginStore {
                   name: this.username,
                   password: this.password,
                   token: data.data.token,
+                  mapToken: mapData.data.access_token,
               });
               userStore.setUser(user);
               if (this.rememberMe) {

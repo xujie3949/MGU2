@@ -8,34 +8,34 @@ import BrowserStore from 'Utils/browserStore';
 import User from 'Models/User';
 
 class UserStore {
-  @observable user;
+    @observable user;
 
-  constructor() {
-      this.user = null;
-  }
+    constructor() {
+        this.user = null;
+    }
 
-  @action
-  initialize() {
-      if (BrowserStore.hasItem('userInfo')) {
-          const userInfo = BrowserStore.getItem('userInfo');
-          const user = new User();
-          user.fromJson(userInfo);
-          this.user = user;
-      }
-  }
+    @action
+    initialize() {
+        if (BrowserStore.hasItem('userInfo')) {
+            const userInfo = BrowserStore.getItem('userInfo');
+            const user = new User();
+            user.fromJson(userInfo);
+            this.user = user;
+        }
+    }
 
-  @action
-  setUser(value) {
-      this.user = value;
-  }
+    @action
+    setUser(value) {
+        this.user = value;
+    }
 
-  saveUserInfo() {
-      BrowserStore.setItem('userInfo', this.user.toJson());
-  }
+    saveUserInfo() {
+        BrowserStore.setItem('userInfo', this.user.toJson());
+    }
 
-  clearUserInfo() {
-      BrowserStore.removeItem('userInfo');
-  }
+    clearUserInfo() {
+        BrowserStore.removeItem('userInfo');
+    }
 }
 
 const userStore = new UserStore();
