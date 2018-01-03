@@ -7,5 +7,5 @@ export default {
     Feature,
     FeatureFactory,
     Render,
-    RenderFactory
+    RenderFactory,
 };
