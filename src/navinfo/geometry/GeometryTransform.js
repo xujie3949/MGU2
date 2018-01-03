@@ -8,14 +8,14 @@ class GeometryTransform {
     constructor() {
     /** @type {null|function} 具体的坐标转换方法 */
         this.convertFunction = null;
-        /** @type {@link navinfo.fastmap.map.map} map对象 */
+        /** @type {@link navinfo.mapApi.map} map对象 */
         this.map = null;
         this.tile = null;
     }
 
     /**
    * 设置转换环境
-   * @param {@link navinfo.fastmap.map.map} map - navinfo.fastmap.map.map对象
+   * @param {@link navinfo.mapApi.map} map - navinfo.mapApi.map对象
    * @param tile
    * @param convertFuc
    */
