@@ -179,6 +179,23 @@
     // 关闭规则, 允许使用单独的if
     "no-lonely-if": "off",
     // 关闭规则, 允许在case分支中声明变量
-    "no-case-declarations": "off"
+    "no-case-declarations": "off",
+    // 修改规则, jsx缩进为4个空格
+    "react/jsx-indent": [
+      "error",
+      4
+    ],
+    // 修改规则, jsx属性缩进为4个空格
+    "react/jsx-indent-props": [
+      "error",
+      4
+    ],
+    "react/jsx-curly-spacing": [
+      "error",
+      {
+        "when": "always",
+        "children": true
+      }
+    ]
   }
 }
