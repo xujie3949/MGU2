@@ -1,5 +1,7 @@
+import stores from '../../stores/stores';
+
 const mapConfig = {
-    token: '000001A8JBXC5XN2821737AE1D9EF569CF65F89383998232',
+    token: stores.userStore.token,
     dbId: 13,
     serviceUrl: 'http://fs-road.navinfo.com/dev/trunk/service',
     zooms: {

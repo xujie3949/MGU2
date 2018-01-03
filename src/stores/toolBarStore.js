@@ -4,7 +4,7 @@ import {
     computed,
 } from 'mobx';
 
-import commandManager from 'Commands/commandManager';
+import navinfo from 'Navinfo';
 
 class ToolBarStore {
   @observable itemId;
@@ -17,12 +17,13 @@ class ToolBarStore {
 
   @action
   initialize() {
+      const commandFactory = navinfo.framework.command.CommandFactory.getInstance();
       this.items = [];
-      this.items.push(commandManager.getCommand('select'));
-      this.items.push(commandManager.getCommand('add'));
+      this.items.push(commandFactory.getCommand('select'));
+      this.items.push(commandFactory.getCommand('add'));
       this.items.push('divider');
-      this.items.push(commandManager.getCommand('del'));
-      this.items.push(commandManager.getCommand('info'));
+      this.items.push(commandFactory.getCommand('del'));
+      this.items.push(commandFactory.getCommand('info'));
   }
 
   @action

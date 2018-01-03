@@ -1,5 +1,5 @@
 import stores from 'Stores/stores';
-import initCommands from 'Commands/initCommands';
+import registerCommands from 'Business/command/registerCommands';
 
 const onSelectStart = e => {
     e.preventDefault();
@@ -10,7 +10,7 @@ const startup = () => {
     window.addEventListener('selectstart', this.onSelectStart);
 
     // 初始化命令
-    initCommands();
+    registerCommands();
 
     // 初始化stores
     const keys = Object.getOwnPropertyNames(stores);

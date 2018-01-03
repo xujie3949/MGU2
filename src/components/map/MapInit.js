@@ -1,13 +1,12 @@
-import navinfo from '../../navinfo/index';
-import symbols from '../../business/config/symbolsFile';
-import sourceConfig from '../../business/config/sourceConfig';
-import featureLayers from '../../business/config/featureLayers';
-import referenceLayers from '../../business/config/referenceLayers';
-import scenes from '../../business/config/scenes';
-import mapConfig from '../../business/config/mapConfig';
-import registerFeatures from '../../business/feature/registerFeatures';
-import registerRenders from '../../business/render/registerRenders';
-import Map from '../../navinfo/mapApi/Map';
+import navinfo from 'Navinfo/index';
+import symbols from 'Business/config/symbolsFile';
+import sourceConfig from 'Business/config/sourceConfig';
+import featureLayers from 'Business/config/featureLayers';
+import referenceLayers from 'Business/config/referenceLayers';
+import scenes from 'Business/config/scenes';
+import mapConfig from 'Business/config/mapConfig';
+import registerFeatures from 'Business/feature/registerFeatures';
+import registerRenders from 'Business/render/registerRenders';
 
 class MapInit {
     constructor() {
@@ -21,7 +20,7 @@ class MapInit {
             center: [0, 0],
             zoom: 0,
         };
-        const map = new Map(options);
+        const map = new navinfo.mapApi.Map(options);
 
         this.registerSingletons();
 

@@ -1,9 +1,9 @@
-import Render from '../../navinfo/mapApi/render/Render';
+import navinfo from 'Navinfo';
 
 /**
  * 道路线 的前端渲染模型
  */
-export default class RdLink extends Render {
+export default class RdLink extends navinfo.mapApi.render.Render {
     /**
      * 要素渲染初始化函数
      * @return {undefined}

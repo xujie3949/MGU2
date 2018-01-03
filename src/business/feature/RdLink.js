@@ -1,9 +1,9 @@
-import Feature from '../../navinfo/mapApi/render/Feature';
+import navinfo from 'Navinfo';
 
 /**
  * 道路线的前端数据模型
  */
-class RdLink extends Feature {
+class RdLink extends navinfo.mapApi.render.Feature {
     /**
      * 模型转换主函数，将接口返回的数据转换为前端数据模型
      * @param  {object} data 接口返回的数据

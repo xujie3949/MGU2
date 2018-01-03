@@ -1,5 +1,4 @@
-import Util from '../../navinfo/common/Util';
-import FeatureFactory from '../../navinfo/mapApi/render/FeatureFactory';
+import navinfo from 'Navinfo';
 
 /**
  * 将服务返回的数据转换为渲染要素
@@ -8,7 +7,8 @@ import FeatureFactory from '../../navinfo/mapApi/render/FeatureFactory';
  * @returns {Array} list - 转换后的结果.
  */
 function dataTransform(data, tile) {
-    const featureFactory = FeatureFactory.getInstance();
+    const Util = navinfo.common.Util;
+    const featureFactory = navinfo.mapApi.render.FeatureFactory.getInstance();
     let list = [];
     if (Util.isObject(data)) {
         Util.forOwn(data, value => {
