@@ -3,6 +3,8 @@
  */
 import MapTool from '../MapTool';
 import Feedback from '../../../mapApi/feedback/Feedback';
+import OperationController from '../../../framework/operation/OperationController';
+import EditResultOperation from '../../../framework/operation/EditResultOperation';
 import FeedbackController from '../../../mapApi/feedback/FeedbackController';
 import GeometryAlgorithm from '../../../geometry/GeometryAlgorithm';
 import GeometryFactory from '../../../geometry/GeometryFactory';
@@ -18,12 +20,11 @@ class AssistantTool extends MapTool {
         super();
 
         this.feedbackController = FeedbackController.getInstance();
-        // this.operationController = fastmap.uikit.operation.OperationController.getInstance();
+        this.operationController = OperationController.getInstance();
         this.symbolFactory = SymbolFactory.getInstance();
         this.geometryFactory = GeometryFactory.getInstance();
         this.geometryAlgorithm = GeometryAlgorithm.getInstance();
         this.geojsonTransform = GeojsonTransform.getInstance();
-        // this.uikitUtil = fastmap.uikit.Util.getInstance();
         this.editResult = null;
         this.defaultFeedback = null;
         this.centerInfoFeedback = null;
