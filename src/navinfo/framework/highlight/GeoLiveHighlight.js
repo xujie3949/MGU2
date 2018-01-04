@@ -6,6 +6,8 @@ import CompositeMarkerSymbol from '../../symbol/CompositeMarkerSymbol';
 import SceneController from '../../mapApi/scene/SceneController';
 import GeometryAlgorithm from '../../geometry/GeometryAlgorithm';
 import FeatureSelector from '../../mapApi/FeatureSelector';
+import RenderFactory from '../../mapApi/render/RenderFactory';
+import Util from '../../common/Util';
 
 /**
  * 实现要素模型的高亮.可以按照高亮规则来高亮要素模型的指定部分.
@@ -65,9 +67,7 @@ export default class GeoLiveHighlight {
      * @return {undefined}
      */
     addToFeedback() {
-        this.items = this.items.sort(function (a, b) {
-            return a.zIndex - b.zIndex;
-        });
+        this.items = this.items.sort((a, b) => a.zIndex - b.zIndex);
 
         this.items.forEach(function (item, index, array) {
             if (item.geometry) {
@@ -157,7 +157,7 @@ export default class GeoLiveHighlight {
 
         symbolName = this.getSymbolNameFromMain(geoLiveObject, main);
 
-        const symbol = FM.Util.clone(this.symbolFactory.getSymbol(symbolName));
+        const symbol = Util.clone(this.symbolFactory.getSymbol(symbolName));
         if (!symbol) {
             return;
         }
@@ -192,7 +192,7 @@ export default class GeoLiveHighlight {
             return;
         }
 
-        const symbol = FM.Util.clone(this.symbolFactory.getSymbol(symbolName));
+        const symbol = Util.clone(this.symbolFactory.getSymbol(symbolName));
         if (!symbol) {
             return;
         }
@@ -228,10 +228,10 @@ export default class GeoLiveHighlight {
                         height: size.height,
                         offsetX: centerPoint.x,
                         offsetY: centerPoint.y,
-                        color: 'transparent'
-                    }
+                        color: 'transparent',
+                    },
                 ],
-                angle: symbol.angle
+                angle: symbol.angle,
             };
         } else {
             symbolData = {
@@ -241,7 +241,7 @@ export default class GeoLiveHighlight {
                 offsetX: centerPoint.x + symbol.offsetX,
                 offsetY: centerPoint.y + symbol.offsetY,
                 color: 'transparent',
-                angle: symbol.angle
+                angle: symbol.angle,
             };
         }
 
@@ -277,7 +277,7 @@ export default class GeoLiveHighlight {
         }
 
         const symbolName = this.getSymbolNameFromMain(geoLiveObject, main);
-        const symbol = FM.Util.clone(this.symbolFactory.getSymbol(symbolName));
+        const symbol = Util.clone(this.symbolFactory.getSymbol(symbolName));
 
         if (!symbol || !symbol.width || !symbol.color) {
             return;
@@ -285,7 +285,7 @@ export default class GeoLiveHighlight {
 
         const outLine = {
             width: symbol.width,
-            color: symbol.color
+            color: symbol.color,
         };
 
         const feature = this.featureSelector.selectByFeatureId(pid, layerId);
@@ -311,7 +311,7 @@ export default class GeoLiveHighlight {
     highlightGeometry(geometry, main) {
         const zIndex = main.zIndex;
         const symbolName = main.defaultSymbol;
-        const symbol = FM.Util.clone(this.symbolFactory.getSymbol(symbolName));
+        const symbol = Util.clone(this.symbolFactory.getSymbol(symbolName));
         if (!symbol) {
             return;
         }
@@ -357,7 +357,7 @@ export default class GeoLiveHighlight {
 
         const symbolName = this.getSymbolNameFromMain(geoLiveObject, main);
 
-        const symbol = FM.Util.clone(this.symbolFactory.getSymbol(symbolName));
+        const symbol = Util.clone(this.symbolFactory.getSymbol(symbolName));
         if (!symbol) {
             return;
         }
@@ -399,7 +399,7 @@ export default class GeoLiveHighlight {
         for (let i = 0; i < coordinates.length; ++i) {
             const geometry = {
                 type: type,
-                coordinates: coordinates[i]
+                coordinates: coordinates[i],
             };
             this.addItem(geometry, symbol, zIndex);
         }
@@ -410,11 +410,13 @@ export default class GeoLiveHighlight {
             return;
         }
 
-        this.items.push({
-            geometry: geometry,
-            symbol: symbol,
-            zIndex: zIndex
-        });
+        this.items.push(
+            {
+                geometry: geometry,
+                symbol: symbol,
+                zIndex: zIndex,
+            },
+        );
     }
 
     getSymbolNameFromMain(geoLiveObject, main) {
@@ -436,7 +438,7 @@ export default class GeoLiveHighlight {
             const joinKey = part.joinKey;
             const rule = part.highlight;
             const topoObject = geoLiveObject[joinKey];
-            if (FM.Util.isArray(topoObject)) {
+            if (Util.isArray(topoObject)) {
                 this.highlightObjects(topoObject, rule);
             } else {
                 this.highlightObject(topoObject, rule);
@@ -472,35 +474,20 @@ export default class GeoLiveHighlight {
     }
 
     getFeatureSymbol(feature) {
-        const renders = this.getRendersByGeoLiveType(feature.properties.geoLiveType);
         let symbols = [];
 
-        for (let j = 0, len = renders.length; j < len; j++) {
-            const RenderClass = renders[j];
-            const render = new RenderClass();
-            const symbol = render.getSymbol(feature, this.sceneController.getZoom());
-            if (!symbol) {
-                continue;   // 如果要素在某种情况下不需要绘制会返回null
-            }
-            if (FM.Util.isArray(symbol)) {
-                symbols = symbols.concat(symbol);
-            } else {
-                symbols.push(symbol);
-            }
+        const render = RenderFactory.getInstance().getRender(feature.type);
+        const symbol = render.getSymbol(feature, this.sceneController.getZoom());
+        if (!symbol) {
+            // 如果要素在某种情况下不需要绘制会返回null
+            return symbols;
+        }
+        if (Util.isArray(symbol)) {
+            symbols = symbols.concat(symbol);
+        } else {
+            symbols.push(symbol);
         }
 
         return symbols;
-    }
-
-    getRendersByGeoLiveType(geoLiveType) {
-        const renders = [];
-        const layers = this.sceneController.getLoadedLayersByFeatureType(geoLiveType);
-        for (let i = 0; i < layers.length; i++) {
-            if (layers[i].getFeatureType() === geoLiveType) {
-                renders.push(layers[i].getRender());
-            }
-        }
-
-        return FM.Util.unique(renders);
     }
 }
