@@ -52,7 +52,7 @@ function get(options) {
     let startTime = null;
     let endTime = null;
 
-    xhr.onloadstart = function (event) {
+    xhr.onloadstart = event => {
         if (debug) {
             startTime = new Date().getTime();
             logger.log(`开始请求:${url}    时间:${startTime}`);
@@ -60,7 +60,7 @@ function get(options) {
             logger.log(event);
         }
     };
-    xhr.onabort = function (event) {
+    xhr.onabort = event => {
         endTime = new Date().getTime();
         const diff = endTime - startTime;
         const errmsg = `请求终止:${url}    时间:${startTime}    耗时:${diff}`;
@@ -75,7 +75,7 @@ function get(options) {
             onAbort(errmsg, parameter);
         }
     };
-    xhr.onerror = function (event) {
+    xhr.onerror = event => {
         endTime = new Date().getTime();
         const diff = endTime - startTime;
         const errmsg = `网络错误:${url}    时间:${startTime}    耗时:${diff}`;
@@ -90,7 +90,7 @@ function get(options) {
             onError(errmsg, parameter);
         }
     };
-    xhr.ontimeout = function (event) {
+    xhr.ontimeout = event => {
         endTime = new Date().getTime();
         const diff = endTime - startTime;
         const errmsg = `请求超时:${url}    时间:${startTime}    耗时:${diff}`;
@@ -105,7 +105,7 @@ function get(options) {
             onTimeout(errmsg, parameter);
         }
     };
-    xhr.onload = function (event) {
+    xhr.onload = event => {
         endTime = new Date().getTime();
         const diff = endTime - startTime;
 
@@ -197,7 +197,7 @@ function post(options) {
     let startTime = null;
     let endTime = null;
 
-    xhr.onloadstart = function (event) {
+    xhr.onloadstart = event => {
         if (debug) {
             startTime = new Date().getTime();
             logger.log(`开始请求:${url}    时间:${startTime}`);
@@ -205,7 +205,7 @@ function post(options) {
             logger.log(event);
         }
     };
-    xhr.onabort = function (event) {
+    xhr.onabort = event => {
         endTime = new Date().getTime();
         const diff = endTime - startTime;
         const errmsg = `请求终止:${url}    时间:${startTime}    耗时:${diff}`;
@@ -220,7 +220,7 @@ function post(options) {
             onAbort(errmsg, parameter);
         }
     };
-    xhr.onerror = function (event) {
+    xhr.onerror = event => {
         endTime = new Date().getTime();
         const diff = endTime - startTime;
         const errmsg = `网络错误:${url}    时间:${startTime}    耗时:${diff}`;
@@ -235,7 +235,7 @@ function post(options) {
             onError(errmsg, parameter);
         }
     };
-    xhr.ontimeout = function (event) {
+    xhr.ontimeout = event => {
         endTime = new Date().getTime();
         const diff = endTime - startTime;
         const errmsg = `请求超时:${url}    时间:${startTime}    耗时:${diff}`;
@@ -250,7 +250,7 @@ function post(options) {
             onTimeout(errmsg, parameter);
         }
     };
-    xhr.onload = function (event) {
+    xhr.onload = event => {
         endTime = new Date().getTime();
         const diff = endTime - startTime;
 
@@ -293,7 +293,73 @@ function post(options) {
     return xhr;
 }
 
+/**
+ * 创建单个数据源请求的Promise实例.
+ * @param {String} url - 数据源请求url
+ * @param {Object} requestParameter - 请求参数
+ * @param {Array} additionParameter - 附加参数,会被传递给onSuccess或onFail
+ * @returns {promise} promise - 返回单个数据源数据异步请求实例
+ */
+function ajaxPromise(url, requestParameter, additionParameter) {
+    const self = this;
+    const promise = new Promise((resolve, reject) => {
+        const options = {
+            url: url,
+            requestParameter: requestParameter,
+            parameter: additionParameter,
+            timeout: 100000,
+            responseType: 'json',
+            // debug: true,
+            onSuccess(json, parameter) {
+                if (json.errcode === 0) { // 操作成功
+                    resolve(
+                        {
+                            data: json.data,
+                            parameter: parameter,
+                        },
+                    );
+                } else {
+                    reject(
+                        {
+                            errmsg: json.errmsg,
+                            parameter: parameter,
+                        },
+                    );
+                }
+            },
+            onFail(errmsg, parameter) {
+                reject(
+                    {
+                        errmsg: errmsg,
+                        parameter: parameter,
+                    },
+                );
+            },
+            onError(errmsg, parameter) {
+                reject(
+                    {
+                        errmsg: errmsg,
+                        parameter: parameter,
+                    },
+                );
+            },
+            onTimeout(errmsg, parameter) {
+                reject(
+                    {
+                        errmsg: errmsg,
+                        parameter: parameter,
+                    },
+                );
+            },
+        };
+        const request = get(options);
+    });
+
+    return promise;
+}
+
 export default {
     get,
     post,
+    ajaxPromise,
 };
