@@ -11,7 +11,7 @@ import PolygonEditOperation from './PolygonEditOperation';
 class PolygonVertexAddOperation extends PolygonEditOperation {
     /**
      * 初始化方法
-     * @method initialize
+     * @method constructor
      * @author XuJie
      * @date   2017-09-11
      * @param  {object} shapeEditor 修形编辑器
@@ -19,7 +19,7 @@ class PolygonVertexAddOperation extends PolygonEditOperation {
      * @param  {object} point 点对象
      * @return {undefined}
      */
-    initialize(shapeEditor, index, point) {
+    constructor(shapeEditor, index, point) {
         super(
             '添加形状点',
             shapeEditor,

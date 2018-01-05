@@ -22,6 +22,7 @@ export default class IDHighlightController {
         this.map = null;
 
         this.eventController.on('TileLayersLoaded', this.refresh);
+        this.eventController.once('DestroySingleton', () => this.destroy());
     }
 
     /**

@@ -4,6 +4,7 @@ import SceneController from './scene/SceneController';
 import GeometryTransform from '../geometry/GeometryTransform';
 import MercatorTransform from '../transform/MercatorTransform';
 import Util from '../common/Util';
+import EventController from '../common/EventController';
 
 /**
  * 要素选择器类.
@@ -20,21 +21,15 @@ export default class FeatureSelector {
      * @returns {undefined}
      */
     constructor() {
-        this.map = null;
         this.sourceController = SourceController.getInstance();
-        this.sceneController = SceneController.getInstance();
         this.transform = new MercatorTransform();
         this.geometryAlgorithm = GeometryAlgorithm.getInstance();
         this.geojsonTransform = GeometryTransform.getInstance();
-    }
 
-    /**
-     * 设置map属性
-     * @param {Object} map - 是一个FM地图对象
-     * @return {undefined}
-     */
-    setMap(map) {
-        this.map = map;
+        this.map = SceneController.getInstance().getMap();
+
+        this._eventController = EventController.getInstance();
+        this._eventController.once('DestroySingleton', () => this.destroy());
     }
 
     /**

@@ -1,3 +1,5 @@
+import EventController from './EventController';
+
 /**
  * 该类是渲染图片资源管理类，用于对渲染要素的图片资源进行统一管理.
  */
@@ -7,6 +9,8 @@ class ResourceFactory {
      */
     constructor() {
         this.resources = {};
+        this._eventController = EventController.getInstance();
+        this._eventController.once('DestroySingleton', () => this.destroy());
     }
 
     /**

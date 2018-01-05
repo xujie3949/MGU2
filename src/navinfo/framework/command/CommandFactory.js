@@ -1,6 +1,10 @@
+import EventController from '../../common/EventController';
+
 class CommandFactory {
     constructor(props) {
         this.commands = {};
+        this._eventController = EventController.getInstance();
+        this._eventController.once('DestroySingleton', () => this.destroy());
     }
 
     register(command) {

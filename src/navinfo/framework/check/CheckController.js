@@ -1,5 +1,6 @@
 import CheckEngine from './CheckEngine';
 import Util from '../../common/Util';
+import EventController from '../../common/EventController';
 
 /**
  * 检查模块的总控制器
@@ -12,7 +13,7 @@ import Util from '../../common/Util';
 class CheckController {
     /**
      * 初始化方法
-     * @method initialize
+     * @method constructor
      * @author XuJie
      * @date   2017-09-11
      * @param  {object} options 可选对象
@@ -20,6 +21,8 @@ class CheckController {
      */
     constructor(options) {
         this.checkEngines = {};
+        this._eventController = EventController.getInstance();
+        this._eventController.once('DestroySingleton', () => this.destroy());
     }
 
     register(geoLiveType, situation, checkEngine) {

@@ -21,7 +21,8 @@ export default class HighlightController {
         this.highlightItems = {};
         this.highlightRules = {};
 
-        this.eventController.on('TileLayersLoaded', this.refresh());
+        this.eventController.on('TileLayersLoaded', this.refresh);
+        this.eventController.once('DestroySingleton', () => this.destroy());
     }
 
     loadConfig(config) {

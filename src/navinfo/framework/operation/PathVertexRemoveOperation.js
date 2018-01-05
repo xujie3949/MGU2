@@ -11,7 +11,7 @@ import PathEditOperation from './PathEditOperation';
 class PathVertexRemoveOperation extends PathEditOperation {
     /**
      * 初始化方法
-     * @method initialize
+     * @method constructor
      * @author XuJie
      * @date   2017-09-11
      * @param  {object} shapeEditor 修形编辑器
@@ -20,7 +20,7 @@ class PathVertexRemoveOperation extends PathEditOperation {
      * @param  {object} snap 捕捉对象
      * @return {undefined}
      */
-    construtor(shapeEditor, index, point, snap) {
+    constructor(shapeEditor, index, point, snap) {
         super(
             '删除形状点',
             shapeEditor,

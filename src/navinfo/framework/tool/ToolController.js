@@ -1,4 +1,5 @@
 import EventController from '../../common/EventController';
+import SceneController from '../../mapApi/scene/SceneController';
 import GeometryAlgorithm from '../../geometry/GeometryAlgorithm';
 import Util from '../../common/Util';
 import Logger from '../../common/Logger';
@@ -40,7 +41,7 @@ class ToolController {
 
         this.lastClickPos = null;
 
-        this.map = null;
+        this.map = SceneController.getInstance().getMap().getLeafletMap();
 
         // 所有注册的工具,不包含后台工具
         this.tools = {};
@@ -56,10 +57,63 @@ class ToolController {
 
         this.logger = Logger.getInstance();
 
+        this.tagNames = {
+            INPUT: true,
+            BUTTON: true,
+            TEXTAREA: true,
+        };
+
         this.loadTools();
 
         this.resetLastClickStatus();
+
+        this.resetCurrentTool('PanTool', null, null);
+
+        this.eventController.once('DestroySingleton', () => this.destroy());
     }
+
+    bindEvent() {
+        // 给工具绑定事件
+        this.map.on('mousedown', this.onMouseDown);
+        this.map.on('mousemove', this.onMouseMove);
+        this.map.on('mouseup', this.onMouseUp);
+
+        // 将键盘事件绑定到body上，并根据event.target决定是否触发工具响应
+        document.body.addEventListener('keydown', this._onKeyDown);
+
+        document.body.addEventListener('keyup', this._onKeyUp);
+
+        this.map.getContainer().addEventListener('wheel', this.onWheel);
+    }
+
+    unBindEvent() {
+        // 给工具解绑事件
+        this.map.off('mousedown', this.onMouseDown);
+        this.map.off('mousemove', this.onMouseMove);
+        this.map.off('mouseup', this.onMouseUp);
+
+        document.body.removeEventListener('keydown', this._onKeyDown);
+
+        document.body.removeEventListener('keyup', this._onKeyUp);
+
+        this.map.getContainer().removeEventListener('wheel', this.onWheel);
+    }
+
+    _onKeyDown = event => {
+        if (!this.tagNames.hasOwnProperty(event.target.tagName)) {
+            this.onKeyDown(event);
+            // modified by chenx on 2017-8-31
+            // 停止冒泡会导致hotkeys组件不可用
+            // event.stopPropagation();
+        }
+    };
+
+    _onKeyUp = event => {
+        if (!this.tagNames.hasOwnProperty(event.target.tagName)) {
+            this.onKeyUp(event);
+            // event.stopPropagation();
+        }
+    };
 
     /**
      * 加载地图工具
@@ -76,18 +130,6 @@ class ToolController {
         this.addTool(new DistanceTool());
         this.addTool(new AngleTool());
         this.addTool(new AreaTool());
-    }
-
-    /**
-     * 设置地图对象
-     * @method setMap
-     * @author XuJie
-     * @date   2017-09-11
-     * @param  {object} map 地图对象
-     * @return {undefined}
-     */
-    setMap(map) {
-        this.map = map;
     }
 
     /**
@@ -509,6 +551,7 @@ class ToolController {
      * @return {undefined}
      */
     destroy() {
+        this.unBindEvent();
         ToolController.instance = null;
     }
 

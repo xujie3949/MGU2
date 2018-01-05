@@ -1,3 +1,5 @@
+import EventController from '../common/EventController';
+
 /**
  * 转换geometry坐标辅助类.
  */
@@ -11,6 +13,9 @@ class GeometryTransform {
         /** @type {@link navinfo.mapApi.map} map对象 */
         this.map = null;
         this.tile = null;
+
+        this._eventController = EventController.getInstance();
+        this._eventController.once('DestroySingleton', () => this.destroy());
     }
 
     /**
@@ -85,6 +90,8 @@ class GeometryTransform {
         GeometryTransform.instance = null;
     }
 
+    static instance = null;
+
     /**
    * 获取几何转换单例的静态方法.
    * @example
@@ -98,7 +105,5 @@ class GeometryTransform {
         return GeometryTransform.instance;
     }
 }
-
-GeometryTransform.instance = null;
 
 export default GeometryTransform;

@@ -13,7 +13,7 @@ import Util from '../../common/Util';
 class CheckEngine {
     /**
      * 初始化方法
-     * @method initialize
+     * @method constructor
      * @author XuJie
      * @date   2017-09-11
      * @param  {string} geoLiveType 要素类型
@@ -90,3 +90,5 @@ class CheckEngine {
         this.checkRules.push(checkRule);
     }
 }
+
+export default CheckEngine;

@@ -1,4 +1,5 @@
 import Util from '../../common/Util';
+import EventController from '../../common/EventController';
 
 /**
  * 数据显示符号渲染器基类.
@@ -8,6 +9,9 @@ export default class FeatureFactory {
 
     constructor() {
         this.featureCreator = {};
+
+        this._eventController = EventController.getInstance();
+        this._eventController.once('DestroySingleton', () => this.destroy());
     }
 
     register(key, value) {

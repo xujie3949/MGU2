@@ -12,6 +12,8 @@ class EventController {
      */
     constructor() {
         this.eventEmitter = new EventEmitter();
+
+        this.once('DestroySingleton', () => this.destroy());
     }
 
     /**
@@ -21,6 +23,15 @@ class EventController {
      */
     on(name, listener) {
         this.eventEmitter.on(name, listener);
+    }
+
+    /**
+     * 添加事件
+     * @param {string} name - 事件名称
+     * @param {object} listener - 响应事件的函数
+     */
+    once(name, listener) {
+        this.eventEmitter.once(name, listener);
     }
 
     /**
@@ -56,6 +67,7 @@ class EventController {
      * 销毁事件管理器.
      */
     destroy() {
+        this.clear();
         EventController.instance = null;
     }
 

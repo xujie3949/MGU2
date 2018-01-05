@@ -1,3 +1,5 @@
+import EventController from '../common/EventController';
+
 /**
  * 转换geojson坐标辅助类
  */
@@ -24,6 +26,9 @@ export default class GeojsonTransform {
          * @type {null|Object} tile
          */
         this.tile = null;
+
+        this._eventController = EventController.getInstance();
+        this._eventController.once('DestroySingleton', () => this.destroy());
     }
 
     /**

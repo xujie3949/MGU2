@@ -4,6 +4,7 @@ import Proj4Transform from '../transform/Proj4Transform';
 import Vector from '../math/Vector';
 import Matrix from '../math/Matrix';
 import Point from '../geometry/Point';
+import EventController from '../common/EventController';
 
 /**
  * 处理geoJson格式的几何的各种计算.
@@ -24,6 +25,9 @@ export default class GeometryAlgorithm {
         this.factory = new jsts.geom.GeometryFactory();
         this.geojsonTransform = GeojsonTransform.getInstance();
         this.proj4Transform = new Proj4Transform();
+
+        this._eventController = EventController.getInstance();
+        this._eventController.once('DestroySingleton', () => this.destroy());
     }
 
     /**

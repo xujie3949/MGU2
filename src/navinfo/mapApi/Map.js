@@ -1,4 +1,5 @@
 import SourceController from './source/SourceController';
+import SceneController from './scene/SceneController';
 import VectorLayer from './layer/VectorLayer';
 import GridLayer from './layer/GridLayer';
 import MeshLayer from './layer/MeshLayer';
@@ -48,6 +49,7 @@ export default class Map {
          * @type {Object}
          */
         this._sourceController = SourceController.getInstance();
+        this._sceneController = SceneController.getInstance();
         this._tileRequestController = TileRequestController.getInstance();
         this._eventController = EventController.getInstance();
         /**
@@ -72,6 +74,8 @@ export default class Map {
     _initLeafletMap() {
         this._createLeafletMap();
         this._bindLeafletMapEvent();
+        this._sceneController.setMap(this);
+        this._onMapMoveEnd();
     }
 
     /**
@@ -101,6 +105,11 @@ export default class Map {
     _bindLeafletMapEvent() {
         this._leafletMap.on('moveend', this._onMapMoveEnd, this);
         this._leafletMap.on('resize', this._onMapMoveEnd, this);
+        // 屏蔽掉默认的右键菜单
+        this._leafletMap.getContainer().addEventListener('contextmenu', event => event.preventDefault());
+
+        // 阻止地图双击选中事件
+        this._leafletMap.getContainer().addEventListener('selectstart', event => event.preventDefault());
     }
 
     /**
@@ -126,6 +135,14 @@ export default class Map {
      */
     getZoom() {
         return this._leafletMap.getZoom();
+    }
+
+    /**
+     * 获得地图的容器.
+     * @returns {Object} - 返回地图容器
+     */
+    getContainer() {
+        return this._leafletMap.getContainer();
     }
 
     /**

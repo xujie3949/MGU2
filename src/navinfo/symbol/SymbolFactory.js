@@ -26,6 +26,7 @@ import LinearGradientFillSymbol from './LinearGradientFillSymbol';
 import RadialGradientFillSymbol from './RadialGradientFillSymbol';
 import CenterMarkerFillSymbol from './CenterMarkerFillSymbol';
 import CompositeFillSymbol from './CompositeFillSymbol';
+import EventController from '../common/EventController';
 
 /**
  * 符号工厂,负责创建各种符号.并会加载SymbolFile.js中定义的符号,支持按名字查找符号.
@@ -37,6 +38,9 @@ class SymbolFactory {
 
     constructor() {
         this.symbolGallery = {};
+
+        this._eventController = EventController.getInstance();
+        this._eventController.once('DestroySingleton', () => this.destroy());
     }
 
     /**
@@ -239,6 +243,8 @@ class SymbolFactory {
         SymbolFactory.instance = null;
     }
 
+    static instance = null;
+
     /**
      * 获取符号管理器单例的静态方法.
      * @example
@@ -252,9 +258,6 @@ class SymbolFactory {
         return SymbolFactory.instance;
     }
 }
-
-// 静态属性
-SymbolFactory.instance = null;
 
 // 为了兼容原来的API接口
 const GetSymbolFactory = () => SymbolFactory.getInstance();

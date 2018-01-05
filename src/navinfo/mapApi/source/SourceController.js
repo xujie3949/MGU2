@@ -2,6 +2,7 @@ import TileRequestController from '../TileRequestController';
 import Source from './InfoSource';
 import ajax from '../../common/ajax';
 import Util from '../../common/Util';
+import EventController from '../../common/EventController';
 
 /**
  * 数据源控制管理类
@@ -23,6 +24,9 @@ export default class SourceController {
          * @type {Object} tileRequestController
          */
         this.tileRequestController = TileRequestController.getInstance();
+
+        this._eventController = EventController.getInstance();
+        this._eventController.once('DestroySingleton', () => this.destroy());
     }
 
     /**

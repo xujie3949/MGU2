@@ -9,7 +9,7 @@
 class Operation {
     /**
      * 初始化方法
-     * @method initialize
+     * @method constructor
      * @author XuJie
      * @date   2017-09-11
      * @param  {string} description 操作描述字符串

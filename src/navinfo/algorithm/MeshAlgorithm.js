@@ -1,9 +1,16 @@
+import EventController from '../common/EventController';
+
 /**
  * 该类是一个单例类，定义1:25000的图幅。提供了有关图幅计算的各种方法，
  * 包括根据经纬度计算图幅号；根据图幅号计算图幅范围；点位和图幅的关系等.
  */
 export default class MeshAlgorithm {
     static instance = null;
+
+    constructor() {
+        this._eventController = EventController.getInstance();
+        this._eventController.once('DestroySingleton', () => this.destroy());
+    }
 
     /**
      * 根据纬度计算该点位于理想图幅分割的行序号.

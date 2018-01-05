@@ -1,6 +1,7 @@
 import SceneLayer from './SceneLayer';
 import Scene from './Scene';
 import Util from '../../common/Util';
+import EventController from '../../common/EventController';
 
 /**
  * 场景图层控制器类，用于管理所有的场景.
@@ -50,6 +51,9 @@ export default class SceneController {
          * @type {Array} _sceneLayers
          */
         this._sceneLayers = [];
+
+        this._eventController = EventController.getInstance();
+        this._eventController.once('DestroySingleton', () => this.destroy());
     }
 
     /**
@@ -59,6 +63,14 @@ export default class SceneController {
      */
     setMap(map) {
         this._map = map;
+    }
+
+    /**
+     * 获得mapApi的map对象
+     * @returns {Object} - mapApi的map对象
+     */
+    getMap() {
+        return this._map;
     }
 
     /**

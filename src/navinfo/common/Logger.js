@@ -1,4 +1,5 @@
 import createDebug, { enable } from 'debug';
+import EventController from './EventController';
 
 class Logger {
     static instance = null;
@@ -6,6 +7,8 @@ class Logger {
     constructor() {
         this.namespace = 'App::UtilLogger';
         this._updateDebug();
+        this._eventController = EventController.getInstance();
+        this._eventController.once('DestroySingleton', () => this.destroy());
     }
 
     setNamespace(namespace) {

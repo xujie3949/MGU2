@@ -1,4 +1,5 @@
 import Matrix from '../math/Matrix';
+import EventController from '../common/EventController';
 
 /**
  * 几何坐标变换类,可以通过此类将点线面的几何进行平移,缩放,旋转,
@@ -14,6 +15,9 @@ class Transformation {
         this.finalMatrix = this.matrix;
         // 变换矩阵组成的数组,默认值[]
         this.stack = [];
+
+        this._eventController = EventController.getInstance();
+        this._eventController.once('DestroySingleton', () => this.destroy());
     }
 
     /**

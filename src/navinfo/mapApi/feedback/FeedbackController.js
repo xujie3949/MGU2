@@ -19,6 +19,8 @@ export default class FeedbackController {
          * @type {Array}
          */
         this.feedbacks = [];
+
+        this.eventController.once('DestroySingleton', () => this.destroy());
     }
 
     /**

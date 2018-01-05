@@ -3,6 +3,7 @@ import GeometryAlgorithm from '../../geometry/GeometryAlgorithm';
 import GeometryFactory from '../../geometry/GeometryFactory';
 import GeometryTransform from '../../geometry/GeometryTransform';
 import SymbolFactory from '../../symbol/SymbolFactory';
+import EventController from '../../common/EventController';
 
 /**
  * 捕捉控制器类，用于管理所有的捕捉行为.
@@ -50,6 +51,9 @@ export default class SnapController {
          * @type {Number} tolerance
          */
         this.tolerance = 20;
+
+        this._eventController = EventController.getInstance();
+        this._eventController.once('DestroySingleton', () => this.destroy());
     }
 
     /**

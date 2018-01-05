@@ -1,3 +1,5 @@
+import EventController from '../../common/EventController';
+
 /**
  * 操作模块的控制器
  * @class OperationController
@@ -9,7 +11,7 @@
 class OperationController {
     /**
      * 初始化方法
-     * @method initialize
+     * @method constructor
      * @author XuJie
      * @date   2017-09-11
      * @return {undefined}
@@ -18,6 +20,8 @@ class OperationController {
         this.step = 100;
         this.undoStack = [];
         this.redoStack = [];
+        this._eventController = EventController.getInstance();
+        this._eventController.once('DestroySingleton', () => this.destroy());
     }
 
     /**

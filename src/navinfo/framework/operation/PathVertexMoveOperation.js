@@ -11,7 +11,7 @@ import PathEditOperation from './PathEditOperation';
 class PathVertexMoveOperation extends PathEditOperation {
     /**
      * 初始化方法
-     * @method initialize
+     * @method constructor
      * @author XuJie
      * @date   2017-09-11
      * @param  {object} shapeEditor 修形编辑器

@@ -2,11 +2,17 @@ import Point from './Point';
 import LineString from './LineString';
 import Polygon from './Polygon';
 import Bound from './Bound';
+import EventController from '../common/EventController';
 
 /**
  * 几何工厂,负责创建点,线,面对象,以及点线面对象和geojson之间的转换等.
  */
 class GeometryFactory {
+    constructor() {
+        this._eventController = EventController.getInstance();
+        this._eventController.once('DestroySingleton', () => this.destroy());
+    }
+
     /**
      * 创建Point对象.
      * @param {Array} coordinates - 传入的点坐标,coodinates格式[x, y]
@@ -144,6 +150,8 @@ class GeometryFactory {
         GeometryFactory.instance = null;
     }
 
+    static instance = null;
+
     /**
      * 获取创建几何工厂单例的静态方法.
      * @example
@@ -159,8 +167,6 @@ class GeometryFactory {
         return GeometryFactory.instance;
     }
 }
-
-GeometryFactory.instance = null;
 
 export default GeometryFactory;
 

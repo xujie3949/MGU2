@@ -1,3 +1,5 @@
+import EventController from '../common/EventController';
+
 /**
  * 瓦片请求管理器,管理当前渲染的数据的所有瓦片异步请求对象
  */
@@ -13,6 +15,9 @@ export default class TileRequestController {
          * @type {Object}
          */
         this.tiles = {};
+
+        this._eventController = EventController.getInstance();
+        this._eventController.once('DestroySingleton', () => this.destroy());
     }
 
     /**
