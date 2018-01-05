@@ -4,6 +4,8 @@ import ResourceFactory from './ResourceFactory';
 import Logger from './Logger';
 import Util from './Util';
 import ajax from './ajax';
+import BrowserStore from './BrowserStore';
+import Encryptor from './Encryptor';
 
 export default {
     EventController,
@@ -12,5 +14,7 @@ export default {
     Logger,
     Util,
     ajax,
+    BrowserStore,
+    Encryptor,
 };
 
