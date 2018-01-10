@@ -1,38 +1,36 @@
+import PathTool from './PathTool';
+
 /**
  * Created by xujie3949 on 2016/12/8.
  * link平滑修行工具
  */
-
-fastmap.uikit.shapeEdit.PathSmoothTool = fastmap.uikit.shapeEdit.PathTool.extend({
-    initialize: function () {
-        fastmap.uikit.shapeEdit.PathTool.prototype.initialize.call(this);
-
-        // 绑定函数作用域
-        FM.Util.bind(this);
+class PathSmoothTool extends PathTool {
+    constructor() {
+        super();
 
         this.name = 'PathSmoothTool';
         this.isSelectedVertex = false;
         this.selectedVertexIndex = null;
         this.selectedEdgeIndex = null;
-    },
+    }
 
-    resetStatus: function () {
-        fastmap.uikit.shapeEdit.PathTool.prototype.resetStatus.apply(this, arguments);
+    resetStatus() {
+        super.resetStatus();
 
         this.isSelectedVertex = false;
         this.selectedVertexIndex = null;
         this.selectedEdgeIndex = null;
-    },
+    }
 
-    refresh: function () {
+    refresh() {
         this.resetDashLine();
         this.resetDashLineFeedback();
         this.resetFeedback();
         this.resetSnapActor();
         this.resetMouseInfo();
-    },
+    }
 
-    resetDashLine: function () {
+    resetDashLine() {
         if (!this.isDragging) {
             return;
         }
@@ -42,12 +40,12 @@ fastmap.uikit.shapeEdit.PathSmoothTool = fastmap.uikit.shapeEdit.PathTool.extend
         } else {
             this.dashLine = this.getDashLineByEdgeIndex(this.selectedEdgeIndex);
         }
-    },
+    }
 
-    resetSnapActor: function () {
+    resetSnapActor() {
         this.uninstallSnapActors();
 
-        var ls = this.shapeEditor.editResult.finalGeometry;
+        const ls = this.shapeEditor.editResult.finalGeometry;
         if (!ls) {
             return;
         }
@@ -61,13 +59,13 @@ fastmap.uikit.shapeEdit.PathSmoothTool = fastmap.uikit.shapeEdit.PathTool.extend
             return;
         }
 
-        fastmap.uikit.shapeEdit.PathTool.prototype.resetSnapActor.apply(this, arguments);
-    },
+        super.resetSnapActor();
+    }
 
-    resetMouseInfo: function () {
+    resetMouseInfo() {
         this.setMouseInfo('');
 
-        var ls = this.shapeEditor.editResult.finalGeometry;
+        const ls = this.shapeEditor.editResult.finalGeometry;
         if (!ls) {
             this.setMouseInfo('不能对空几何进行平滑修形操作，请切换到延长线工具');
             return;
@@ -75,21 +73,20 @@ fastmap.uikit.shapeEdit.PathSmoothTool = fastmap.uikit.shapeEdit.PathTool.extend
 
         if (ls.coordinates.length < 2) {
             this.setMouseInfo('至少需要2个形状点才能进行平滑修形操作，请切换到延长线工具');
-            return;
         }
-    },
+    }
 
-    onLeftButtonDown: function (event) {
-        if (!fastmap.uikit.shapeEdit.PathTool.prototype.onLeftButtonDown.apply(this, arguments)) {
+    onLeftButtonDown(event) {
+        if (!super.onLeftButtonDown(event)) {
             return false;
         }
 
         this.isDragging = true;
 
-        var ls = this.shapeEditor.editResult.finalGeometry;
+        const ls = this.shapeEditor.editResult.finalGeometry;
 
-        var nearestLocations = this.getNearestLocations(this.mousePoint);
-        var index = this.getSelectedVertexIndex(nearestLocations.point);
+        const nearestLocations = this.getNearestLocations(this.mousePoint);
+        const index = this.getSelectedVertexIndex(nearestLocations.point);
         if (index !== null) {
             this.isSelectedVertex = true;
             this.selectedVertexIndex = index;
@@ -103,10 +100,10 @@ fastmap.uikit.shapeEdit.PathSmoothTool = fastmap.uikit.shapeEdit.PathTool.extend
         this.refresh();
 
         return true;
-    },
+    }
 
-    onMouseMove: function (event) {
-        if (!fastmap.uikit.shapeEdit.PathTool.prototype.onMouseMove.apply(this, arguments)) {
+    onMouseMove(event) {
+        if (!super.onMouseMove(event)) {
             return false;
         }
 
@@ -120,8 +117,8 @@ fastmap.uikit.shapeEdit.PathSmoothTool = fastmap.uikit.shapeEdit.PathTool.extend
         this.resetDashLineFeedback();
 
         if (this.isSelectedVertex) {
-            var ls = this.shapeEditor.editResult.finalGeometry;
-            var index = this.getNearestVertexIndex(this.selectedVertexIndex, this.mousePoint);
+            const ls = this.shapeEditor.editResult.finalGeometry;
+            const index = this.getNearestVertexIndex(this.selectedVertexIndex, this.mousePoint);
             if (index && index > 0 && index < ls.coordinates.length - 1) {
                 if (index < this.selectedVertexIndex) {
                     this.selectedVertexIndex -= 1;
@@ -131,10 +128,10 @@ fastmap.uikit.shapeEdit.PathSmoothTool = fastmap.uikit.shapeEdit.PathTool.extend
         }
 
         return true;
-    },
+    }
 
-    onLeftButtonUp: function (event) {
-        if (!fastmap.uikit.shapeEdit.PathTool.prototype.onLeftButtonUp.apply(this, arguments)) {
+    onLeftButtonUp(event) {
+        if (!super.onLeftButtonUp(event)) {
             return false;
         }
 
@@ -143,7 +140,7 @@ fastmap.uikit.shapeEdit.PathSmoothTool = fastmap.uikit.shapeEdit.PathTool.extend
         }
 
         this.isDragging = false;
-        var res = this.snapController.snap(this.mousePoint);
+        const res = this.snapController.snap(this.mousePoint);
         if (this.isSelectedVertex) {
             this.moveVertex(this.selectedVertexIndex, this.mousePoint, res);
         } else {
@@ -152,5 +149,7 @@ fastmap.uikit.shapeEdit.PathSmoothTool = fastmap.uikit.shapeEdit.PathTool.extend
 
         return true;
     }
-});
+}
+
+export default PathSmoothTool;
 

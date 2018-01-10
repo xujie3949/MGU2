@@ -24,7 +24,7 @@ export default class SelectControl extends EditControl {
      * @return {[type]} [description]
      */
     run() {
-        if (!super()) {
+        if (!super.run()) {
             return false;
         }
         

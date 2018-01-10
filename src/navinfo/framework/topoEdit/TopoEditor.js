@@ -157,3 +157,5 @@ class TopoEditor {
     }
 }
 
+export default TopoEditor;
+

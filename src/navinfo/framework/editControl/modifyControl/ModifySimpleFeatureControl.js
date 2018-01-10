@@ -13,7 +13,7 @@ class ModifySimpleFeatureControl extends EditControl {
     }
 
     run() {
-        if (!super()) {
+        if (!super.run()) {
             return false;
         }
 
