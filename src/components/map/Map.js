@@ -1,20 +1,21 @@
-import React, { PrueComponent } from 'react';
+import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import mapInit from './MapInit';
+
+import stores from 'Stores/stores';
 import style from './styles/style.styl';
 
 @observer
-export default class Map extends PrueComponent {
+export default class Map extends Component {
     constructor(props) {
         super(props);
     }
 
     componentDidMount() {
-        mapInit.initialize('editorMap');
+        stores.mapStore.startup('editorMap');
     }
 
     componentWillUnmount() {
-        mapInit.unInitialize();
+        stores.mapStore.shutdown();
     }
 
     render() {
