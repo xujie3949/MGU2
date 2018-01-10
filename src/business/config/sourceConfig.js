@@ -1,6 +1,6 @@
 import { autorun } from 'mobx';
 
-import stores from 'Stores/stores';
+import userStore from 'Stores/userStore';
 import navinfo from 'Navinfo';
 import mapConfig from './mapConfig';
 import dataTransform from '../feature/dataTransform';
@@ -26,12 +26,12 @@ const sourceConfig = {
 };
 
 autorun(() => {
-    if (!stores.userStore.user) {
+    if (!userStore.user) {
         return;
     }
 
     navinfo.common.Util.forOwn(sourceConfig, source => {
-        source.sourceUrl = `${url}?access_token=${stores.userStore.user.mapToken}`;
+        source.sourceUrl = `${url}?access_token=${userStore.user.mapToken}`;
     });
 });
 
