@@ -51,7 +51,9 @@ export default class Editor extends Component {
                 { this.renderHeader() }
                 <div className={ style.middleContainer }>
                     <Map/>
-                    <LeftPanel/>
+                    <LeftPanel>
+                        <TrajectoryQuery/>
+                    </LeftPanel>
                     <RightPanel>
                         <div className={ style.right }>
                             <div className={ style.rightTop }>
