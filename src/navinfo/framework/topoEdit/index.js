@@ -1,10 +1,8 @@
 import TopoEditFactory from './TopoEditFactory';
-import command from './TopoEditor';
+import TopoEditor from './TopoEditor';
 
 export default {
-    tool,
-    command,
-    operation,
-    check,
+    TopoEditFactory,
+    TopoEditor,
 };
 
