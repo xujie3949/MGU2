@@ -28,26 +28,29 @@ export default class LeftPanel extends Component {
     computeAnimation() {
         if (stores.leftPanelStore.isShow) {
             return {
-                width: '14px',
+                left: '-20%',
                 ease: 'easeInQuad',
             };
         }
 
         return {
-            width: '20%',
+            left: '0',
             ease: 'easeOutQuad',
         };
     }
 
     renderContent() {
+        let className = '';
         if (stores.leftPanelStore.isShow) {
-            return (
-                <div className={ style.emptyContent }/>
-            );
+            className = style.emptyContent;
+        } else {
+            className = style.content;
         }
 
         return (
-            <div className={ style.content }>
+            <div
+                className={ className }
+            >
                 { this.props.children }
             </div>
         );
@@ -81,7 +84,11 @@ export default class LeftPanel extends Component {
                 className={ style.container }
                 animation={ animation }
             >
-                { this.renderContent() }
+                <div
+                    className={ style.content }
+                >
+                    { this.props.children }
+                </div>
                 { this.renderHandle() }
             </TweenOne>
         );

@@ -28,26 +28,27 @@ export default class RightPanel extends Component {
     computeAnimation() {
         if (stores.rightPanelStore.isShow) {
             return {
-                width: '14px',
+                right: '-20%',
                 ease: 'easeInQuad',
             };
         }
 
         return {
-            width: '20%',
+            right: '0',
             ease: 'easeOutQuad',
         };
     }
 
     renderContent() {
-        if (stores.rightPanelStore.isShow) {
-            return (
-                <div className={ style.emptyContent }/>
-            );
+        let className = '';
+        if (stores.leftPanelStore.isShow) {
+            className = style.emptyContent;
+        } else {
+            className = style.content;
         }
 
         return (
-            <div className={ style.content }>
+            <div className={ className }>
                 { this.props.children }
             </div>
         );
@@ -82,7 +83,9 @@ export default class RightPanel extends Component {
                 animation={ animation }
             >
                 { this.renderHandle() }
-                { this.renderContent() }
+                <div className={ style.content }>
+                    { this.props.children }
+                </div>
             </TweenOne>
         );
     }
