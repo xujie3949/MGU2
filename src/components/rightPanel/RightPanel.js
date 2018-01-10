@@ -39,21 +39,6 @@ export default class RightPanel extends Component {
         };
     }
 
-    renderContent() {
-        let className = '';
-        if (stores.leftPanelStore.isShow) {
-            className = style.emptyContent;
-        } else {
-            className = style.content;
-        }
-
-        return (
-            <div className={ className }>
-                { this.props.children }
-            </div>
-        );
-    }
-
     renderHandle() {
         if (stores.rightPanelStore.isShow) {
             return (

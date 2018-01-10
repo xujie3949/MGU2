@@ -39,23 +39,6 @@ export default class LeftPanel extends Component {
         };
     }
 
-    renderContent() {
-        let className = '';
-        if (stores.leftPanelStore.isShow) {
-            className = style.emptyContent;
-        } else {
-            className = style.content;
-        }
-
-        return (
-            <div
-                className={ className }
-            >
-                { this.props.children }
-            </div>
-        );
-    }
-
     renderHandle() {
         if (stores.leftPanelStore.isShow) {
             return (
