@@ -7,12 +7,14 @@
   top: 0;
   position: absolute;
   display: flex;
+  pointer-events: none;
 }
 
 .content {
   flex: 1;
   background: red;
   border-right: 1px solid rgba(0, 0, 0, 0.45);
+  pointer-events: auto;
 }
 
 .emptyContent {
@@ -23,4 +25,5 @@
 .handle {
   align-self: center;
   cursor: pointer;
+  pointer-events: auto;
 }
