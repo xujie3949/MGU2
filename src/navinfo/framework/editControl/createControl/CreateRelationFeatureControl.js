@@ -1,4 +1,5 @@
 import EditControl from '../EditControl';
+import RelationEditor from '../../edit/relationEdit/RelationEditor';
 
 /**
  * Created by xujie3949 on 2016/12/28.
@@ -9,7 +10,7 @@ class CreateRelationFeatureControl extends EditControl {
         super(map, options);
 
         this.geoLiveType = options.geoLiveType;
-        this.relationEditor = fastmap.uikit.relationEdit.RelationEditor.getInstance();
+        this.relationEditor = RelationEditor.getInstance();
         this.topoEditor = this.topoEditFactory.getTopoEditor('create', this.geoLiveType, { map: this.map });
     }
     

@@ -1,4 +1,5 @@
 import EditControl from '../EditControl';
+import ShapeEditor from '../../edit/shapeEdit/ShapeEditor';
 
 /**
  * Created by xujie3949 on 2016/12/28.
@@ -9,7 +10,7 @@ class CreateSimpleFeatureControl extends EditControl {
         super(map, options);
 
         this.geoLiveType = options.geoLiveType;
-        this.shapeEditor = fastmap.uikit.shapeEdit.ShapeEditor.getInstance();
+        this.shapeEditor = ShapeEditor.getInstance();
         this.topoEditor = this.topoEditFactory.getTopoEditor('create', this.geoLiveType, { map: this.map });
     }
 
