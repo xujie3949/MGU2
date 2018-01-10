@@ -4,6 +4,8 @@ import loadingStore from 'Stores/loadingStore';
 import loginStore from 'Stores/loginStore';
 import menuBarStore from 'Stores/menuBarStore';
 import toolBarStore from 'Stores/toolBarStore';
+import leftPanelStore from 'Stores/leftPanelStore';
+import rightPanelStore from 'Stores/rightPanelStore';
 
 const stores = {
     appStore: appStore,
@@ -12,6 +14,8 @@ const stores = {
     loginStore: loginStore,
     menuBarStore: menuBarStore,
     toolBarStore: toolBarStore,
+    leftPanelStore: leftPanelStore,
+    rightPanelStore: rightPanelStore,
 };
 
 export default stores;
