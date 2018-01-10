@@ -1,3 +1,8 @@
+import {
+    Map as LeafletMap,
+    Point,
+    Bounds,
+} from 'leaflet';
 import SourceController from './source/SourceController';
 import SceneController from './scene/SceneController';
 import VectorLayer from './layer/VectorLayer';
@@ -83,7 +88,7 @@ export default class Map {
      * @return {undefined}
      */
     _createLeafletMap() {
-        this._leafletMap = L.map(this.options.container, {
+        this._leafletMap = new LeafletMap(this.options.container, {
             dragging: false,
             touchZoom: false,
             doubleClickZoom: false,
@@ -106,10 +111,12 @@ export default class Map {
         this._leafletMap.on('moveend', this._onMapMoveEnd, this);
         this._leafletMap.on('resize', this._onMapMoveEnd, this);
         // 屏蔽掉默认的右键菜单
-        this._leafletMap.getContainer().addEventListener('contextmenu', event => event.preventDefault());
+        this._leafletMap.getContainer()
+            .addEventListener('contextmenu', event => event.preventDefault());
 
         // 阻止地图双击选中事件
-        this._leafletMap.getContainer().addEventListener('selectstart', event => event.preventDefault());
+        this._leafletMap.getContainer()
+            .addEventListener('selectstart', event => event.preventDefault());
     }
 
     /**
@@ -196,7 +203,8 @@ export default class Map {
         const layers = [];
         this._leafletMap.eachLayer(item => {
             if (item instanceof VectorLayer) {
-                const visibleLayers = item.getSceneLayers().filter(layer => layer.visible());
+                const visibleLayers = item.getSceneLayers()
+                                          .filter(layer => layer.visible());
                 Array.prototype.push.apply(layers, visibleLayers);
             }
         });
@@ -305,9 +313,11 @@ export default class Map {
         const zoom = map.getZoom();
         const tileSize = this.options.tileSize;
 
-        const tileBounds = L.bounds(
-            bounds.min.divideBy(tileSize)._floor(),
-            bounds.max.divideBy(tileSize)._floor(),
+        const tileBounds = new Bounds(
+            bounds.min.divideBy(tileSize)
+                  ._floor(),
+            bounds.max.divideBy(tileSize)
+                  ._floor(),
         );
 
         const queue = [];
@@ -315,7 +325,7 @@ export default class Map {
 
         for (let j = tileBounds.min.y; j <= tileBounds.max.y; j++) {
             for (let i = tileBounds.min.x; i <= tileBounds.max.x; i++) {
-                const point = new L.Point(i, j);
+                const point = new Point(i, j);
                 queue.push(point);
             }
         }
@@ -389,12 +399,13 @@ export default class Map {
             promises.push(innerFunc(tiles[i], i));
         }
 
-        Promise.all(promises).then(() => {
-            this._eventController.fire('TileLayersLoaded', {
-                layers: layers,
-                tiles: tiles,
-            });
-        });
+        Promise.all(promises)
+               .then(() => {
+                   this._eventController.fire('TileLayersLoaded', {
+                       layers: layers,
+                       tiles: tiles,
+                   });
+               });
     }
 
     /**
