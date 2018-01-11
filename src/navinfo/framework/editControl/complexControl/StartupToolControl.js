@@ -5,10 +5,8 @@ import EditControl from '../EditControl';
  */
 
 class StartupToolControl extends EditControl {
-    constructor(map, options) {
-        super(map, options);
-
-        this.toolName = this.options.toolName;
+    constructor(options) {
+        super(options);
     }
 
     run() {
@@ -17,10 +15,10 @@ class StartupToolControl extends EditControl {
             return false;
         }
 
-        const success = this.toolController.resetCurrentTool(this.toolName, null, null);
+        const success = this.toolController.resetCurrentTool(this.options.toolName, null, null);
         if (!success) {
             this.eventController.fire('EditControlError', {
-                message: `未能激活选择工具:${this.toolName}`,
+                message: `未能激活选择工具:${this.options.toolName}`,
             });
             return false;
         }

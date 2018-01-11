@@ -5,12 +5,11 @@ import ShapeEditor from '../../edit/shapeEdit/ShapeEditor';
  * Created by xujie3949 on 2016/12/28.
  */
 class ModifySimpleFeatureControl extends EditControl {
-    constructor(map, options) {
-        super(map, options);
+    constructor(options) {
+        super(options);
 
-        this.geoLiveType = options.originObject.geoLiveType;
         this.shapeEditor = ShapeEditor.getInstance();
-        this.topoEditor = this.topoEditFactory.getTopoEditor('modify', this.geoLiveType, { map: this.map });
+        this.topoEditor = this.topoEditFactory.getTopoEditor('modify', this.options);
     }
 
     run() {
@@ -52,7 +51,7 @@ class ModifySimpleFeatureControl extends EditControl {
         }
 
         // 根据服务log获取发生变更的要素类型列表
-        const geoLiveTypes = this.getChangedGeoLiveTypes(this.geoLiveType, res.log);
+        const geoLiveTypes = this.getChangedGeoLiveTypes(this.options.geoLiveType, res.log);
 
         // 刷新对应图层
         this.sceneController.redrawLayerByGeoLiveTypes(geoLiveTypes);

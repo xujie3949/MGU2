@@ -6,12 +6,11 @@ import RelationEditor from '../../edit/relationEdit/RelationEditor';
  */
 
 class ModifyRelationFeatureControl extends EditControl {
-    constructor(map, options) {
-        super(map, options);
+    constructor(options) {
+        super(options);
 
-        this.geoLiveType = options.originObject.geoLiveType;
         this.relationEditor = RelationEditor.getInstance();
-        this.topoEditor = this.topoEditFactory.getTopoEditor('modify', this.geoLiveType, { map: this.map });
+        this.topoEditor = this.topoEditFactory.getTopoEditor('modify', this.options);
     }
 
     run() {
@@ -59,7 +58,7 @@ class ModifyRelationFeatureControl extends EditControl {
         }
 
         // 根据服务log获取发生变更的要素类型列表
-        const geoLiveTypes = this.getChangedGeoLiveTypes(this.geoLiveType, res.log);
+        const geoLiveTypes = this.getChangedGeoLiveTypes(this.options.geoLiveType, res.log);
 
         // 刷新对应图层
         this.sceneController.redrawLayerByGeoLiveTypes(geoLiveTypes);

@@ -7,16 +7,13 @@ import EditControl from '../EditControl';
 export default class SelectControl extends EditControl {
     /**
      * 构造方法
-     * @param  {[type]} map         [description]
-     * @param  {[type]} geoLiveType [description]
      * @param  {[type]} options     [description]
      * @return {[type]}             [description]
      */
-    constructor(map, geoLiveType, options) {
-        super(map, options);
+    constructor(options) {
+        super(options);
 
         this.selectMode = options.selectMode ? options.selectMode : 'point';
-        this.geoLiveType = geoLiveType;
     }
     
     /**
@@ -30,7 +27,7 @@ export default class SelectControl extends EditControl {
         
         const toolName = this._getToolName(this.selectMode);
         const success = this.toolController.resetCurrentTool(toolName, this.onFinish, {
-            toolOptions: [this.geoLiveType],
+            toolOptions: [this.options.geoLiveType],
         });
         if (!success) {
             this.eventController.fire('EditControlError', {

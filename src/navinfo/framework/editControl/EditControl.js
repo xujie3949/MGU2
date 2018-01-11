@@ -11,14 +11,11 @@ import EditControlFactory from './EditControlFactory';
 class EditControl {
     /**
      * 构造函数
-     * @param  {class}  map     地图对象
      * @param  {object} options 可选项
      * @return {undefined}
      */
-    constructor(map, options) {
+    constructor(options) {
         this.options = options;
-
-        this.map = map;
 
         this.eventController = EventController.getInstance();
 
