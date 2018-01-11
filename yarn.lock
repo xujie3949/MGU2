@@ -7172,6 +7172,10 @@ spdy@^3.4.1:
     select-hose "^2.0.0"
     spdy-transport "^2.0.18"
 
+split.js@^1.3.5:
+  version "1.3.5"
+  resolved "http://registry.npm.taobao.org/split.js/download/split.js-1.3.5.tgz#62e2ce66d2cf91cc774aa5f0749ff25138039f50"
+
 split@0.3:
   version "0.3.3"
   resolved "http://registry.npm.taobao.org/split/download/split-0.3.3.tgz#cd0eea5e63a211dfff7eb0f091c4133e2d0dd28f"
