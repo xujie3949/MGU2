@@ -17,64 +17,64 @@ export default class ToolBar extends Component {
         super(props);
     }
 
-  onClick = e => {
-      const key = e.currentTarget.getAttribute('data-key');
-      const index = stores.toolBarStore.items.findIndex(item => item.key === key);
-      if (index !== -1) {
-          const command = stores.toolBarStore.items[index];
-          command.excute();
-      }
-  };
+    onClick = e => {
+        const key = e.currentTarget.getAttribute('data-key');
+        const index = stores.toolBarStore.items.findIndex(item => item.key === key);
+        if (index !== -1) {
+            const command = stores.toolBarStore.items[index];
+            command.execute();
+        }
+    };
 
-  renderButton(command, index) {
-      if (command === 'divider') {
-          return (
-            <Divider
-                key={index}
-                type="vertical"
-              />
-          );
-      }
-      return (
-        <Tooltip
-            key={command.key}
-            placement="bottomRight"
-              title={command.desc}
-          >
-              <Row
-            key={command.key}
-            type="flex"
-                  align="middle"
-            style={{
-                      paddingLeft: '5px',
-                      paddingRight: '5px',
-                  }}
-          >
-            <Button
-                      data-key={command.key}
-                      size="small"
-                    onClick={this.onClick}
-                  >
-                    <Icon type={command.icon}/>
-                  </Button>
-          </Row>
-          </Tooltip>
-      );
-  }
+    renderButton(command, index) {
+        if (command === 'divider') {
+            return (
+                <Divider
+                    key={ index }
+                    type="vertical"
+                />
+            );
+        }
+        return (
+            <Tooltip
+                key={ command.key }
+                placement="bottomRight"
+                title={ command.desc }
+            >
+                <Row
+                    key={ command.key }
+                    type="flex"
+                    align="middle"
+                    style={ {
+                        paddingLeft: '5px',
+                        paddingRight: '5px',
+                    } }
+                >
+                    <Button
+                        data-key={ command.key }
+                        size="small"
+                        onClick={ this.onClick }
+                    >
+                        <Icon type={ command.icon }/>
+                    </Button>
+                </Row>
+            </Tooltip>
+        );
+    }
 
-  renderButtons() {
-      return stores.toolBarStore.items.map((item, index) => this.renderButton(item, index));
-  }
+    renderButtons() {
+        return stores.toolBarStore.items.map((item, index) => this.renderButton(item, index));
+    }
 
-  render() {
-      return (
-        <Row
-              className={style.container}
-            type="flex"
-            align="middle"
-          >
-            { this.renderButtons() }
-          </Row>
-      );
-  }
+    render() {
+        return (
+            <Row
+                className={ style.container }
+                type="flex"
+                align="middle"
+            >
+                { this.renderButtons() }
+            </Row>
+        );
+    }
 }
