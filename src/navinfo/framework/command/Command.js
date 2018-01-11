@@ -1,9 +1,9 @@
 class Command {
-    constructor(options) {
-        this.key = options.key || '';
-        this.name = options.name || '';
-        this.desc = options.desc || '';
-        this.icon = options.icon || '';
+    constructor() {
+        this.key = '';
+        this.name = '';
+        this.desc = '';
+        this.icon = '';
     }
 
     execute() {
