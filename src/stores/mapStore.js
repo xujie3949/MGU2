@@ -13,6 +13,8 @@ import scenes from 'Business/config/scenes';
 import mapConfig from 'Business/config/mapConfig';
 import registerFeatures from 'Business/feature/registerFeatures';
 import registerRenders from 'Business/render/registerRenders';
+import registerCommands from 'Business/command/registerCommands';
+import registerEditControls from 'Business/editControl/registerEditControls';
 
 class MapStore {
     @observable.ref map;
@@ -40,6 +42,10 @@ class MapStore {
         registerFeatures();
 
         registerRenders();
+
+        registerCommands();
+
+        registerEditControls();
 
         this.loadConfig();
 
