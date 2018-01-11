@@ -13,41 +13,39 @@ class EditControlFactory {
      */
     constructor() {
         this.currentControl = null;
+        this.editControlClasses = {};
 
         this._eventController = EventController.getInstance();
         this._eventController.once('DestroySingleton', () => this.destroy());
     }
 
-    register(operation, geoLiveType, topoEditor) {
-        const key = `${operation}-${geoLiveType}`;
-        if (Util.has(this.topoEditorClasses, key)) {
+    register(key, topoEditor) {
+        if (Util.has(this.editControlClasses, key)) {
             throw new Error(`key已经注册:${key}`);
         }
 
-        this.topoEditorClasses[key] = topoEditor;
+        this.editControlClasses[key] = topoEditor;
     }
 
-    unRegister(operation, geoLiveType) {
-        const key = `${operation}-${geoLiveType}`;
-        if (!Util.has(this.topoEditorClasses, key)) {
+    unRegister(key) {
+        if (!Util.has(this.editControlClasses, key)) {
             return;
         }
 
-        delete this.topoEditorClasses[key];
+        delete this.editControlClasses[key];
     }
 
     clear() {
-        this.topoEditorClasses = {};
+        this.editControlClasses = {};
     }
 
-    getTopoEditor(operation, geoLiveType, options) {
-        const key = `${operation}-${geoLiveType}`;
-        if (!Util.has(this.topoEditorClasses, key)) {
+    getEditControl(key, options) {
+        if (!Util.has(this.editControlClasses, key)) {
             throw new Error(`key未注册:${key}`);
         }
-        const topoEditorClass = this.topoEditorClasses[key];
+        const editControlClass = this.editControlClasses[key];
         // eslint-disable-next-line new-cap
-        return new topoEditorClass(options);
+        return new editControlClass(options);
     }
 
     /**
