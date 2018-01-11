@@ -49,11 +49,8 @@ class CreateRelationFeatureControl extends EditControl {
 
         this.relationEditor.stop();
 
-        // 根据服务log获取发生变更的要素类型列表
-        const geoLiveTypes = this.getChangedGeoLiveTypes(this.options.geoLiveType, res.log);
-
-        // 刷新对应图层
-        this.sceneController.redrawLayerByGeoLiveTypes(geoLiveTypes);
+        // 刷新地图
+        this.sceneController.refreshMap();
 
         // 自动选中要素
         
