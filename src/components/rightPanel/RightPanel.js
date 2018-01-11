@@ -28,13 +28,13 @@ export default class RightPanel extends Component {
     computeAnimation() {
         if (stores.rightPanelStore.isShow) {
             return {
-                right: '-20%',
+                right: '0',
                 ease: 'easeInQuad',
             };
         }
 
         return {
-            right: '0',
+            right: '-20%',
             ease: 'easeOutQuad',
         };
     }
@@ -44,7 +44,7 @@ export default class RightPanel extends Component {
             return (
                 <Icon
                     className={ style.handle }
-                    type="left-square"
+                    type="right-square"
                     onClick={ this.onHandleClick }
                 />
             );
@@ -53,7 +53,7 @@ export default class RightPanel extends Component {
         return (
             <Icon
                 className={ style.handle }
-                type="right-square"
+                type="left-square"
                 onClick={ this.onHandleClick }
             />
         );
