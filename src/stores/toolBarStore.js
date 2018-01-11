@@ -19,11 +19,12 @@ class ToolBarStore {
   initialize() {
       const commandFactory = navinfo.framework.command.CommandFactory.getInstance();
       this.items = [];
-      this.items.push(commandFactory.getCommand('select'));
-      this.items.push(commandFactory.getCommand('add'));
-      this.items.push('divider');
-      this.items.push(commandFactory.getCommand('del'));
-      this.items.push(commandFactory.getCommand('info'));
+      this.items.push(commandFactory.getCommand('TrajectoryPlayback'));
+      // this.items.push(commandFactory.getCommand('select'));
+      // this.items.push(commandFactory.getCommand('add'));
+      // this.items.push('divider');
+      // this.items.push(commandFactory.getCommand('del'));
+      // this.items.push(commandFactory.getCommand('info'));
   }
 
   @action
