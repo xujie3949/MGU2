@@ -158,6 +158,14 @@ export default class Map {
     }
 
     /**
+     * 获得地图范围
+     * @returns {Object} - 返回地图容器
+     */
+    getBounds() {
+        return this._leafletMap.getBounds();
+    }
+
+    /**
      * 重新设置地图大小.
      * @returns {undefined} - 返回地图容器
      */
