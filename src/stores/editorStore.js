@@ -3,20 +3,26 @@ import {
     action,
     computed,
 } from 'mobx';
-import Map from 'Components/map/Map';
 
 class EditorStore {
-    @observable.ref splitParameter;
+    @observable.ref left;
+    @observable.ref right;
     @observable.ref main;
 
     constructor() {
-        this.splitParameter = null;
+        this.left = null;
+        this.right = null;
         this.main = null;
     }
 
     @action
-    setSplitParameter(value) {
-        this.splitParameter = value;
+    setLeft(value) {
+        this.left = value;
+    }
+
+    @action
+    setRight(value) {
+        this.right = value;
     }
 
     @action
