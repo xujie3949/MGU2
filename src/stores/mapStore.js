@@ -28,10 +28,30 @@ class MapStore {
         this.map = value;
     }
 
-    startup(containerName) {
+    addTo(parent) {
+        if (parent) {
+            parent.appendChild(this.map.getContainer());
+            // 让地图调整大小适应父节点
+            this.map.resize();
+        }
+    }
+
+    remove() {
+        const container = this.map.getContainer();
+        const parent = container.parentNode;
+        if (parent) {
+            parent.removeChild(container);
+        }
+    }
+
+    initialize() {
+        const container = document.createElement('div');
+        container.style.width = '100%';
+        container.style.height = '100%';
+
         const options = {
             tileSize: 256,
-            container: containerName,
+            container: container,
             center: [39.931269763182634, 116.84355854988097],
             zoom: 17,
         };

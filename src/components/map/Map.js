@@ -11,17 +11,24 @@ export default class Map extends Component {
     }
 
     componentDidMount() {
-        stores.mapStore.startup('editorMap');
+        stores.mapStore.addTo(this.mapContainer);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        // 不需要重新渲染
+        return false;
     }
 
     componentWillUnmount() {
-        stores.mapStore.shutdown();
+        stores.mapStore.remove();
     }
 
     render() {
         return (
             <div
-                id="editorMap"
+                ref={ el => {
+                    this.mapContainer = el;
+                } }
                 className={ style.container }
             />
         );
