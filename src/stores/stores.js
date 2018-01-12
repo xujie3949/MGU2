@@ -7,6 +7,7 @@ import toolBarStore from 'Stores/toolBarStore';
 import leftPanelStore from 'Stores/leftPanelStore';
 import rightPanelStore from 'Stores/rightPanelStore';
 import mapStore from 'Stores/mapStore';
+import editorStore from 'Stores/editorStore';
 
 const stores = {
     appStore: appStore,
@@ -18,6 +19,7 @@ const stores = {
     leftPanelStore: leftPanelStore,
     rightPanelStore: rightPanelStore,
     mapStore: mapStore,
+    editorStore: editorStore,
 };
 
 export default stores;
