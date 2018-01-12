@@ -18,7 +18,7 @@ class TrajectoryListStore {
 
     constructor() {
         this.data = [];
-        this.selected = null;
+        this.selectedIndex = -1;
     }
 
     @action
