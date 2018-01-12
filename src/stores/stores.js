@@ -8,6 +8,7 @@ import leftPanelStore from 'Stores/leftPanelStore';
 import rightPanelStore from 'Stores/rightPanelStore';
 import mapStore from 'Stores/mapStore';
 import editorStore from 'Stores/editorStore';
+import trajectoryListStore from 'Stores/trajectoryListStore';
 
 const stores = {
     appStore: appStore,
@@ -20,6 +21,7 @@ const stores = {
     rightPanelStore: rightPanelStore,
     mapStore: mapStore,
     editorStore: editorStore,
+    trajectoryListStore: trajectoryListStore,
 };
 
 export default stores;
