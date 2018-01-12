@@ -11,3 +11,19 @@ html, body {
   margin 0;
   padding 0;
 }
+
+:global(.gutter) {
+  background-color: #d9d9d9;
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+:global(.gutter.gutter-horizontal) {
+  cursor: col-resize;
+  background-image: url('../images/vertical.png');
+}
+
+:global(.gutter.gutter-vertical) {
+  cursor: row-resize;
+  background-image: url('../images/horizontal.png');
+}
