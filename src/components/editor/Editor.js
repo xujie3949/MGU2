@@ -7,7 +7,7 @@ import {
     Icon,
     Avatar,
 } from 'antd';
-import TweenOne from 'rc-tween-one';
+import Split from 'split.js';
 
 import stores from 'Stores/stores';
 import EditorTitleBar from 'Components/editorTitleBar/EditorTitleBar';
@@ -20,6 +20,8 @@ import SelectedManager from 'Components/selectedManager/SelectedManager';
 import Map from 'Components/map/Map';
 import PropertyEdit from 'Components/propertyEdit/PropertyEdit';
 import StatusBar from 'Components/statusBar/StatusBar';
+import navinfo from 'Navinfo';
+
 import style from './styles/style.styl';
 
 const { Header, Footer, Sider, Content } = Layout;
@@ -28,6 +30,31 @@ const { Header, Footer, Sider, Content } = Layout;
 export default class Editor extends Component {
     constructor(props) {
         super(props);
+    }
+
+    componentWillMount() {
+        stores.editorStore.setMain(<Map/>);
+    }
+
+    componentDidMount() {
+        this.updateSplit();
+    }
+
+    componentDidUpdate() {
+        this.updateSplit();
+    }
+
+    updateSplit() {
+        if (stores.editorStore.splitParameter) {
+            stores.editorStore.splitParameter.config.onDragEnd = () => {
+                stores.mapStore.map.resize();
+            };
+            Split(
+                stores.editorStore.splitParameter.children,
+                stores.editorStore.splitParameter.config,
+            );
+            stores.mapStore.map.resize();
+        }
     }
 
     renderHeader() {
@@ -50,7 +77,7 @@ export default class Editor extends Component {
             <div className={ style.container }>
                 { this.renderHeader() }
                 <div className={ style.middleContainer }>
-                    <Map/>
+                    { stores.editorStore.main }
                     <LeftPanel>
                         <TrajectoryQuery/>
                     </LeftPanel>
