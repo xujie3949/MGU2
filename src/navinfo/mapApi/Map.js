@@ -3,6 +3,9 @@ import {
     Point,
     Bounds,
 } from 'leaflet';
+
+import 'leaflet/dist/leaflet.css';
+
 import SourceController from './source/SourceController';
 import SceneController from './scene/SceneController';
 import VectorLayer from './layer/VectorLayer';
@@ -100,6 +103,7 @@ export default class Map {
             zoomControl: false,
             center: this.options.center,
             zoom: this.options.zoom,
+            trackResize: true,
         });
     }
 
@@ -109,7 +113,8 @@ export default class Map {
      */
     _bindLeafletMapEvent() {
         this._leafletMap.on('moveend', this._onMapMoveEnd, this);
-        this._leafletMap.on('resize', this._onMapMoveEnd, this);
+        this._leafletMap.on('resize', this._resizeLayers, this);
+
         // 屏蔽掉默认的右键菜单
         this._leafletMap.getContainer()
             .addEventListener('contextmenu', event => event.preventDefault());
@@ -150,6 +155,22 @@ export default class Map {
      */
     getContainer() {
         return this._leafletMap.getContainer();
+    }
+
+    /**
+     * 重新设置地图大小.
+     * @returns {undefined} - 返回地图容器
+     */
+    resize() {
+        this._leafletMap.invalidateSize();
+    }
+
+    _resizeLayers() {
+        this._leafletMap.eachLayer(item => {
+            if (item.resize) {
+                item.resize();
+            }
+        });
     }
 
     /**
@@ -204,7 +225,7 @@ export default class Map {
         this._leafletMap.eachLayer(item => {
             if (item instanceof VectorLayer) {
                 const visibleLayers = item.getSceneLayers()
-                                          .filter(layer => layer.visible());
+                    .filter(layer => layer.visible());
                 Array.prototype.push.apply(layers, visibleLayers);
             }
         });
@@ -315,9 +336,9 @@ export default class Map {
 
         const tileBounds = new Bounds(
             bounds.min.divideBy(tileSize)
-                  ._floor(),
+                ._floor(),
             bounds.max.divideBy(tileSize)
-                  ._floor(),
+                ._floor(),
         );
 
         const queue = [];
@@ -400,12 +421,12 @@ export default class Map {
         }
 
         Promise.all(promises)
-               .then(() => {
-                   this._eventController.fire('TileLayersLoaded', {
-                       layers: layers,
-                       tiles: tiles,
-                   });
-               });
+            .then(() => {
+                this._eventController.fire('TileLayersLoaded', {
+                    layers: layers,
+                    tiles: tiles,
+                });
+            });
     }
 
     /**

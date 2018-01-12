@@ -48,12 +48,18 @@ export default class WholeLayer extends Layer {
         this._ctx = this.canv.getContext('2d');
         this.canv.width = this.map.getSize().x;
         this.canv.height = this.map.getSize().y;
-        this.canv.style.width = `${this.canv.width}px`;
-        this.canv.style.height = `${this.canv.height}px`;
         container.appendChild(this.canv);
         this._div = container;
         this.map.getPanes().overlayPane.appendChild(this._div);
         this._div.style.zIndex = this.options.zIndex;
+    }
+
+    resize() {
+        this._div.style.width = `${this.map.getSize().x}px`;
+        this._div.style.height = `${this.map.getSize().y}px`;
+        this.canv.width = this.map.getSize().x;
+        this.canv.height = this.map.getSize().y;
+        this._resetCanvasPosition();
     }
 
     setZIndex(zIndex) {
