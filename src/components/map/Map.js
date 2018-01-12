@@ -26,6 +26,7 @@ export default class Map extends Component {
     render() {
         return (
             <div
+                { ...this.props }
                 ref={ el => {
                     this.mapContainer = el;
                 } }

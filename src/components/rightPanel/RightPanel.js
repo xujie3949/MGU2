@@ -10,7 +10,7 @@ import style from './styles/style.styl';
 @observer
 export default class RightPanel extends Component {
     static propTypes = {
-        children: PropTypes.element,
+        children: PropTypes.node,
     };
 
     static defaultProps = {
@@ -61,9 +61,10 @@ export default class RightPanel extends Component {
 
     render() {
         const animation = this.computeAnimation();
-
+        const { children, ...other } = this.props;
         return (
             <TweenOne
+                { ...other }
                 className={ style.container }
                 animation={ animation }
             >

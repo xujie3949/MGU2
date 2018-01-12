@@ -20,21 +20,22 @@ export default class StatusBar extends Component {
 
     render() {
         return (
-          <Footer
-              style={{
+            <Footer
+                { ...this.props }
+                style={ {
                     borderTop: '1px solid rgba(0, 0, 0, 0.45)',
                     height: '24px',
                     padding: '0 10px',
-                }}
+                } }
             >
-              <Row
-                  type="flex"
-                  justify="space-between"
-                  align="middle"
+                <Row
+                    type="flex"
+                    justify="space-between"
+                    align="middle"
                 >
-                  <span>当前工具: 选择</span>
-                  <span>鼠标位置: 116.3214, 34.3432</span>
-                  <span>地图等级: 15</span>
+                    <span>当前工具: 选择</span>
+                    <span>鼠标位置: 116.3214, 34.3432</span>
+                    <span>地图等级: 15</span>
                 </Row>
             </Footer>
         );

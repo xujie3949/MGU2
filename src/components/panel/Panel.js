@@ -25,18 +25,19 @@ export default class Panel extends Component {
     }
 
     render() {
-        const { title } = this.props;
+        const { title, children, ...other } = this.props;
         return (
             <div
+                { ...other }
                 className={ style.container }
             >
                 <div
                     className={ style.title }
                 >
-                    { this.props.title }
+                    { title }
                 </div>
                 <div className={ style.content }>
-                    { this.props.children }
+                    { children }
                 </div>
             </div>
         );

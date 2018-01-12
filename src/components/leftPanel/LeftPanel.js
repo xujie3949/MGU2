@@ -61,16 +61,17 @@ export default class LeftPanel extends Component {
 
     render() {
         const animation = this.computeAnimation();
-
+        const { children, ...other } = this.props;
         return (
             <TweenOne
+                { ...other }
                 className={ style.container }
                 animation={ animation }
             >
                 <div
                     className={ style.content }
                 >
-                    { this.props.children }
+                    { children }
                 </div>
                 { this.renderHandle() }
             </TweenOne>

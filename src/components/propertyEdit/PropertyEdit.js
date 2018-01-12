@@ -17,8 +17,11 @@ export default class PropertyEdit extends Component {
 
     render() {
         return (
-          <Panel title="属性面板">
-              <div className={style.container}/>
+            <Panel
+                { ...this.props }
+                title="属性面板"
+            >
+                <div className={ style.container }/>
             </Panel>
         );
     }

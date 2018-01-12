@@ -16,9 +16,11 @@ export default class TrajectoryQuery extends Component {
     }
 
     render() {
-        const { title } = this.props;
         return (
-          <Panel title="轨迹查询"/>
+            <Panel
+                { ...this.props }
+                title="轨迹查询"
+            />
         );
     }
 }

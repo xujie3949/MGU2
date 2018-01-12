@@ -15,7 +15,7 @@ import MenuBar from 'Components/menuBar/MenuBar';
 import ToolBar from 'Components/toolBar/ToolBar';
 import LeftPanel from 'Components/leftPanel/LeftPanel';
 import RightPanel from 'Components/rightPanel/RightPanel';
-import TrajectoryQuery from 'Components/trajectoryQuery/TrajectoryQuery';
+import TrajectoryList from 'Components/trajectoryList/TrajectoryList';
 import SelectedManager from 'Components/selectedManager/SelectedManager';
 import Map from 'Components/map/Map';
 import PropertyEdit from 'Components/propertyEdit/PropertyEdit';
@@ -33,7 +33,31 @@ export default class Editor extends Component {
     }
 
     componentWillMount() {
-        stores.editorStore.setMain(<Map/>);
+        const main = {
+            children: <Map/>,
+        };
+        stores.editorStore.setMain(main);
+
+        const left = {
+            children: <TrajectoryList/>,
+        };
+        stores.editorStore.setLeft(left);
+
+        const right = {
+            children: [
+                <SelectedManager key="selectedManager" id="selectedManager"/>,
+                <PropertyEdit key="propertyEdit" id="propertyEdit"/>,
+            ],
+            split: {
+                children: ['#selectedManager', '#propertyEdit'],
+                config: {
+                    sizes: [30, 70],
+                    direction: 'vertical',
+                    cursor: 'row-resize',
+                },
+            },
+        };
+        stores.editorStore.setRight(right);
     }
 
     componentDidMount() {
@@ -45,13 +69,27 @@ export default class Editor extends Component {
     }
 
     updateSplit() {
-        if (stores.editorStore.splitParameter) {
-            stores.editorStore.splitParameter.config.onDragEnd = () => {
+        if (stores.editorStore.left && stores.editorStore.left.split) {
+            Split(
+                stores.editorStore.left.split.children,
+                stores.editorStore.left.split.config,
+            );
+        }
+
+        if (stores.editorStore.right && stores.editorStore.right.split) {
+            Split(
+                stores.editorStore.right.split.children,
+                stores.editorStore.right.split.config,
+            );
+        }
+
+        if (stores.editorStore.main && stores.editorStore.main.split) {
+            stores.editorStore.main.split.config.onDragEnd = () => {
                 stores.mapStore.map.resize();
             };
             Split(
-                stores.editorStore.splitParameter.children,
-                stores.editorStore.splitParameter.config,
+                stores.editorStore.main.split.children,
+                stores.editorStore.main.split.config,
             );
             stores.mapStore.map.resize();
         }
@@ -77,20 +115,23 @@ export default class Editor extends Component {
             <div className={ style.container }>
                 { this.renderHeader() }
                 <div className={ style.middleContainer }>
-                    { stores.editorStore.main }
+                    { stores.editorStore.main.children }
                     <LeftPanel>
-                        <TrajectoryQuery/>
+                        { stores.editorStore.left.children }
                     </LeftPanel>
                     <RightPanel>
-                        <div className={ style.right }>
-                            <div className={ style.rightTop }>
-                                <SelectedManager/>
-                            </div>
-                            <div className={ style.rightBottom }>
-                                <PropertyEdit/>
-                            </div>
-                        </div>
+                        { stores.editorStore.right.children }
                     </RightPanel>
+                    { /*<RightPanel>*/ }
+                    { /*<div className={ style.right }>*/ }
+                    { /*<div className={ style.rightTop }>*/ }
+                    { /*<SelectedManager/>*/ }
+                    { /*</div>*/ }
+                    { /*<div className={ style.rightBottom }>*/ }
+                    { /*<PropertyEdit/>*/ }
+                    { /*</div>*/ }
+                    { /*</div>*/ }
+                    { /*</RightPanel>*/ }
                 </div>
                 <StatusBar/>
             </div>

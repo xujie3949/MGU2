@@ -69,6 +69,7 @@ export default class ToolBar extends Component {
     render() {
         return (
             <Row
+                { ...this.props }
                 className={ style.container }
                 type="flex"
                 align="middle"

@@ -16,15 +16,16 @@ export default class Loading extends Component {
 
     render() {
         return (
-          <Row
-              className={style.container}
-              type="flex"
-              justify="center"
-              align="middle"
+            <Row
+                { ...this.props }
+                className={ style.container }
+                type="flex"
+                justify="center"
+                align="middle"
             >
-              <Spin
-                  size="large"
-                  tip={stores.loadingStore.message}
+                <Spin
+                    size="large"
+                    tip={ stores.loadingStore.message }
                 />
             </Row>
         );

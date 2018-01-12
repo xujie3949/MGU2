@@ -15,91 +15,92 @@ export default class MenuBar extends Component {
         super(props);
     }
 
-  onMouseEnter = e => {
-      stores.menuBarStore.setItemId(e.currentTarget.id);
-      const top = e.currentTarget.offsetTop + e.currentTarget.clientHeight;
-      const left = e.currentTarget.offsetLeft;
-      stores.menuBarStore.setMenuPanelPosition(left, top);
-  };
+    onMouseEnter = e => {
+        stores.menuBarStore.setItemId(e.currentTarget.id);
+        const top = e.currentTarget.offsetTop + e.currentTarget.clientHeight;
+        const left = e.currentTarget.offsetLeft;
+        stores.menuBarStore.setMenuPanelPosition(left, top);
+    };
 
-  onMouseLeave = e => {
-      if (stores.menuBarStore.menuPanelOpen) {
-          return;
-      }
-      stores.menuBarStore.setItemId(null);
-  };
+    onMouseLeave = e => {
+        if (stores.menuBarStore.menuPanelOpen) {
+            return;
+        }
+        stores.menuBarStore.setItemId(null);
+    };
 
-  onClick = e => {
-      e.stopPropagation();
+    onClick = e => {
+        e.stopPropagation();
 
-      stores.menuBarStore.switchMenuPanel();
+        stores.menuBarStore.switchMenuPanel();
 
-      if (stores.menuBarStore.menuPanelOpen) {
-          const top = e.currentTarget.offsetTop + e.currentTarget.clientHeight;
-          const left = e.currentTarget.offsetLeft;
-          stores.menuBarStore.setMenuPanelPosition(left, top);
-      }
-  };
+        if (stores.menuBarStore.menuPanelOpen) {
+            const top = e.currentTarget.offsetTop + e.currentTarget.clientHeight;
+            const left = e.currentTarget.offsetLeft;
+            stores.menuBarStore.setMenuPanelPosition(left, top);
+        }
+    };
 
-  onBlur = e => {
-      stores.menuBarStore.setMenuPanelOpen(false);
-      stores.menuBarStore.setItemId(null);
-  };
+    onBlur = e => {
+        stores.menuBarStore.setMenuPanelOpen(false);
+        stores.menuBarStore.setItemId(null);
+    };
 
-  renderButton(id, name) {
-      const mouseOnButton = stores.menuBarStore.itemId === id;
-      return (
-        <button
-            id={id}
-            onMouseEnter={this.onMouseEnter}
-              onMouseLeave={this.onMouseLeave}
-            onClick={this.onClick}
-              onBlur={this.onBlur}
-            style={{
-                  fontSize: '14px',
-                  border: 'none',
-                  background: mouseOnButton ? '#0050b3' : 'none',
-                  color: mouseOnButton ? '#ffffff' : '#000000',
-                  cursor: 'default',
-                  paddingLeft: '10px',
-                  paddingRight: '10px',
-              }}
-          >
-            { name }
-          </button>
-      );
-  }
+    renderButton(id, name) {
+        const mouseOnButton = stores.menuBarStore.itemId === id;
+        return (
+            <button
+                id={ id }
+                onMouseEnter={ this.onMouseEnter }
+                onMouseLeave={ this.onMouseLeave }
+                onClick={ this.onClick }
+                onBlur={ this.onBlur }
+                style={ {
+                    fontSize: '14px',
+                    border: 'none',
+                    background: mouseOnButton ? '#0050b3' : 'none',
+                    color: mouseOnButton ? '#ffffff' : '#000000',
+                    cursor: 'default',
+                    paddingLeft: '10px',
+                    paddingRight: '10px',
+                } }
+            >
+                { name }
+            </button>
+        );
+    }
 
-  renderMenuPanel() {
-      if (!stores.menuBarStore.menuPanelOpen) {
-          return null;
-      }
+    renderMenuPanel() {
+        if (!stores.menuBarStore.menuPanelOpen) {
+            return null;
+        }
 
-      return (
-        <Row style={{
-              position: 'absolute',
-              left: stores.menuBarStore.menuPanelLeft,
-              top: stores.menuBarStore.menuPanelTop,
-          }}
-          >
-            <MenuPanel/>
-          </Row>
-      );
-  }
+        return (
+            <Row
+                style={ {
+                    position: 'absolute',
+                    left: stores.menuBarStore.menuPanelLeft,
+                    top: stores.menuBarStore.menuPanelTop,
+                } }
+            >
+                <MenuPanel/>
+            </Row>
+        );
+    }
 
-  render() {
-      const { title } = this.props;
-      return (
-        <Row
-            className={style.container}
-            type="flex"
-            align="middle"
-          >
-            { this.renderButton('item1', '菜单项') }
-            { this.renderButton('item2', '菜单项') }
-            { this.renderButton('item3', '菜单项') }
-            { this.renderMenuPanel()}
-          </Row>
-      );
-  }
+    render() {
+        return (
+            <Row
+                { ...this.props }
+                className={ style.container }
+                type="flex"
+                align="middle"
+            >
+                { this.renderButton('item1', '菜单项') }
+                { this.renderButton('item2', '菜单项') }
+                { this.renderButton('item3', '菜单项') }
+                { this.renderMenuPanel() }
+            </Row>
+        );
+    }
 }

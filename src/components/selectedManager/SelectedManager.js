@@ -17,8 +17,11 @@ export default class SelectedManager extends Component {
 
     render() {
         return (
-          <Panel title="当前对象">
-              <div className={style.container}/>
+            <Panel
+                { ...this.props }
+                title="当前对象"
+            >
+                <div className={ style.container }/>
             </Panel>
         );
     }

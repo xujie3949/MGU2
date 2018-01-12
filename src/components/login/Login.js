@@ -64,6 +64,7 @@ export default class Login extends Component {
     render() {
         return (
             <Row
+                { ...this.props }
                 className={ style.container }
                 type="flex"
                 justify="center"

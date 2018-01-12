@@ -16,50 +16,51 @@ export default class EditorTitleBar extends Component {
         super(props);
     }
 
-  onCloseClick = e => {
-      stores.loginStore.logout();
-  };
+    onCloseClick = e => {
+        stores.loginStore.logout();
+    };
 
-  render() {
-      return (
-        <Row
-            className={style.container}
-            type="flex"
-              justify="space-between"
-            align="middle"
-          >
+    render() {
+        return (
             <Row
-                  type="flex"
+                { ...this.props }
+                className={ style.container }
+                type="flex"
+                justify="space-between"
                 align="middle"
-              >
-                <Icon type="global"/>
-                <div style={{ marginLeft: '5px' }}>MGU2</div>
-              </Row>
-            <Row
-            type="flex"
-            align="middle"
-          >
-            <Row
+            >
+                <Row
                     type="flex"
-                  >
-                    <Avatar
-                        style={{
-                              backgroundColor: '#87d068',
-                          }}
-                          size="small"
-                        icon="user"
-                      />
-                    <div style={{ marginLeft: '5px' }}>
-                        { stores.userStore.user.name }
-                      </div>
-                  </Row>
-            <Icon
-                    style={{ marginLeft: '100px' }}
-                    type="logout"
-                    onClick={this.onCloseClick}
-                  />
-          </Row>
-          </Row>
-      );
-  }
+                    align="middle"
+                >
+                    <Icon type="global"/>
+                    <div style={ { marginLeft: '5px' } }>MGU2</div>
+                </Row>
+                <Row
+                    type="flex"
+                    align="middle"
+                >
+                    <Row
+                        type="flex"
+                    >
+                        <Avatar
+                            style={ {
+                                backgroundColor: '#87d068',
+                            } }
+                            size="small"
+                            icon="user"
+                        />
+                        <div style={ { marginLeft: '5px' } }>
+                            { stores.userStore.user.name }
+                        </div>
+                    </Row>
+                    <Icon
+                        style={ { marginLeft: '100px' } }
+                        type="logout"
+                        onClick={ this.onCloseClick }
+                    />
+                </Row>
+            </Row>
+        );
+    }
 }
