@@ -331,6 +331,11 @@ export default class Map {
     _getTiles() {
         const map = this._leafletMap;
         const bounds = map.getPixelBounds();
+        const size = bounds.getSize();
+        if (size.x === 0 || size.y === 0) {
+            // 当地图宽度或者高度为零时,返回空数组
+            return [];
+        }
         const zoom = map.getZoom();
         const tileSize = this.options.tileSize;
 
