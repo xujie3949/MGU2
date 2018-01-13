@@ -15,7 +15,7 @@ class Service {
     createAxiosInstance() {
         const axiosInstance = axios.create(
             {
-                baseURL: 'http://192.168.4.129/service/mapspotter',
+                baseURL: 'http://192.168.3.61:8088/',
                 timeout: 10000,
             },
         );
@@ -97,6 +97,15 @@ class Service {
         // const response = await this.axiosInstance.get('user/login', { params: params });
         // return response.data;
         return mockData.loginSuccess;
+    }
+
+    async getTrajectoryList(southWest, northEast) {
+        const params = new URLSearchParams();
+        params.append('latlon_1', `${southWest.lat}_${southWest.lng}`);
+        params.append('latlon_2', `${northEast.lat}_${northEast.lng}`);
+        // const response = await this.axiosInstance.get('photos/getSummaryByGeometry', { params: params });
+        // return response.data;
+        return mockData.trajectoryListSuccess;
     }
 }
 
