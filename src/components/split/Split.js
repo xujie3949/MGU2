@@ -4,7 +4,6 @@ import SplitJS from 'split.js';
 
 import stores from 'Stores/stores';
 import navinfo from 'Navinfo';
-import style from './styles/style.styl';
 
 export default class Split extends PureComponent {
     static propTypes = {
