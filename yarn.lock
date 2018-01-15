@@ -2926,6 +2926,10 @@ eventemitter3@1.x.x:
   version "1.2.0"
   resolved "http://registry.npm.taobao.org/eventemitter3/download/eventemitter3-1.2.0.tgz#1c86991d816ad1e504750e73874224ecf3bec508"
 
+eventemitter3@^3.0.0:
+  version "3.0.0"
+  resolved "http://registry.npm.taobao.org/eventemitter3/download/eventemitter3-3.0.0.tgz#fc29ecf233bd19fbd527bb4089bbf665dc90c1e3"
+
 eventlistener@0.0.1:
   version "0.0.1"
   resolved "http://registry.npm.taobao.org/eventlistener/download/eventlistener-0.0.1.tgz#ed2baabb852227af2bcf889152c72c63ca532eb8"
@@ -8187,10 +8191,6 @@ window-size@0.1.0:
 wkt-parser@^1.2.0:
   version "1.2.1"
   resolved "http://registry.npm.taobao.org/wkt-parser/download/wkt-parser-1.2.1.tgz#3339689dbc549c103fc5c7447543534785ff8d4d"
-
-wolfy87-eventemitter@^5.2.4:
-  version "5.2.4"
-  resolved "http://registry.npm.taobao.org/wolfy87-eventemitter/download/wolfy87-eventemitter-5.2.4.tgz#5021d2952d3611cbcd195149711d9b595cd11d48"
 
 wordwrap@0.0.2:
   version "0.0.2"

@@ -1,4 +1,5 @@
-import EventEmitter from 'wolfy87-eventemitter';
+// import EventEmitter from 'wolfy87-eventemitter';
+import EventEmitter from 'eventemitter3';
 
 /**
  * 该类对事件进行统一管理
@@ -20,18 +21,20 @@ class EventController {
      * 添加事件
      * @param {string} name - 事件名称
      * @param {object} listener - 响应事件的函数
+     * @param {object} context - 事件上下文
      */
-    on(name, listener) {
-        this.eventEmitter.on(name, listener);
+    on(name, listener, context) {
+        this.eventEmitter.on(name, listener, context);
     }
 
     /**
      * 添加事件
      * @param {string} name - 事件名称
      * @param {object} listener - 响应事件的函数
+     * @param {object} context - 事件上下文
      */
-    once(name, listener) {
-        this.eventEmitter.once(name, listener);
+    once(name, listener, context) {
+        this.eventEmitter.once(name, listener, context);
     }
 
     /**
@@ -53,7 +56,7 @@ class EventController {
      * @param {object} arg - 事件参数,可选
      */
     fire(name, arg) {
-        this.eventEmitter.trigger(name, arg);
+        this.eventEmitter.emit(name, arg);
     }
 
     /**
