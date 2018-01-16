@@ -1,3 +1,5 @@
+import triangleImage from 'Images/map/triangle.png';
+
 /**
  * Created by xujie on 2016/5/11 0011.
  */
@@ -764,6 +766,10 @@ const symbols = [
         name: 'pointAddress_textInfo',
         type: 'TextMarkerSymbol',
         offsetY: 15,
+    }, {
+        name: 'trajectory_currentPoint',
+        type: 'ImageMarkerSymbol',
+        url: triangleImage,
     },
 ];
 
