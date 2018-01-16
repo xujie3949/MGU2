@@ -129,7 +129,7 @@ class ToolController {
         this.addTool(new DistanceTool());
         this.addTool(new AngleTool());
         this.addTool(new AreaTool());
-        this.addTool(new LatlngTool());
+        this.addBackTool(new LatlngTool());
     }
 
     /**
