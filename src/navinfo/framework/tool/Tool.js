@@ -1,5 +1,3 @@
-// import ToolController from './ToolController';
-
 /**
  * Created by xujie3949 on 2016/12/8.
  */
@@ -12,6 +10,11 @@ class Tool {
         this.onFinish = null;
         this.options = null;
         this.cursor = null;
+        this.toolController = null;
+    }
+
+    setToolController(toolController) {
+        this.toolController = toolController;
     }
 
     onActive(map, onFinish, options) {
@@ -40,26 +43,23 @@ class Tool {
         return true;
     }
 
-    // deny() {
-    //     const toolController = ToolController.getInstance();
-    //     toolController.pause();
-    //     this.cursor = this.map.getContainer().style.cursor;
-    //     this.map.getContainer().style.cursor = 'not-allowed';
-    // }
-    //
-    // pause() {
-    //     const toolController = ToolController.getInstance();
-    //     toolController.pause();
-    //     this.cursor = this.map.getContainer().style.cursor;
-    //     this.map.getContainer().style.cursor = 'wait';
-    // }
-    //
-    // continue() {
-    //     const toolController = ToolController.getInstance();
-    //     toolController.continue();
-    //     this.map.getContainer().style.cursor = this.cursor;
-    //     this.cursor = null;
-    // }
+    deny() {
+        this.toolController.pause();
+        this.cursor = this.map.getContainer().style.cursor;
+        this.map.getContainer().style.cursor = 'not-allowed';
+    }
+
+    pause() {
+        this.toolController.pause();
+        this.cursor = this.map.getContainer().style.cursor;
+        this.map.getContainer().style.cursor = 'wait';
+    }
+
+    continue() {
+        this.toolController.continue();
+        this.map.getContainer().style.cursor = this.cursor;
+        this.cursor = null;
+    }
 
     onLeftButtonDown(event) {
         this.checkIsActive();

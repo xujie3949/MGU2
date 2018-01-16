@@ -4,7 +4,6 @@ import GeometryAlgorithm from '../../geometry/GeometryAlgorithm';
 import Util from '../../common/Util';
 import Logger from '../../common/Logger';
 import PanTool from './PanTool';
-import MapTool from './MapTool';
 import PointSelectTool from './selectTools/PointSelectTool';
 import PolygonSelectTool from './selectTools/PolygonSelectTool';
 import RectSelectTool from './selectTools/RectSelectTool';
@@ -130,6 +129,7 @@ class ToolController {
         this.addTool(new DistanceTool());
         this.addTool(new AngleTool());
         this.addTool(new AreaTool());
+        this.addTool(new LatlngTool());
     }
 
     /**
@@ -161,6 +161,7 @@ class ToolController {
             return;
         }
 
+        tool.setToolController(this);
         this.tools[tool.name] = tool;
     }
 
@@ -182,6 +183,9 @@ class ToolController {
             this.currentTool = null;
         }
 
+        const tool = this.tools[toolName];
+        tool.setToolController(null);
+
         delete this.tools[toolName];
     }
 
@@ -198,6 +202,7 @@ class ToolController {
             return;
         }
 
+        tool.setToolController(this);
         tool.onActive(this.map, null, null);
         this.backTools[tool.name] = tool;
     }
@@ -217,6 +222,7 @@ class ToolController {
 
         const tool = this.backTools[toolName];
         tool.onDeactive();
+        tool.setToolController(null);
 
         delete this.backTools[toolName];
     }

@@ -6,7 +6,6 @@ import Util from '../../common/Util';
 /**
  * Created by xujie3949 on 2016/12/8.
  */
-
 class MapTool extends Tool {
     constructor() {
         super();
