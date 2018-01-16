@@ -12,6 +12,7 @@ import PolygonTool from './shapeEdit/tools/PolygonTool';
 import PolygonSmoothTool from './shapeEdit/tools/PolygonSmoothTool';
 import PolygonVertexAddTool from './shapeEdit/tools/PolygonVertexAddTool';
 import PolygonVertexInsertTool from './shapeEdit/tools/PolygonVertexInsertTool';
+import PolygonVertexMoveTool from './shapeEdit/tools/PolygonVertexMoveTool';
 import PolygonVertexRemoveTool from './shapeEdit/tools/PolygonVertexRemoveTool';
 import ShapeEditResult from './shapeEdit/results/ShapeEditResult';
 import PathResult from './shapeEdit/results/PathResult';
@@ -36,6 +37,7 @@ export default {
     PolygonSmoothTool,
     PolygonVertexAddTool,
     PolygonVertexInsertTool,
+    PolygonVertexMoveTool,
     PolygonVertexRemoveTool,
     ShapeEditResult,
     PathResult,
