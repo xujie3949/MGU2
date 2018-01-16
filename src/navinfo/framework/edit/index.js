@@ -1,6 +1,7 @@
 import Editor from './Editor';
 import EditResult from './EditResult';
 import ShapeEditor from './shapeEdit/ShapeEditor';
+import ShapeTool from './shapeEdit/tools/ShapeTool';
 import PathTool from './shapeEdit/tools/PathTool';
 import PathSmoothTool from './shapeEdit/tools/PathSmoothTool';
 import PathVertexAddTool from './shapeEdit/tools/PathVertexAddTool';
@@ -24,6 +25,7 @@ export default {
     Editor,
     EditResult,
     ShapeEditor,
+    ShapeTool,
     PathTool,
     PathSmoothTool,
     PathVertexAddTool,
