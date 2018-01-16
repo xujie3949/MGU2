@@ -15,8 +15,8 @@ class Service {
     createAxiosInstance() {
         const axiosInstance = axios.create(
             {
-                baseURL: 'http://192.168.3.61:8088/',
-                timeout: 10000,
+                baseURL: 'http://192.168.4.129:8077/',
+                timeout: 100000,
             },
         );
 
@@ -99,13 +99,24 @@ class Service {
         return mockData.loginSuccess;
     }
 
-    async getTrajectoryList(southWest, northEast) {
+    async getTrajectoryList(northWest, southEast) {
         const params = new URLSearchParams();
-        params.append('latlon_1', `${southWest.lat}_${southWest.lng}`);
-        params.append('latlon_2', `${northEast.lat}_${northEast.lng}`);
+        params.append('latlon_1', `${northWest.lat}_${northWest.lng}`);
+        params.append('latlon_2', `${southEast.lat}_${southEast.lng}`);
         // const response = await this.axiosInstance.get('photos/getSummaryByGeometry', { params: params });
         // return response.data;
         return mockData.trajectoryListSuccess;
+    }
+
+    async getTrajectoryDetail(trajectory) {
+        const params = new URLSearchParams();
+        params.append('worker', trajectory.collectUser);
+        params.append('platform', trajectory.plateform);
+        params.append('date', trajectory.utcdate);
+        params.append('limit', -1);
+        const response = await this.axiosInstance.get('tracks/queryTracks', { params: params });
+        return response.data;
+        // return mockData.trajectoryListSuccess;
     }
 }
 
