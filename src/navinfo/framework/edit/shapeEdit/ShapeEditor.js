@@ -3,16 +3,6 @@ import ToolController from '../../tool/ToolController';
 import OperationController from '../../operation/OperationController';
 import SnapController from '../../../mapApi/snap/SnapController';
 import EventController from '../../../common/EventController';
-import PathSmoothTool from './tools/PathSmoothTool';
-import PathVertexAddTool from './tools/PathVertexAddTool';
-import PathVertexInsertTool from './tools/PathVertexInsertTool';
-import PathVertexMoveTool from './tools/PathVertexMoveTool';
-import PathVertexRemoveTool from './tools/PathVertexRemoveTool';
-import PolygonSmoothTool from './tools/PolygonSmoothTool';
-import PolygonVertexAddTool from './tools/PolygonVertexAddTool';
-import PolygonVertexInsertTool from './tools/PolygonVertexInsertTool';
-import PolygonVertexMoveTool from './tools/PolygonVertexMoveTool';
-import PolygonVertexRemoveTool from './tools/PolygonVertexRemoveTool';
 import Util from '../../../common/Util';
 import EditResultOperation from '../../operation/EditResultOperation';
 
@@ -31,24 +21,9 @@ class ShapeEditor extends Editor {
         this.editResult = null;
         this.originEditResult = null;
 
-        this.loadTools();
-
         this.eventController.on('ShapeEditToolChanged', this.onShapeToolChanged);
         this.eventController.on('ShapeEditSnapActorChanged', this.onSnapActorChanged);
         this.eventController.once('DestroySingleton', () => this.destroy());
-    }
-
-    loadTools() {
-        this.toolController.addTool(new PathSmoothTool());
-        this.toolController.addTool(new PathVertexAddTool());
-        this.toolController.addTool(new PathVertexInsertTool());
-        this.toolController.addTool(new PathVertexMoveTool());
-        this.toolController.addTool(new PathVertexRemoveTool());
-        this.toolController.addTool(new PolygonSmoothTool());
-        this.toolController.addTool(new PolygonVertexAddTool());
-        this.toolController.addTool(new PolygonVertexInsertTool());
-        this.toolController.addTool(new PolygonVertexMoveTool());
-        this.toolController.addTool(new PolygonVertexRemoveTool());
     }
 
     start(editResult, onFinish) {
