@@ -52,7 +52,8 @@ class MapStore {
         const options = {
             tileSize: 256,
             container: container,
-            center: [39.9875113076756, 116.44224643707275],
+            // center: [39.9875113076756, 116.44224643707275],
+            center: [24.486069, 118.095716],
             zoom: 15,
         };
         const map = new navinfo.mapApi.Map(options);

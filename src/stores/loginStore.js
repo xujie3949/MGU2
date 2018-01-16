@@ -83,7 +83,7 @@ class LoginStore {
           const start = Date.now();
 
           const data = await service.login(this.username, this.password);
-          const mapData = await service.loginMap('hanxuesong01664', '016640');
+          const mapData = await service.loginMap('yanshouzhengmiao04057', 'fm04057031314');
 
           const diff = Date.now() - start;
 
