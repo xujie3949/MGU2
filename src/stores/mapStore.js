@@ -14,6 +14,7 @@ import mapConfig from 'Business/config/mapConfig';
 import registerFeatures from 'Business/feature/registerFeatures';
 import registerRenders from 'Business/render/registerRenders';
 import registerCommands from 'Business/command/registerCommands';
+import registerTools from 'Business/tool/registerTools';
 import registerEditControls from 'Business/editControl/registerEditControls';
 
 class MapStore {
@@ -65,6 +66,8 @@ class MapStore {
         registerRenders();
 
         registerCommands();
+
+        registerTools();
 
         registerEditControls();
 
