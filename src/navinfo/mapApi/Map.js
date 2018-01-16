@@ -115,6 +115,37 @@ export default class Map {
         this._leafletMap.on('moveend', this._onMapMoveEnd, this);
         this._leafletMap.on('resize', this._resizeLayers, this);
 
+        const events = [
+            'baselayerchange',
+            'overlayadd',
+            'overlayremove',
+            'layeradd',
+            'layerremove',
+            'zoomlevelschange',
+            'resize',
+            'viewreset',
+            'load',
+            'zoomstart',
+            'movestart',
+            'zoom',
+            'move',
+            'zoomend',
+            'moveend',
+            'click',
+            'dblclick',
+            'mousedown',
+            'mouseup',
+            'mouseover',
+            'mouseout',
+            'mousemove',
+            'contextmenu',
+            'keypress',
+            'preclick',
+        ];
+        events.forEach(item => {
+            this._leafletMap.on(item, this._dispatchEvent, this);
+        });
+
         // 屏蔽掉默认的右键菜单
         this._leafletMap.getContainer()
             .addEventListener('contextmenu', event => event.preventDefault());
@@ -171,6 +202,10 @@ export default class Map {
      */
     resize() {
         this._leafletMap.invalidateSize();
+    }
+
+    _dispatchEvent(event) {
+        this._eventController.fire(event.type, event);
     }
 
     _resizeLayers() {
