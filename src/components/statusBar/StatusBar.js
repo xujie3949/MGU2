@@ -7,6 +7,7 @@ import {
     Input,
 } from 'antd';
 
+import navinfo from 'Navinfo';
 import stores from 'Stores/stores';
 import style from './styles/style.styl';
 
@@ -17,6 +18,28 @@ export default class StatusBar extends Component {
     constructor(props) {
         super(props);
     }
+
+    componentDidMount() {
+        stores.statusBarStore.setZoom(stores.mapStore.map.getZoom());
+
+        const eventController = navinfo.common.EventController.getInstance();
+        eventController.on('ChangeCoordnites', this.onChangeCoordnites);
+        eventController.on('zoomend', this.onZoomChanged);
+    }
+
+    componentWillUnmount() {
+        const eventController = navinfo.common.EventController.getInstance();
+        eventController.off('ChangeCoordnites', this.onChangeCoordnites);
+        eventController.off('zoomend', this.onZoomChanged);
+    }
+
+    onChangeCoordnites = point => {
+        stores.statusBarStore.setMousePoint(point);
+    };
+
+    onZoomChanged = event => {
+        stores.statusBarStore.setZoom(stores.mapStore.map.getZoom());
+    };
 
     render() {
         return (
@@ -33,9 +56,9 @@ export default class StatusBar extends Component {
                     justify="space-between"
                     align="middle"
                 >
-                    <span>当前工具: 选择</span>
-                    <span>鼠标位置: 116.3214, 34.3432</span>
-                    <span>地图等级: 15</span>
+                    <span>当前工具: { stores.statusBarStore.toolName }</span>
+                    <span>鼠标位置: { stores.statusBarStore.coordinates }</span>
+                    <span>地图等级: { stores.statusBarStore.zoom }</span>
                 </Row>
             </Footer>
         );
