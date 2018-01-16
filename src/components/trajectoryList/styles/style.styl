@@ -4,3 +4,29 @@
   padding: 0;
   margin: 0;
 }
+
+.container :global(.ant-table) {
+  font-size: 12px;
+  border: none;
+  border-radius: none;
+}
+
+.container :global(.ant-table-small > .ant-table-content > .ant-table-header > table, .ant-table-small > .ant-table-content > .ant-table-body > table) {
+  margin: 0;
+}
+
+.container :global(.ant-pagination.mini .ant-pagination-prev .ant-pagination-item-link:after,
+.ant-pagination.mini .ant-pagination-next .ant-pagination-item-link:after) {
+  height: 18px;
+  line-height: 18px;
+}
+
+.container :global(.ant-pagination.mini .ant-pagination-item) {
+  min-width: 18px;
+  height: 18px;
+  line-height: 18px;
+}
+
+.container :global(.ant-pagination) {
+  font-size: 12px;
+}
