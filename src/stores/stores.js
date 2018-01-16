@@ -9,6 +9,9 @@ import rightPanelStore from 'Stores/rightPanelStore';
 import mapStore from 'Stores/mapStore';
 import editorStore from 'Stores/editorStore';
 import trajectoryListStore from 'Stores/trajectoryListStore';
+import imageViewerStore from 'Stores/imageViewerStore';
+import statusBarStore from 'Stores/statusBarStore';
+import modalStore from 'Stores/modalStore';
 
 const stores = {
     appStore: appStore,
@@ -22,6 +25,9 @@ const stores = {
     mapStore: mapStore,
     editorStore: editorStore,
     trajectoryListStore: trajectoryListStore,
+    imageViewerStore: imageViewerStore,
+    statusBarStore: statusBarStore,
+    modalStore: modalStore,
 };
 
 export default stores;
