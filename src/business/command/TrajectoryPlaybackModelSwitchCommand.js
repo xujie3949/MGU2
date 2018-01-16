@@ -1,6 +1,7 @@
 import React from 'react';
 import navinfo from 'Navinfo';
 import stores from 'Stores/stores';
+import ImageViewer from 'Components/imageViewer/ImageViewer';
 import Map from 'Components/map/Map';
 import TrajectoryList from 'Components/trajectoryList/TrajectoryList';
 
@@ -18,35 +19,57 @@ class TrajectoryPlaybackModelSwitchCommand extends navinfo.framework.command.Com
     execute() {
         if (this.isTrajectoryPlaybackModel) {
             this.updateEditorMainToNormal();
+            stores.trajectoryListStore.clearFeedback();
+            this.stopEditControl();
         } else {
             this.updateEditorMainToTrajectory();
         }
+
+        this.clearHighlight();
+
+        this.isTrajectoryPlaybackModel = !this.isTrajectoryPlaybackModel;
+    }
+
+    stopEditControl() {
+        const editFactory = navinfo.framework.editControl.EditControlFactory.getInstance();
+        editFactory.currentControl.abort();
+    }
+
+    clearHighlight() {
+        const highlightController = navinfo.framework.highlight.HighlightController.getInstance();
+        highlightController.clear();
     }
 
     updateEditorMainToNormal() {
+        stores.leftPanelStore.close();
+        stores.rightPanelStore.close();
+
         const main = {
             children: <Map/>,
         };
 
         stores.editorStore.setMain(main);
 
-        stores.editorStore.setLeft(null);
-
-        stores.leftPanelStore.close();
-        stores.rightPanelStore.close();
+        const left = {
+            children: null,
+        };
+        stores.editorStore.setLeft(left);
     }
 
     updateEditorMainToTrajectory() {
         const main = {
             children: [
-                <div id="photo" key="photo"/>,
+                <ImageViewer id="photo" key="photo"/>,
                 <Map id="map" key="map"/>,
             ],
-            split: {
-                children: ['#photo', '#map'],
-                config: {
-                    sizes: [50, 50],
+            config: {
+                sizes: [50, 50],
+                onDragEnd: () => {
+                    stores.mapStore.map.resize();
                 },
+            },
+            onCreated: () => {
+                stores.mapStore.map.resize();
             },
         };
 

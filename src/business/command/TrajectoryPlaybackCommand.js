@@ -1,14 +1,14 @@
 import navinfo from 'Navinfo';
 import stores from 'Stores/stores';
 
-class Command extends navinfo.framework.command.Command {
+class TrajectoryPlaybackCommand extends navinfo.framework.command.Command {
     constructor() {
         super();
 
         this.key = 'TrajectoryPlayback';
         this.name = '轨迹回放';
         this.desc = '轨迹回放';
-        this.icon = 'compass';
+        this.icon = '';
     }
 
     execute() {
@@ -32,4 +32,4 @@ class Command extends navinfo.framework.command.Command {
     }
 }
 
-export default Command;
+export default TrajectoryPlaybackCommand;
