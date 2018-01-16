@@ -73,13 +73,12 @@ class ToolController {
 
     bindEvent() {
         // 给工具绑定事件
-        this.map.on('mousedown', this.onMouseDown);
-        this.map.on('mousemove', this.onMouseMove);
-        this.map.on('mouseup', this.onMouseUp);
+        this.eventController.on('mousedown', this.onMouseDown);
+        this.eventController.on('mousemove', this.onMouseMove);
+        this.eventController.on('mouseup', this.onMouseUp);
 
         // 将键盘事件绑定到body上，并根据event.target决定是否触发工具响应
         document.body.addEventListener('keydown', this._onKeyDown);
-
         document.body.addEventListener('keyup', this._onKeyUp);
 
         this.map.getContainer().addEventListener('wheel', this.onWheel);
@@ -87,12 +86,11 @@ class ToolController {
 
     unBindEvent() {
         // 给工具解绑事件
-        this.map.off('mousedown', this.onMouseDown);
-        this.map.off('mousemove', this.onMouseMove);
-        this.map.off('mouseup', this.onMouseUp);
+        this.eventController.off('mousedown', this.onMouseDown);
+        this.eventController.off('mousemove', this.onMouseMove);
+        this.eventController.off('mouseup', this.onMouseUp);
 
         document.body.removeEventListener('keydown', this._onKeyDown);
-
         document.body.removeEventListener('keyup', this._onKeyUp);
 
         this.map.getContainer().removeEventListener('wheel', this.onWheel);
