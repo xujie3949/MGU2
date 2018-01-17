@@ -1,7 +1,8 @@
 import FeedbackController from '../feedback/FeedbackController';
+import SceneController from '../scene/SceneController';
 import GeometryAlgorithm from '../../geometry/GeometryAlgorithm';
 import GeometryFactory from '../../geometry/GeometryFactory';
-import GeometryTransform from '../../geometry/GeometryTransform';
+import GeojsonTransform from '../GeojsonTransform';
 import SymbolFactory from '../../symbol/SymbolFactory';
 import EventController from '../../common/EventController';
 
@@ -19,13 +20,13 @@ export default class SnapController {
         this.feedbackController = FeedbackController.getInstance();
         this.symbolFactory = SymbolFactory.getInstance();
         this.geometryFactory = GeometryFactory.getInstance();
-        this.geometryTransform = GeometryTransform.getInstance();
+        this.geojsonTransform = GeojsonTransform.getInstance();
         this.geometryAlgorithm = GeometryAlgorithm.getInstance();
         /**
          * FM地图对象，默认值为null
          * @type {Object|null}
          */
-        this.map = null;
+        this.map = SceneController.getInstance().getMap().getLeafletMap();
         /**
          * FM地图对象，默认值为null
          * @type {Object|null}
@@ -54,15 +55,6 @@ export default class SnapController {
 
         this._eventController = EventController.getInstance();
         this._eventController.once('DestroySingleton', () => this.destroy());
-    }
-
-    /**
-     * 设置FM地图对象.
-     * @param {Object} map - fastMap地图对象.
-     * @return {undefined}
-     */
-    setMap(map) {
-        this.map = map;
     }
 
     /**
