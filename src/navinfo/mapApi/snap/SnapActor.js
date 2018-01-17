@@ -5,7 +5,7 @@ import SourceController from '../source/SourceController';
 import FeedbackController from '../feedback/FeedbackController';
 import Feedback from '../feedback/Feedback';
 import SceneController from '../scene/SceneController';
-import GeometryTransform from '../../geometry/GeometryTransform';
+import GeojsonTransform from '../GeojsonTransform';
 import FeatureSelector from '../FeatureSelector';
 
 /**
@@ -32,7 +32,7 @@ export default class SnapActor {
         this.geometryAlgorithm = GeometryAlgorithm.getInstance();
         this.sourceController = SourceController.getInstance();
         this.sceneController = SceneController.getInstance();
-        this.geometryTransform = GeometryTransform.getInstance();
+        this.geojsonTransform = GeojsonTransform.getInstance();
         this.featureSelector = FeatureSelector.getInstance();
         this.feedbackController = FeedbackController.getInstance();
         this.feedback = new Feedback();
@@ -151,9 +151,9 @@ export default class SnapActor {
      */
     distance(geometry1, geometry2) {
         const self = this;
-        this.geometryTransform.setEnviroment(this.map, null, this.latlngToMercator);
-        const pGeometry1 = this.geometryTransform.convertGeometry(geometry1);
-        const pGeometry2 = this.geometryTransform.convertGeometry(geometry2);
+        this.geojsonTransform.setEnviroment(this.map, null, this.latlngToMercator);
+        const pGeometry1 = this.geojsonTransform.convertGeometry(geometry1);
+        const pGeometry2 = this.geojsonTransform.convertGeometry(geometry2);
         return this.geometryAlgorithm.distance(pGeometry1, pGeometry2);
     }
 
@@ -165,13 +165,13 @@ export default class SnapActor {
      */
     nearestPoints(geometry1, geometry2) {
         const self = this;
-        this.geometryTransform.setEnviroment(this.map, null, this.latlngToMercator);
-        const pGeometry1 = this.geometryTransform.convertGeometry(geometry1);
-        const pGeometry2 = this.geometryTransform.convertGeometry(geometry2);
+        this.geojsonTransform.setEnviroment(this.map, null, this.latlngToMercator);
+        const pGeometry1 = this.geojsonTransform.convertGeometry(geometry1);
+        const pGeometry2 = this.geojsonTransform.convertGeometry(geometry2);
         const res = this.geometryAlgorithm.nearestPoints(pGeometry1, pGeometry2);
-        this.geometryTransform.setEnviroment(this.map, null, this.mercatorToLatlng);
-        res.point1 = this.geometryTransform.convertGeometry(res.point1);
-        res.point2 = this.geometryTransform.convertGeometry(res.point2);
+        this.geojsonTransform.setEnviroment(this.map, null, this.mercatorToLatlng);
+        res.point1 = this.geojsonTransform.convertGeometry(res.point1);
+        res.point2 = this.geojsonTransform.convertGeometry(res.point2);
         return res;
     }
 
@@ -183,14 +183,14 @@ export default class SnapActor {
      */
     nearestLocations(geometry1, geometry2) {
         const self = this;
-        this.geometryTransform.setEnviroment(this.map, null, this.latlngToMercator);
-        const pGeometry1 = this.geometryTransform.convertGeometry(geometry1);
-        const pGeometry2 = this.geometryTransform.convertGeometry(geometry2);
+        this.geojsonTransform.setEnviroment(this.map, null, this.latlngToMercator);
+        const pGeometry1 = this.geojsonTransform.convertGeometry(geometry1);
+        const pGeometry2 = this.geojsonTransform.convertGeometry(geometry2);
         const res = this.geometryAlgorithm.nearestLocations(pGeometry1, pGeometry2);
-        this.geometryTransform.setEnviroment(this.map, null, this.mercatorToLatlng);
-        res.point = this.geometryTransform.convertGeometry(res.point);
-        res.previousPoint = this.geometryTransform.convertGeometry(res.previousPoint);
-        res.nextPoint = this.geometryTransform.convertGeometry(res.nextPoint);
+        this.geojsonTransform.setEnviroment(this.map, null, this.mercatorToLatlng);
+        res.point = this.geojsonTransform.convertGeometry(res.point);
+        res.previousPoint = this.geojsonTransform.convertGeometry(res.previousPoint);
+        res.nextPoint = this.geojsonTransform.convertGeometry(res.nextPoint);
         return res;
     }
 
@@ -230,9 +230,9 @@ export default class SnapActor {
      */
     intersects(geometry1, geometry2) {
         const self = this;
-        this.geometryTransform.setEnviroment(this.map, null, this.latlngToMercator);
-        const pGeometry1 = this.geometryTransform.convertGeometry(geometry1);
-        const pGeometry2 = this.geometryTransform.convertGeometry(geometry2);
+        this.geojsonTransform.setEnviroment(this.map, null, this.latlngToMercator);
+        const pGeometry1 = this.geojsonTransform.convertGeometry(geometry1);
+        const pGeometry2 = this.geojsonTransform.convertGeometry(geometry2);
         return this.geometryAlgorithm.intersects(pGeometry1, pGeometry2);
     }
 }
