@@ -84,7 +84,7 @@ class Service {
             },
         ));
         const response = await this.axiosInstance.get(
-            'http://fs-road.navinfo.com/dev/trunk/service/man/userInfo/login',
+            'http://fastmap.navinfo.com/beta/service/man/userInfo/login',
             { params: params },
         );
         return response.data;
@@ -99,7 +99,7 @@ class Service {
         return mockData.loginSuccess;
     }
 
-    async getTrajectoryList(northWest, southEast) {
+    async getTrajectoryLineList(northWest, southEast) {
         const params = new URLSearchParams();
         params.append('latlon_1', `${northWest.lat}_${northWest.lng}`);
         params.append('latlon_2', `${southEast.lat}_${southEast.lng}`);
@@ -108,13 +108,22 @@ class Service {
         return mockData.trajectoryListSuccess;
     }
 
-    async getTrajectoryDetail(trajectory) {
+    async getTrajectoryLineDetail(trajectoryLine) {
         const params = new URLSearchParams();
-        params.append('worker', trajectory.collectUser);
-        params.append('platform', trajectory.plateform);
-        params.append('date', trajectory.utcdate);
+        params.append('worker', trajectoryLine.worker);
+        params.append('platform', trajectoryLine.platform);
+        params.append('date', trajectoryLine.date);
         params.append('limit', -1);
         const response = await this.axiosInstance.get('tracks/queryTracks', { params: params });
+        return response.data;
+        // return mockData.trajectoryListSuccess;
+    }
+
+    async getTrajectoryPointDetail(trajectoryPoint) {
+        const params = new URLSearchParams();
+        params.append('PointInfo', `${trajectoryPoint.rowKey}_${trajectoryPoint.latitude}_${trajectoryPoint.longitude}`);
+        params.append('seqNum', 0);
+        const response = await this.axiosInstance.get('photos/queryOnePhotosBypoint', { params: params });
         return response.data;
         // return mockData.trajectoryListSuccess;
     }
