@@ -5,6 +5,7 @@ import GeometryFactory from '../../geometry/GeometryFactory';
 import GeojsonTransform from '../GeojsonTransform';
 import SymbolFactory from '../../symbol/SymbolFactory';
 import EventController from '../../common/EventController';
+import MercatorTransform from '../../transform/MercatorTransform';
 
 /**
  * 捕捉控制器类，用于管理所有的捕捉行为.
@@ -28,6 +29,11 @@ export default class SnapController {
          */
         this.map = SceneController.getInstance().getMap().getLeafletMap();
         /**
+         * 墨卡托转换
+         * @type {Object|null}
+         */
+        this.mercator = new MercatorTransform();
+        /**
          * FM地图对象，默认值为null
          * @type {Object|null}
          */
@@ -42,11 +48,6 @@ export default class SnapController {
          * @type {Boolean} isRunning
          */
         this.isRunning = false;
-        /**
-         * 是否绘制捕捉十字的标志属性
-         * @type {Boolean} drawSnapCross
-         */
-        this.drawSnapCross = true;
         /**
          * 捕捉点的容差范围
          * @type {Number} tolerance
@@ -164,6 +165,10 @@ export default class SnapController {
 
         for (let i = 0; i < this.snapActors.length; ++i) {
             const snapActor = this.snapActors[i];
+
+            // 这里调用每个捕捉器的绘制方法,让捕捉器自己决定是否绘制
+            this.drawSnapActor(snapActor);
+
             // add by chenx on 2017-8-9
             // 请参考SnapActor中的priority的注释
             if (this.activeSnapActor && snapActor.priority < 0) {
@@ -182,8 +187,6 @@ export default class SnapController {
             }
         }
 
-        this.draw();
-
         return snapResult;
     }
 
@@ -196,30 +199,29 @@ export default class SnapController {
     getBox(point, tolerance) {
         const x = point.coordinates[0];
         const y = point.coordinates[1];
-        const pixelPoint = this.map.project([y, x]);
-        const left = pixelPoint.x - tolerance;
-        const right = pixelPoint.x + tolerance;
-        const top = pixelPoint.y - tolerance;
-        const bottom = pixelPoint.y + tolerance;
+        const zoom = this.map.getZoom();
+        const pixelPoint = this.mercator.geographic2Pixel(x, y, zoom);
+        const left = pixelPoint[0] - tolerance;
+        const right = pixelPoint[0] + tolerance;
+        const top = pixelPoint[1] - tolerance;
+        const bottom = pixelPoint[1] + tolerance;
+
+        const coordinates = [];
+        const leftTop = this.mercator.pixel2Geographic(left, top, zoom);
+        const rightTop = this.mercator.pixel2Geographic(right, top, zoom);
+        const rightBottom = this.mercator.pixel2Geographic(right, bottom, zoom);
+        const leftBottom = this.mercator.pixel2Geographic(left, bottom, zoom);
+
+        coordinates.push(leftTop);
+        coordinates.push(rightTop);
+        coordinates.push(rightBottom);
+        coordinates.push(leftBottom);
+        coordinates.push(leftTop);
 
         const geojson = {
             type: 'Polygon',
-            coordinates: [],
+            coordinates: [coordinates],
         };
-
-        const coordinates = [];
-        const leftTop = this.map.unproject([left, top]);
-        const rightTop = this.map.unproject([right, top]);
-        const rightBottom = this.map.unproject([right, bottom]);
-        const leftBottom = this.map.unproject([left, bottom]);
-
-        coordinates.push([leftTop.lng, leftTop.lat]);
-        coordinates.push([rightTop.lng, rightTop.lat]);
-        coordinates.push([rightBottom.lng, rightBottom.lat]);
-        coordinates.push([leftBottom.lng, leftBottom.lat]);
-        coordinates.push([leftTop.lng, leftTop.lat]);
-
-        geojson.coordinates = [coordinates];
 
         return geojson;
     }
@@ -233,42 +235,15 @@ export default class SnapController {
     }
 
     /**
-     * 设置当前捕捉样式是否十字形.
-     * @param {Boolean} value - 布尔值
+     * 调用捕捉器绘制方法绘制捕捉反馈
      * @return {undefined}
      */
-    setDrawSnapCross(value) {
-        this.drawSnapCross = value;
-    }
-
-    /**
-     * 获取当前捕捉样式是否十字形.
-     * @param {Boolean} value - 布尔值
-     * @return {Boolean} drawSnapCross.
-     */
-    getDrawSnapCross(value) {
-        return this.drawSnapCross;
-    }
-
-    /**
-     * 对于当前捕捉到要素绘制捕捉十字光标
-     * 绘制的位置是捕捉到距离捕捉要素最近的点.
-     * @return {undefined}
-     */
-    draw() {
+    drawSnapActor(snapActor) {
         if (!this.isRunning) {
             return;
         }
 
-        if (!this.drawSnapCross) {
-            return;
-        }
-
-        if (!this.activeSnapActor) {
-            return;
-        }
-
-        this.activeSnapActor.draw();
+        snapActor.draw();
     }
 
     /**
