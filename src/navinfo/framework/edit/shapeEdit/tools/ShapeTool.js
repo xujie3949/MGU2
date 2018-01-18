@@ -14,6 +14,7 @@ import OperationController from '../../../operation/OperationController';
 import GeometryAlgorithm from '../../../../geometry/GeometryAlgorithm';
 import GeometryFactory from '../../../../geometry/GeometryFactory';
 import SymbolFactory from '../../../../symbol/SymbolFactory';
+import EventController from '../../../../common/EventController';
 import Util from '../../../../common/Util';
 import ShapeEditor from '../ShapeEditor';
 
@@ -34,6 +35,7 @@ class ShapeTool extends MapTool {
         this.featureSelector = FeatureSelector.getInstance();
         this.geojsonTransform = GeojsonTransform.getInstance();
         this.shapeEditor = ShapeEditor.getInstance();
+        this.eventController = EventController.getInstance();
         this.defaultFeedback = null;
         this.centerInfoFeedback = null;
         this.mouseInfoFeedback = null;
