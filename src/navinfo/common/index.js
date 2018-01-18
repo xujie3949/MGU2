@@ -6,6 +6,7 @@ import Util from './Util';
 import ajax from './ajax';
 import BrowserStore from './BrowserStore';
 import Encryptor from './Encryptor';
+import HotKey from './HotKey';
 
 export default {
     EventController,
@@ -16,5 +17,6 @@ export default {
     ajax,
     BrowserStore,
     Encryptor,
+    HotKey,
 };
 
