@@ -10,7 +10,7 @@ class TrajectoryPlaybackTool extends navinfo.framework.edit.ShapeTool {
         super();
 
         this.name = 'TrajectoryPlaybackTool';
-        this.threshold = null;
+        this.snapPoint = null;
     }
 
     startup() {
@@ -18,7 +18,7 @@ class TrajectoryPlaybackTool extends navinfo.framework.edit.ShapeTool {
 
         super.startup();
 
-        this.threshold = 10;
+        this.snapPoint = null;
 
         this.refresh();
     }
@@ -32,11 +32,12 @@ class TrajectoryPlaybackTool extends navinfo.framework.edit.ShapeTool {
     resetStatus() {
         super.resetStatus();
 
-        this.threshold = null;
+        this.snapPoint = null;
     }
 
     refresh() {
         this.resetSnapActor();
+        this.resetFeedback();
         this.resetMouseInfo();
     }
 
@@ -57,7 +58,26 @@ class TrajectoryPlaybackTool extends navinfo.framework.edit.ShapeTool {
         });
 
         const snapActor = this.createGivenPointSnapActor(pairs);
+        snapActor.setIsDrawFeecback(false);
         this.installSnapActor(snapActor);
+    }
+
+    resetFeedback() {
+        if (!this.defaultFeedback) {
+            return;
+        }
+
+        this.defaultFeedback.clear();
+
+        if (!this.snapPoint) {
+            this.refreshFeedback();
+            return;
+        }
+
+        const symbol = this.symbolFactory.getSymbol('snap_pt_cross');
+        this.defaultFeedback.add(this.snapPoint, symbol);
+
+        this.refreshFeedback();
     }
 
     resetMouseInfo() {
@@ -69,7 +89,12 @@ class TrajectoryPlaybackTool extends navinfo.framework.edit.ShapeTool {
             return false;
         }
 
-        this.snapController.snap(this.mousePoint);
+        const res = this.snapController.snap(this.mousePoint);
+        if (res) {
+            this.snapPoint = res.point;
+        }
+
+        this.resetFeedback();
 
         return true;
     }
