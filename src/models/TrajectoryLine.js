@@ -57,29 +57,12 @@ class TrajectoryLine {
     }
 
     async fetchDetail() {
-        try {
-            stores.loadingStore.show();
+        const data = await service.getTrajectoryLineDetail(this);
 
-            const start = Date.now();
-
-            const data = await service.getTrajectoryLineDetail(this);
-
-            const diff = Date.now() - start;
-
-            if (diff < 500) {
-                await navinfo.common.Util.delay(500 - diff);
-            }
-
-            stores.loadingStore.close();
-
-            if (data.code === 0) {
-                this.setPoints(data.data.slice(10000, 10200));
-            } else {
-                stores.modalStore.error(data.message);
-            }
-        } catch (err) {
-            stores.loadingStore.close();
-            stores.modalStore.error(err.message);
+        if (data.code === 0) {
+            this.setPoints(data.data.slice(10000, 10200));
+        } else {
+            throw new Error(data.message);
         }
     }
 }
