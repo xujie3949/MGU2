@@ -19,7 +19,6 @@ class TrajectoryPlaybackModelSwitchCommand extends navinfo.framework.command.Com
     execute() {
         if (this.isTrajectoryPlaybackModel) {
             this.updateEditorMainToNormal();
-            stores.trajectoryListStore.clearFeedback();
             this.stopEditControl();
         } else {
             this.updateEditorMainToTrajectory();
@@ -32,6 +31,9 @@ class TrajectoryPlaybackModelSwitchCommand extends navinfo.framework.command.Com
 
     stopEditControl() {
         const editFactory = navinfo.framework.editControl.EditControlFactory.getInstance();
+        if (!editFactory.currentControl) {
+            return;
+        }
         editFactory.currentControl.abort();
     }
 
