@@ -11,6 +11,7 @@ class TrajectoryPlaybackTool extends navinfo.framework.edit.ShapeTool {
 
         this.name = 'TrajectoryPlaybackTool';
         this.snapPoint = null;
+        this.playing = false;
     }
 
     startup() {
@@ -19,6 +20,10 @@ class TrajectoryPlaybackTool extends navinfo.framework.edit.ShapeTool {
         super.startup();
 
         this.snapPoint = null;
+        this.playing = false;
+
+        this.eventController.on('TrajectoryPlay', this.onTrajectoryPlay, this);
+        this.eventController.on('TrajectoryPause', this.onTrajectoryPause, this);
 
         this.refresh();
     }
@@ -26,13 +31,29 @@ class TrajectoryPlaybackTool extends navinfo.framework.edit.ShapeTool {
     shutdown() {
         super.shutdown();
 
+        this.eventController.on('TrajectoryPlay', this.onTrajectoryPlay, this);
+        this.eventController.on('TrajectoryPause', this.onTrajectoryPause, this);
+
         this.resetStatus();
+    }
+
+    onTrajectoryPlay() {
+        this.snapPoint = null;
+        this.playing = true;
+        this.refresh();
+    }
+
+    onTrajectoryPause() {
+        this.snapPoint = null;
+        this.playing = false;
+        this.refresh();
     }
 
     resetStatus() {
         super.resetStatus();
 
         this.snapPoint = null;
+        this.playing = false;
     }
 
     refresh() {
@@ -43,6 +64,10 @@ class TrajectoryPlaybackTool extends navinfo.framework.edit.ShapeTool {
 
     resetSnapActor() {
         this.uninstallSnapActors();
+        if (this.playing) {
+            return;
+        }
+
         const points = stores.trajectoryListStore.selected.points;
         const pairs = [];
         points.forEach((item, index) => {
@@ -81,6 +106,12 @@ class TrajectoryPlaybackTool extends navinfo.framework.edit.ShapeTool {
     }
 
     resetMouseInfo() {
+        this.setMouseInfo('');
+
+        if (this.playing) {
+            return;
+        }
+
         this.setMouseInfo('请选择轨迹点');
     }
 
