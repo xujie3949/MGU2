@@ -26,23 +26,15 @@ export default class OperationCell extends Component {
     }
 
     onLoadClick = async e => {
-        stores.trajectoryListStore.setSelected(this.props.trajectoryLine);
-        await this.props.trajectoryLine.fetchDetail();
-        const firstPoint = stores.trajectoryListStore.selected.points[0];
-        const center = [
-            firstPoint.latitude,
-            firstPoint.longitude,
-        ];
-        stores.mapStore.map.flyTo(center);
-
-        await firstPoint.fetchDetail();
-
-        stores.imageViewerStore.setIndex(firstPoint.id);
-
-        await navinfo.common.Util.delay(200);
-
-        const eventController = navinfo.common.EventController.getInstance();
-        eventController.fire('SelectedTrajectoryLineChanged', null);
+        try {
+            stores.trajectoryListStore.setSelected(this.props.trajectoryLine);
+            await this.props.trajectoryLine.fetchDetail();
+            if (stores.imageViewerStore.total > 0) {
+                stores.imageViewerStore.setIndex(0);
+            }
+        } catch (err) {
+            stores.modalStore.error(err.message);
+        }
     }
 
     onPlayClick = async e => {
