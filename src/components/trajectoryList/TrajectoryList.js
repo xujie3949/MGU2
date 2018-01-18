@@ -7,9 +7,10 @@ import {
     Divider,
 } from 'antd';
 
+import navinfo from 'Navinfo';
 import stores from 'Stores/stores';
 import Panel from 'Components/panel/Panel';
-import navinfo from 'Navinfo';
+import OperationCell from './OperationCell';
 import style from './styles/style.styl';
 
 const { Column } = Table;
@@ -18,65 +19,151 @@ const { Column } = Table;
 export default class TrajectoryQuery extends Component {
     constructor(props) {
         super(props);
+        this.eventController = navinfo.common.EventController.getInstance();
+        this.feedbackController = navinfo.mapApi.feedback.FeedbackController.getInstance();
+        this.feedback = null;
     }
 
     componentWillMount() {
+        this.installFeedback();
+
+        this.eventController.on('SelectedTrajectoryLineChanged', this.onSelectedTrajectoryLineChanged);
+        this.eventController.on('SelectedTrajectoryPointChanged', this.onSelectedTrajectoryPointChanged);
+
         const bounds = stores.mapStore.map.getBounds();
-        stores.trajectoryListStore.fetchData(bounds.getNorthWest(), bounds.getSouthEast());
+        stores.trajectoryListStore.fetchTrajectoryLineList(bounds.getNorthWest(), bounds.getSouthEast());
     }
 
-    onLoadClick = async e => {
-        const index = parseInt(e.target.getAttribute('data-index'), 10);
-        stores.trajectoryListStore.setSelectedIndex(index);
-        await stores.trajectoryListStore.fetchSelectedTrajectoryPoints();
-        stores.trajectoryListStore.updateTrajectoryFeedback();
+    componentWillUnmount() {
+        this.eventController.off('SelectedTrajectoryLineChanged', this.onSelectedTrajectoryLineChanged);
+        this.eventController.off('SelectedTrajectoryPointChanged', this.onSelectedTrajectoryPointChanged);
+
+        this.uninstallFeedback();
     }
 
-    onPlayClick = async e => {
-        const index = parseInt(e.target.getAttribute('data-index'), 10);
-        const commandFactory = navinfo.framework.command.CommandFactory.getInstance();
-        const command = commandFactory.getCommand('TrajectoryPlayback');
-        if (command) {
-            command.execute();
+    onSelectedTrajectoryLineChanged = event => {
+        this.updateTrajectoryFeedback();
+    };
+
+    onSelectedTrajectoryPointChanged = event => {
+        this.jumpToTrajectoryPoint();
+
+        this.updateTrajectoryFeedback();
+    };
+
+    jumpToTrajectoryPoint() {
+        const bounds = stores.mapStore.map.getBounds();
+        const west = bounds.getWest();
+        const north = bounds.getNorth();
+        const east = bounds.getEast();
+        const sourth = bounds.getSouth();
+        const coordinates = [];
+        coordinates.push([west, north]);
+        coordinates.push([east, north]);
+        coordinates.push([east, sourth]);
+        coordinates.push([west, sourth]);
+        coordinates.push([west, north]);
+
+        const ring = {
+            type: 'Polygon',
+            coordinates: [coordinates],
+        };
+
+        const selectedLine = stores.trajectoryListStore.selected;
+        if (!selectedLine) {
+            return;
+        }
+
+        const point = selectedLine.points[stores.imageViewerStore.index];
+        if (!point) {
+            return;
+        }
+
+        const geojsonPoint = {
+            type: 'Point',
+            coordinates: [point.longitude, point.latitude],
+        };
+
+        const geometryAlgorithm = navinfo.geometry.GeometryAlgorithm.getInstance();
+        const zoom = stores.mapStore.map.getZoom();
+        if (!geometryAlgorithm.contains(ring, geojsonPoint)) {
+            stores.mapStore.map.flyTo([point.latitude, point.longitude], zoom);
         }
     }
 
-    onTrajectoryPointSelectedToolFinish(editResult) {
-        this.updateEditorMain();
+    installFeedback() {
+        this.feedback = new navinfo.mapApi.feedback.Feedback();
+        this.feedbackController.add(this.feedback);
     }
 
-    getRowKey = record => `${record.collectUser}-${record.plateform}-${record.utcdate}`;
-
-    renderOperationColumn = (text, record, index) => {
-        let canLoad = false;
-        let canPlay = false;
-        if (!record.points) {
-            canLoad = true;
-            canPlay = false;
-        } else {
-            canLoad = false;
-            canPlay = true;
+    updateTrajectoryFeedback() {
+        if (!this.feedback) {
+            return;
         }
 
-        return (
-            <span>
-                <a
-                    data-index={ index }
-                    disabled={ !canLoad }
-                    onClick={ this.onLoadClick }
-                >
-                    加载
-                </a>
-                <Divider type="vertical"/>
-                <a
-                    data-index={ index }
-                    disabled={ !canPlay }
-                    onClick={ this.onPlayClick }
-                >
-                    播放
-                </a>
-            </span>
-        );
+        this.feedback.clear();
+
+        this.drawTrajectoryLine();
+
+        this.drawTrajectoryPoint();
+
+        this.feedbackController.refresh();
+    }
+
+    drawTrajectoryLine() {
+        const selectedLine = stores.trajectoryListStore.selected;
+        if (!selectedLine) {
+            return;
+        }
+
+        const points = selectedLine.points;
+        const symbolData = {
+            type: 'CircleMarkerSymbol',
+            radius: 3,
+            color: 'blue',
+        };
+        const geometryFactory = navinfo.geometry.GeometryFactory.getInstance();
+        const symbolFactory = navinfo.symbol.SymbolFactory.getInstance();
+        const symbol = symbolFactory.createSymbol(symbolData);
+        points.forEach(item => {
+            const geometry = {
+                type: 'Point',
+                coordinates: [item.longitude, item.latitude],
+            };
+            this.feedback.add(geometry, symbol);
+        });
+    }
+
+    drawTrajectoryPoint() {
+        const selectedLine = stores.trajectoryListStore.selected;
+        if (!selectedLine) {
+            return;
+        }
+
+        const point = selectedLine.points[stores.imageViewerStore.index];
+        if (!point) {
+            return;
+        }
+
+        const geometry = {
+            type: 'Point',
+            coordinates: [point.longitude, point.latitude],
+        };
+        const symbolFactory = navinfo.symbol.SymbolFactory.getInstance();
+        const symbol = symbolFactory.getSymbol('trajectory_currentPoint');
+        const cloneSymbol = navinfo.common.Util.clone(symbol);
+        cloneSymbol.angle = point.direction;
+        this.feedback.add(geometry, cloneSymbol);
+    }
+
+    uninstallFeedback() {
+        if (!this.feedback) {
+            return;
+        }
+
+        this.feedback.clear();
+        this.feedbackController.del(this.feedback);
+        this.feedbackController.refresh();
     }
 
     render() {
@@ -92,29 +179,27 @@ export default class TrajectoryQuery extends Component {
                             pageSize: 10,
                             size: 'small',
                         } }
-                        rowKey={ this.getRowKey }
                         dataSource={ stores.trajectoryListStore.data }
-                        className={ 'testfdsfds' }
                     >
                         <Column
                             title="采集员"
-                            dataIndex="collectUser"
-                            key="collectUser"
+                            dataIndex="worker"
+                            key="worker"
                         />
                         <Column
                             title="平台"
-                            dataIndex="plateform"
-                            key="plateform"
+                            dataIndex="platform"
+                            key="platform"
                         />
                         <Column
                             title="日期"
-                            dataIndex="utcdate"
-                            key="utcdate"
+                            dataIndex="date"
+                            key="date"
                         />
                         <Column
                             title="操作"
                             key="action"
-                            render={ this.renderOperationColumn }
+                            render={ (text, record, index) => <OperationCell trajectoryLine={ record }/> }
                         />
                     </Table>
                 </div>
