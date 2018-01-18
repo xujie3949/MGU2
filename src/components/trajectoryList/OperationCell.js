@@ -27,12 +27,23 @@ export default class OperationCell extends Component {
 
     onLoadClick = async e => {
         try {
+            stores.loadingStore.show();
+            const start = Date.now();
             stores.trajectoryListStore.setSelected(this.props.trajectoryLine);
             await this.props.trajectoryLine.fetchDetail();
-            if (stores.imageViewerStore.total > 0) {
-                stores.imageViewerStore.setIndex(0);
+
+            const diff = Date.now() - start;
+
+            if (diff < 500) {
+                await navinfo.common.Util.delay(500 - diff);
             }
+
+            if (stores.imageViewerStore.total > 0) {
+                stores.imageViewerStore.jumpToPoint(0);
+            }
+            stores.loadingStore.close();
         } catch (err) {
+            stores.loadingStore.close();
             stores.modalStore.error(err.message);
         }
     }
