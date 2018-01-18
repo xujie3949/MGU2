@@ -33,7 +33,10 @@ class Service {
 
     addCancelToken = config => {
         const source = axios.CancelToken.source();
-        this.cancelSource.set(source.token, source);
+        this.cancelSource.set(source.token, {
+            url: config.url,
+            cancel: source.cancel,
+        });
         config.cancelToken = source.token;
         return config;
     };
@@ -61,7 +64,7 @@ class Service {
 
     cancelRequest() {
         for (const [key, value] of this.cancelSource) {
-            value.cancel();
+            value.cancel(`请求被取消:${value.url}`);
         }
 
         this.cancelSource.clear();
@@ -121,7 +124,10 @@ class Service {
 
     async getTrajectoryPointDetail(trajectoryPoint) {
         const params = new URLSearchParams();
-        params.append('PointInfo', `${trajectoryPoint.rowKey}_${trajectoryPoint.latitude}_${trajectoryPoint.longitude}`);
+        params.append(
+            'PointInfo',
+            `${trajectoryPoint.rowKey}_${trajectoryPoint.latitude}_${trajectoryPoint.longitude}`
+        );
         params.append('seqNum', 0);
         const response = await this.axiosInstance.get('photos/queryOnePhotosBypoint', { params: params });
         return response.data;
