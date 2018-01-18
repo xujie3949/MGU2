@@ -128,6 +128,10 @@ class ImageViewerStore {
     };
 
     reversePlay = async () => {
+        if (this.playing) {
+            return;
+        }
+
         this.setPlaying(true);
 
         this.timer = window.setInterval(() => {
@@ -162,6 +166,10 @@ class ImageViewerStore {
     };
 
     play = async () => {
+        if (this.playing) {
+            return;
+        }
+
         this.setPlaying(true);
 
         this.timer = window.setInterval(() => {
