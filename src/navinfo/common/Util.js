@@ -232,8 +232,17 @@ class Util {
 
     /* 以下为其他方法 */
 
-    static delay(func, wait, args) {
-        return _function.delay(func, wait, args);
+    static delay(wait, func, args) {
+        const promise = new Promise((resolve, reject) => {
+            const timeout = setTimeout(() => {
+                if (func) {
+                    func(args);
+                }
+                clearTimeout(timeout);
+                resolve();
+            }, wait);
+        });
+        return promise;
     }
 
     static bind(func, context) {
