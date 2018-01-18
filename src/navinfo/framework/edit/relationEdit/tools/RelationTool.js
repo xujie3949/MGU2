@@ -16,6 +16,7 @@ import GeometryAlgorithm from '../../../../geometry/GeometryAlgorithm';
 import GeometryFactory from '../../../../geometry/GeometryFactory';
 import SymbolFactory from '../../../../symbol/SymbolFactory';
 import EditResultOperation from '../../../operation/EditResultOperation';
+import EventController from '../../../../common/EventController';
 import Util from '../../../../common/Util';
 
 /**
@@ -33,6 +34,7 @@ class RelationTool extends MapTool {
         this.snapController = SnapController.getInstance();
         this.featureSelector = FeatureSelector.getInstance();
         this.geojsonTransform = GeojsonTransform.getInstance();
+        this.eventController = EventController.getInstance();
         this.editResult = null;
         this.defaultFeedback = null;
         this.centerInfoFeedback = null;
