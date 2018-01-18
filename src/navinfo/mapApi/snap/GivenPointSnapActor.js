@@ -1,4 +1,5 @@
 import SnapActor from './SnapActor';
+import jsts from '../../algorithm/jsts';
 
 /**
  * 用于捕捉给定的几何点的捕捉行为类.
@@ -17,28 +18,37 @@ export default class GivenPointSnapActor extends SnapActor {
          */
         this.value = null;
         /**
-         * 要捕捉点的数据容器
+         * 待捕捉点索引
          * @type {Array}
          */
-        this.pairs = [];
+        this.index = new jsts.index.quadtree.Quadtree();
     }
+
     snap(point, box) {
         super.snap(point, box);
         this.value = null;
 
-        if (!this.pairs) {
+        if (!this.index) {
             return null;
         }
 
+        this.geojsonTransform.setEnviroment(null, null, this.latlngToMercator);
+        const mercatorPoint = this.geojsonTransform.convertGeometry(point);
+        const mercatorBox = this.geojsonTransform.convertGeometry(box);
+        const reader = new jsts.io.GeoJSONReader();
+        const jstBox = reader.read(mercatorBox);
+        const values = this.index.query(jstBox.getEnvelopeInternal()).toArray();
+
+        this.geojsonTransform.setEnviroment(null, null, this.mercatorToLatlng);
         let minDis = Number.MAX_VALUE;
-        for (let i = 0; i < this.pairs.length; ++i) {
-            const pair = this.pairs[i];
+        for (let i = 0; i < values.length; ++i) {
+            const pair = values[i];
             const tmpPoint = pair.key;
             const tmpValue = pair.value;
-            const dis = this.distance(point, tmpPoint);
+            const dis = this.geometryAlgorithm.distance(mercatorPoint, tmpPoint);
             if (dis < minDis) {
                 minDis = dis;
-                this.point = tmpPoint;
+                this.point = this.geojsonTransform.convertGeometry(tmpPoint);
                 this.value = tmpValue;
                 this.isSnapped = true;
             }
@@ -46,6 +56,7 @@ export default class GivenPointSnapActor extends SnapActor {
 
         return this.getSnapResult();
     }
+
     getSnapResult() {
         if (!this.isSnapped) {
             return null;
@@ -55,19 +66,28 @@ export default class GivenPointSnapActor extends SnapActor {
         result.value = this.value;
         return result;
     }
-    draw() {
-        super.draw();
 
-        if (!this.isSnapped) {
+    draw() {
+        this.feedback.clear();
+
+        if (!this.isDrawFeedback) {
+            this.feedbackController.refresh();
             return;
         }
 
-        if (this.pairs) {
-            for (let i = 0; i < this.pairs.length; ++i) {
-                const pair = this.pairs[i];
+        this.geojsonTransform.setEnviroment(null, null, this.mercatorToLatlng);
+        const pairs = this.index.queryAll().toArray();
+        if (pairs) {
+            for (let i = 0; i < pairs.length; ++i) {
+                const pair = pairs[i];
+                const point = this.geojsonTransform.convertGeometry(pair.key);
                 const symbol = this.symbolFactory.getSymbol('snap_pt_given_point');
-                this.feedback.add(pair.key, symbol);
+                this.feedback.add(point, symbol);
             }
+        }
+
+        if (this.isSnapped) {
+            this.drawSnapSymbol();
         }
 
         this.feedbackController.refresh();
@@ -80,11 +100,14 @@ export default class GivenPointSnapActor extends SnapActor {
      * @return {undefined}
      */
     addPair(point, value) {
-        const pair = {
-            key: point,
+        this.geojsonTransform.setEnviroment(null, null, this.latlngToMercator);
+        const mercatorPoint = this.geojsonTransform.convertGeometry(point);
+        const jstsCoordinate = new jsts.geom.Coordinate(mercatorPoint.coordinates[0], mercatorPoint.coordinates[1]);
+        const envelope = new jsts.geom.Envelope(jstsCoordinate);
+        this.index.insert(envelope, {
+            key: mercatorPoint,
             value: value,
-        };
-        this.pairs.push(pair);
+        });
     }
 
     /**
@@ -92,6 +115,6 @@ export default class GivenPointSnapActor extends SnapActor {
      * @return {undefined}
      */
     clearPairs() {
-        this.pairs = [];
+        this.index = new jsts.index.quadtree.Quadtree();
     }
 }

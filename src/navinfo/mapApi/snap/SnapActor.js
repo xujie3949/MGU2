@@ -7,6 +7,7 @@ import Feedback from '../feedback/Feedback';
 import SceneController from '../scene/SceneController';
 import GeojsonTransform from '../GeojsonTransform';
 import FeatureSelector from '../FeatureSelector';
+import MercatorTransform from '../../transform/MercatorTransform';
 
 /**
  * 捕捉行为类的基类，不同的捕捉行为具有不同的捕捉数据结构.
@@ -26,7 +27,9 @@ export default class SnapActor {
         this.point = null;
         this.isSnapped = false;
         this.map = null;
+        this.isDrawFeedback = true;
 
+        this.mercator = new MercatorTransform();
         this.symbolFactory = SymbolFactory.getInstance();
         this.geometryFactory = GeometryFactory.getInstance();
         this.geometryAlgorithm = GeometryAlgorithm.getInstance();
@@ -61,15 +64,27 @@ export default class SnapActor {
     draw() {
         this.feedback.clear();
 
-        if (!this.isSnapped) {
+        if (!this.isSnapped || !this.isDrawFeedback) {
             this.feedbackController.refresh();
+            return;
+        }
+
+        this.drawSnapSymbol();
+
+        this.feedbackController.refresh();
+    }
+
+    /**
+     * 在当前捕捉位置绘制捕捉符号
+     * @return {undefined}
+     */
+    drawSnapSymbol() {
+        if (!this.feedback) {
             return;
         }
 
         const symbol = this.symbolFactory.getSymbol('snap_pt_cross');
         this.feedback.add(this.point, symbol);
-
-        this.feedbackController.refresh();
     }
 
     /**
@@ -144,13 +159,29 @@ export default class SnapActor {
     }
 
     /**
+     * 设置捕捉器是否绘制捕捉反馈.
+     * @param {Boolean} value - true或者false
+     * @returns {undefined}
+     */
+    setIsDrawFeecback(value) {
+        this.isDrawFeedback = value;
+    }
+
+    /**
+     * 获取捕捉器是否绘制捕捉反馈.
+     * @returns {Boolean} map - 返回isDrawFeedback
+     */
+    getIsDrawFeecback() {
+        return this.isDrawFeedback;
+    }
+
+    /**
      * 计算鼠标移动点和目标几何之间的距离.
      * @param {Object} geometry1 - 鼠标点位几何
      * @param {Object} geometry2 - 目标对象几何
      * @returns {Object} - 返回计算的结果对象
      */
     distance(geometry1, geometry2) {
-        const self = this;
         this.geojsonTransform.setEnviroment(this.map, null, this.latlngToMercator);
         const pGeometry1 = this.geojsonTransform.convertGeometry(geometry1);
         const pGeometry2 = this.geojsonTransform.convertGeometry(geometry2);
@@ -164,7 +195,6 @@ export default class SnapActor {
      * @returns {Object} - 返回计算的结果对象
      */
     nearestPoints(geometry1, geometry2) {
-        const self = this;
         this.geojsonTransform.setEnviroment(this.map, null, this.latlngToMercator);
         const pGeometry1 = this.geojsonTransform.convertGeometry(geometry1);
         const pGeometry2 = this.geojsonTransform.convertGeometry(geometry2);
@@ -182,7 +212,6 @@ export default class SnapActor {
      * @returns {Object} - 返回计算的结果对象
      */
     nearestLocations(geometry1, geometry2) {
-        const self = this;
         this.geojsonTransform.setEnviroment(this.map, null, this.latlngToMercator);
         const pGeometry1 = this.geojsonTransform.convertGeometry(geometry1);
         const pGeometry2 = this.geojsonTransform.convertGeometry(geometry2);
@@ -195,18 +224,30 @@ export default class SnapActor {
     }
 
     /**
+     * 判断两个几何是否相交.
+     * @param  {Object} geometry1 - 传入的几何对象
+     * @param  {Object} geometry2 - 传入的几何对象
+     * @return {Boolean} - 布尔值，反应两个几何是否相交
+     */
+    intersects(geometry1, geometry2) {
+        this.geojsonTransform.setEnviroment(this.map, null, this.latlngToMercator);
+        const pGeometry1 = this.geojsonTransform.convertGeometry(geometry1);
+        const pGeometry2 = this.geojsonTransform.convertGeometry(geometry2);
+        return this.geometryAlgorithm.intersects(pGeometry1, pGeometry2);
+    }
+
+    /**
      * 地理坐标转换为web墨卡托平面投影坐标.
      * @param {Object} map - leaflet地图对象.
      * @param {Object} tile - 当前瓦片信息
      * @param {Array} coordinates - 几何的坐标
      * @returns {Array} - 返回转换后的新坐标数据.
      */
-    latlngToMercator(map, tile, coordinates) {
+    latlngToMercator = (map, tile, coordinates) => {
         const x = coordinates[0];
         const y = coordinates[1];
-        const point = map.project([y, x]);
-        return [point.x, point.y];
-    }
+        return this.mercator.geographic2Mercator(x, y);
+    };
 
     /**
      * web墨卡托平面投影坐标转换为地理坐标.
@@ -215,24 +256,9 @@ export default class SnapActor {
      * @param {Array} coordinates - 几何的坐标
      * @returns {Array} - 返回转换后的新坐标数据.
      */
-    mercatorToLatlng(map, tile, coordinates) {
+    mercatorToLatlng = (map, tile, coordinates) => {
         const x = coordinates[0];
         const y = coordinates[1];
-        const latlng = map.unproject([x, y]);
-        return [latlng.lng, latlng.lat];
-    }
-
-    /**
-     * 判断两个几何是否相交.
-     * @param  {Object} geometry1 - 传入的几何对象
-     * @param  {Object} geometry2 - 传入的几何对象
-     * @return {Boolean} - 布尔值，反应两个几何是否相交
-     */
-    intersects(geometry1, geometry2) {
-        const self = this;
-        this.geojsonTransform.setEnviroment(this.map, null, this.latlngToMercator);
-        const pGeometry1 = this.geojsonTransform.convertGeometry(geometry1);
-        const pGeometry2 = this.geojsonTransform.convertGeometry(geometry2);
-        return this.geometryAlgorithm.intersects(pGeometry1, pGeometry2);
-    }
+        return this.mercator.mercator2Geographic(x, y);
+    };
 }

@@ -69,9 +69,10 @@ export default class NearestVertexSnapActor extends SnapActor {
     }
 
     draw() {
-        super.draw();
+        this.feedback.clear();
 
-        if (!this.isSnapped) {
+        if (!this.isDrawFeedback) {
+            this.feedbackController.refresh();
             return;
         }
 
@@ -88,6 +89,10 @@ export default class NearestVertexSnapActor extends SnapActor {
                 const symbol = this.symbolFactory.getSymbol('snap_pt_vertex');
                 this.feedback.add(vertex, symbol);
             }
+        }
+
+        if (this.isSnapped) {
+            this.drawSnapSymbol();
         }
 
         this.feedbackController.refresh();
