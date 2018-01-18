@@ -27,6 +27,8 @@ export default class TrajectoryQuery extends Component {
     componentWillMount() {
         this.installFeedback();
 
+        navinfo.common.HotKey.bind('space', () => stores.imageViewerStore.pause());
+
         this.eventController.on('SelectedTrajectoryLineChanged', this.onSelectedTrajectoryLineChanged);
         this.eventController.on('SelectedTrajectoryPointChanged', this.onSelectedTrajectoryPointChanged);
 
@@ -37,6 +39,8 @@ export default class TrajectoryQuery extends Component {
     componentWillUnmount() {
         this.eventController.off('SelectedTrajectoryLineChanged', this.onSelectedTrajectoryLineChanged);
         this.eventController.off('SelectedTrajectoryPointChanged', this.onSelectedTrajectoryPointChanged);
+
+        navinfo.common.HotKey.unbind('space');
 
         this.uninstallFeedback();
     }
