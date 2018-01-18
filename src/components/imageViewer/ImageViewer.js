@@ -24,11 +24,19 @@ export default class ImageViewer extends Component {
     }
 
     componentDidMount() {
-        this.updateViewer();
+        // this.updateViewer();
     }
 
     componentDidUpdate() {
-        this.updateViewer();
+        // this.updateViewer();
+    }
+
+    onPrevClick = e => {
+        stores.imageViewerStore.prev();
+    }
+
+    onNextClick = e => {
+        stores.imageViewerStore.next();
     }
 
     destroyViewer() {
@@ -73,12 +81,11 @@ export default class ImageViewer extends Component {
             },
         };
 
-        this.view = new Viewer(this.image, options);
+        this.viewer = new Viewer(this.image, options);
     }
 
     render() {
         this.destroyViewer();
-        const disabled = !stores.imageViewerStore.hasSrc;
 
         return (
             <Panel
@@ -100,7 +107,8 @@ export default class ImageViewer extends Component {
                             <Button
                                 type="primary"
                                 size="small"
-                                disabled={ disabled }
+                                disabled={ !stores.imageViewerStore.hasPrev }
+                                onClick={ this.onPrevClick }
                             >
                                 <Icon type="left"/>
                                 上一张
@@ -108,7 +116,8 @@ export default class ImageViewer extends Component {
                             <Button
                                 type="primary"
                                 size="small"
-                                disabled={ disabled }
+                                disabled={ !stores.imageViewerStore.hasNext }
+                                onClick={ this.onNextClick }
                             >
                                 下一张
                                 <Icon type="right"/>
