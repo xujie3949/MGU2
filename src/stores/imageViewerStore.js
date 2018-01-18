@@ -11,14 +11,30 @@ import stores from 'Stores/stores';
 
 class ImageViewerStore {
     @observable index;
+    @observable playing;
+    @observable loading;
+    timer;
 
     constructor() {
         this.index = -1;
+        this.playing = false;
+        this.loading = false;
+        this.timer = null;
     }
 
     @action
     setIndex(value) {
         this.index = value;
+    }
+
+    @action
+    setPlaying(value) {
+        this.playing = value;
+    }
+
+    @action
+    setLoading(value) {
+        this.loading = value;
     }
 
     @computed
@@ -41,7 +57,7 @@ class ImageViewerStore {
 
     @computed
     get hasNext() {
-        if (this.index > this.total - 1) {
+        if (this.index >= this.total - 1) {
             return false;
         }
 
@@ -59,32 +75,127 @@ class ImageViewerStore {
         return `data:image/jpeg;base64,${point.photoStr}`;
     }
 
-    async prev() {
+    async jumpToPoint(index) {
+        try {
+            this.setLoading(true);
+            const point = stores.trajectoryListStore.selected.points[index];
+            await point.fetchDetail();
+            this.setIndex(index);
+            console.log(`${index}:loaded`);
+            const eventController = navinfo.common.EventController.getInstance();
+            eventController.fire('SelectedTrajectoryPointChanged', null);
+            this.setLoading(false);
+        } catch (err) {
+            const logger = navinfo.common.Logger.getInstance();
+            logger.log(err.message);
+            this.setLoading(false);
+        }
+    }
+
+    async first() {
+        const index = 0;
+
+        if (this.index === index) {
+            return;
+        }
+
+        if (this.loading) {
+            return;
+        }
+
+        await this.jumpToPoint(index);
+    }
+
+    prev = async () => {
         if (!this.hasPrev) {
             return;
         }
 
+        if (this.loading) {
+            return;
+        }
+
         const prevIndex = this.index - 1;
-        const point = stores.trajectoryListStore.selected.points[prevIndex];
-        await point.fetchDetail();
-        this.setIndex(prevIndex);
+        await this.jumpToPoint(prevIndex);
+    };
+
+    async reversePlay() {
+        this.setPlaying(true);
+
+        this.timer = window.setInterval(() => {
+            if (!this.playing) {
+                return;
+            }
+
+            if (!this.hasPrev) {
+                this.pause();
+                return;
+            }
+
+            this.prev();
+        }, 200);
 
         const eventController = navinfo.common.EventController.getInstance();
-        eventController.fire('SelectedTrajectoryPointChanged', null);
+        eventController.fire('TrajectoryPlay', { type: 'reverse' });
     }
 
-    async next() {
+    pause() {
+        this.setPlaying(false);
+        service.cancelRequest();
+        window.clearInterval(this.timer);
+        this.timer = null;
+
+        console.log('pause');
+
+        const eventController = navinfo.common.EventController.getInstance();
+        eventController.fire('TrajectoryPause', { type: 'reverse' });
+    }
+
+    async play() {
+        this.setPlaying(true);
+
+        this.timer = window.setInterval(() => {
+            if (!this.playing) {
+                return;
+            }
+
+            if (!this.hasNext) {
+                this.pause();
+                return;
+            }
+
+            this.next();
+        }, 200);
+
+        const eventController = navinfo.common.EventController.getInstance();
+        eventController.fire('TrajectoryPlay', { type: 'play' });
+    }
+
+    next = async () => {
         if (!this.hasNext) {
             return;
         }
 
-        const nextIndex = this.index + 1;
-        const point = stores.trajectoryListStore.selected.points[nextIndex];
-        await point.fetchDetail();
-        this.setIndex(nextIndex);
+        if (this.loading) {
+            return;
+        }
 
-        const eventController = navinfo.common.EventController.getInstance();
-        eventController.fire('SelectedTrajectoryPointChanged', null);
+        const nextIndex = this.index + 1;
+        await this.jumpToPoint(nextIndex);
+    };
+
+    async last() {
+        const lastIndex = this.total - 1;
+
+        if (this.index === lastIndex) {
+            return;
+        }
+
+        if (this.loading) {
+            return;
+        }
+
+        await this.jumpToPoint(lastIndex);
     }
 }
 

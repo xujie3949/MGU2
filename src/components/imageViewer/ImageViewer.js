@@ -31,13 +31,33 @@ export default class ImageViewer extends Component {
         // this.updateViewer();
     }
 
+    onFirstClick = e => {
+        stores.imageViewerStore.first();
+    };
+
     onPrevClick = e => {
         stores.imageViewerStore.prev();
-    }
+    };
+
+    onReversePlayClick = e => {
+        stores.imageViewerStore.reversePlay();
+    };
+
+    onPauseClick = e => {
+        stores.imageViewerStore.pause();
+    };
+
+    onPlayClick = e => {
+        stores.imageViewerStore.play();
+    };
 
     onNextClick = e => {
         stores.imageViewerStore.next();
-    }
+    };
+
+    onLastClick = e => {
+        stores.imageViewerStore.last();
+    };
 
     destroyViewer() {
         if (!this.viewer) {
@@ -87,6 +107,10 @@ export default class ImageViewer extends Component {
     render() {
         this.destroyViewer();
 
+        const enable = stores.trajectoryListStore.selected
+            && !stores.imageViewerStore.playing
+            && !stores.imageViewerStore.loading;
+
         return (
             <Panel
                 { ...this.props }
@@ -107,7 +131,16 @@ export default class ImageViewer extends Component {
                             <Button
                                 type="primary"
                                 size="small"
-                                disabled={ !stores.imageViewerStore.hasPrev }
+                                disabled={ !stores.imageViewerStore.hasPrev || !enable }
+                                onClick={ this.onFirstClick }
+                            >
+                                <Icon type="double-left"/>
+                                首张
+                            </Button>
+                            <Button
+                                type="primary"
+                                size="small"
+                                disabled={ !stores.imageViewerStore.hasPrev || !enable }
                                 onClick={ this.onPrevClick }
                             >
                                 <Icon type="left"/>
@@ -116,11 +149,47 @@ export default class ImageViewer extends Component {
                             <Button
                                 type="primary"
                                 size="small"
-                                disabled={ !stores.imageViewerStore.hasNext }
+                                disabled={ !stores.imageViewerStore.hasPrev || !enable }
+                                onClick={ this.onReversePlayClick }
+                            >
+                                <Icon type="step-backward"/>
+                                倒播
+                            </Button>
+                            <Button
+                                type="primary"
+                                size="small"
+                                disabled={ !stores.imageViewerStore.playing || !stores.trajectoryListStore.selected }
+                                onClick={ this.onPauseClick }
+                            >
+                                <Icon type="pause-circle"/>
+                                暂停
+                            </Button>
+                            <Button
+                                type="primary"
+                                size="small"
+                                disabled={ !stores.imageViewerStore.hasNext || !enable }
+                                onClick={ this.onPlayClick }
+                            >
+                                前播
+                                <Icon type="step-forward"/>
+                            </Button>
+                            <Button
+                                type="primary"
+                                size="small"
+                                disabled={ !stores.imageViewerStore.hasNext || !enable }
                                 onClick={ this.onNextClick }
                             >
                                 下一张
                                 <Icon type="right"/>
+                            </Button>
+                            <Button
+                                type="primary"
+                                size="small"
+                                disabled={ !stores.imageViewerStore.hasNext || !enable }
+                                onClick={ this.onLastClick }
+                            >
+                                尾张
+                                <Icon type="double-right"/>
                             </Button>
                         </ButtonGroup>
                     </div>
