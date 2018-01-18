@@ -81,7 +81,6 @@ class ImageViewerStore {
             const point = stores.trajectoryListStore.selected.points[index];
             await point.fetchDetail();
             this.setIndex(index);
-            console.log(`${index}:loaded`);
             const eventController = navinfo.common.EventController.getInstance();
             eventController.fire('SelectedTrajectoryPointChanged', null);
             this.setLoading(false);
