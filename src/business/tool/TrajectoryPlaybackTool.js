@@ -49,7 +49,7 @@ class TrajectoryPlaybackTool extends navinfo.framework.edit.ShapeTool {
                 {
                     key: {
                         type: 'Point',
-                        coordinates: [item.lon, item.lat],
+                        coordinates: [item.longitude, item.latitude],
                     },
                     value: item,
                 },
@@ -62,23 +62,6 @@ class TrajectoryPlaybackTool extends navinfo.framework.edit.ShapeTool {
 
     resetMouseInfo() {
         this.setMouseInfo('请选择轨迹点');
-    }
-
-    drawFinalGeometry() {
-        const point = this.shapeEditor.editResult.finalGeometry;
-        if (!point) {
-            return;
-        }
-
-        const angle = this.shapeEditor.editResult.angle;
-        if (!angle) {
-            return;
-        }
-
-        const symbol = this.symbolFactory.getSymbol('trajectory_currentPoint');
-        const cloneSymbol = navinfo.common.Util.clone(symbol);
-        cloneSymbol.angle = angle;
-        this.defaultFeedback.add(cloneSymbol, point);
     }
 
     onMouseMove(event) {
