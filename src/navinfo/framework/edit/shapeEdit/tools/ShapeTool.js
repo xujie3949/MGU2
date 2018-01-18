@@ -244,9 +244,8 @@ class ShapeTool extends MapTool {
         this.centerInfoFeedback.add(point, symbol);
         this.refreshFeedback();
 
-        const self = this;
         if (duration) {
-            Util.delay(() => self.setCenterInfo(''), duration);
+            Util.delay(duration, () => this.setCenterInfo(''));
         }
     }
 

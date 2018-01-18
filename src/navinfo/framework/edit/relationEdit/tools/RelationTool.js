@@ -266,10 +266,7 @@ class RelationTool extends MapTool {
         this.refreshFeedback();
 
         if (duration) {
-            Util.delay(
-                () => this.setCenterInfo(''),
-                duration,
-            );
+            Util.delay(duration, () => this.setCenterInfo(''));
         }
     }
 
