@@ -215,7 +215,7 @@ class ComplexTool extends MapTool {
         }
 
         const snapActor = new GivenPointSnapActor();
-        snapActor.pairs = pairs;
+        pairs.forEach(item => snapActor.addPair(item.key, item.value));
 
         return snapActor;
     }
