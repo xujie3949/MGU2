@@ -166,15 +166,16 @@ export default class Map {
     /**
      * 设置地图的显示级别.
      * @param {Number} zoom - 地图的显示级别参数
-     * @returns {Object} - 返回leaflet地图对象的引用
+     * @returns {Object} - 返回地图本身
      */
     setZoom(zoom) {
-        return this._leafletMap.setZoom(zoom);
+        this._leafletMap.setZoom(zoom);
+        return this;
     }
 
     /**
      * 获得地图的显示级别.
-     * @returns {Object} - 返回leaflet地图对象的引用
+     * @returns {Number} - 返回地图缩放级别
      */
     getZoom() {
         return this._leafletMap.getZoom();
@@ -190,18 +191,26 @@ export default class Map {
 
     /**
      * 获得地图范围
-     * @returns {Object} - 返回地图容器
+     * @returns {Object} - 返回地图范围
      */
     getBounds() {
         return this._leafletMap.getBounds();
     }
 
     /**
+     * 设置地图的中心点和缩放级别
+     * @returns {Object} - 返回地图本身
+     */
+    flyTo(center, zoom) {
+        return this._leafletMap.flyTo(center, zoom);
+    }
+
+    /**
      * 重新设置地图大小.
-     * @returns {undefined} - 返回地图容器
+     * @returns {Object} - 返回地图本身
      */
     resize() {
-        this._leafletMap.invalidateSize();
+        return this._leafletMap.invalidateSize();
     }
 
     _dispatchEvent(event) {
