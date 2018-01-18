@@ -28,11 +28,18 @@ export default class OperationCell extends Component {
     onLoadClick = async e => {
         stores.trajectoryListStore.setSelected(this.props.trajectoryLine);
         await this.props.trajectoryLine.fetchDetail();
+        const firstPoint = stores.trajectoryListStore.selected.points[0];
         const center = [
-            stores.trajectoryListStore.selected.points[0].latitude,
-            stores.trajectoryListStore.selected.points[0].longitude,
+            firstPoint.latitude,
+            firstPoint.longitude,
         ];
         stores.mapStore.map.flyTo(center);
+
+        await firstPoint.fetchDetail();
+
+        stores.imageViewerStore.setIndex(firstPoint.id);
+
+        await navinfo.common.Util.delay(200);
 
         const eventController = navinfo.common.EventController.getInstance();
         eventController.fire('SelectedTrajectoryLineChanged', null);
