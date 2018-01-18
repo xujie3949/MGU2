@@ -72,6 +72,10 @@ class ImageViewerStore {
 
         const point = stores.trajectoryListStore.selected.points[this.index];
 
+        if (!point.photoStr) {
+            return '';
+        }
+
         return `data:image/jpeg;base64,${point.photoStr}`;
     }
 
@@ -85,6 +89,11 @@ class ImageViewerStore {
             eventController.fire('SelectedTrajectoryPointChanged', null);
             this.setLoading(false);
         } catch (err) {
+            if (!service.isCancelError(err)) {
+                this.setIndex(index);
+                const eventController = navinfo.common.EventController.getInstance();
+                eventController.fire('SelectedTrajectoryPointChanged', null);
+            }
             const logger = navinfo.common.Logger.getInstance();
             logger.log(err.message);
             this.setLoading(false);
