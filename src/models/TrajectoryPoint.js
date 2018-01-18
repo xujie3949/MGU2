@@ -45,31 +45,13 @@ class TrajectoryPoint {
     }
 
     async fetchDetail() {
-        try {
-            // stores.loadingStore.show();
-
-            const start = Date.now();
-
-            const data = await service.getTrajectoryPointDetail(this);
-
-            const diff = Date.now() - start;
-
-            // if (diff < 500) {
-            //     await navinfo.common.Util.delay(500 - diff);
-            // }
-
-            // stores.loadingStore.close();
-
-            if (data.code === 0) {
-                const detail = data.data[0];
-                this.photoStr = detail.photoStr;
-                this.direction = detail.direction;
-            } else {
-                // stores.modalStore.error(data.message);
-            }
-        } catch (err) {
-            // stores.loadingStore.close();
-            // stores.modalStore.error(err.message);
+        const data = await service.getTrajectoryPointDetail(this);
+        if (data.code === 0) {
+            const detail = data.data[0];
+            this.photoStr = detail.photoStr;
+            this.direction = detail.direction;
+        } else {
+            throw new Error(data.message);
         }
     }
 }
