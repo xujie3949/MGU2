@@ -92,6 +92,8 @@ class TrajectoryPlaybackTool extends navinfo.framework.edit.ShapeTool {
         const res = this.snapController.snap(this.mousePoint);
         if (res) {
             this.snapPoint = res.point;
+        } else {
+            this.snapPoint = null;
         }
 
         this.resetFeedback();
