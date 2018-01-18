@@ -75,7 +75,7 @@ class ImageViewerStore {
         return `data:image/jpeg;base64,${point.photoStr}`;
     }
 
-    async jumpToPoint(index) {
+    jumpToPoint = async index => {
         try {
             this.setLoading(true);
             const point = stores.trajectoryListStore.selected.points[index];
@@ -89,9 +89,9 @@ class ImageViewerStore {
             logger.log(err.message);
             this.setLoading(false);
         }
-    }
+    };
 
-    async first() {
+    first = async () => {
         const index = 0;
 
         if (this.index === index) {
@@ -103,7 +103,7 @@ class ImageViewerStore {
         }
 
         await this.jumpToPoint(index);
-    }
+    };
 
     prev = async () => {
         if (!this.hasPrev) {
@@ -118,7 +118,7 @@ class ImageViewerStore {
         await this.jumpToPoint(prevIndex);
     };
 
-    async reversePlay() {
+    reversePlay = async () => {
         this.setPlaying(true);
 
         this.timer = window.setInterval(() => {
@@ -136,21 +136,23 @@ class ImageViewerStore {
 
         const eventController = navinfo.common.EventController.getInstance();
         eventController.fire('TrajectoryPlay', { type: 'reverse' });
-    }
+    };
 
-    pause() {
+    pause = () => {
+        if (!this.playing) {
+            return;
+        }
+
         this.setPlaying(false);
         service.cancelRequest();
         window.clearInterval(this.timer);
         this.timer = null;
 
-        console.log('pause');
-
         const eventController = navinfo.common.EventController.getInstance();
         eventController.fire('TrajectoryPause', { type: 'reverse' });
-    }
+    };
 
-    async play() {
+    play = async () => {
         this.setPlaying(true);
 
         this.timer = window.setInterval(() => {
@@ -168,7 +170,7 @@ class ImageViewerStore {
 
         const eventController = navinfo.common.EventController.getInstance();
         eventController.fire('TrajectoryPlay', { type: 'play' });
-    }
+    };
 
     next = async () => {
         if (!this.hasNext) {
@@ -183,7 +185,7 @@ class ImageViewerStore {
         await this.jumpToPoint(nextIndex);
     };
 
-    async last() {
+    last = async () => {
         const lastIndex = this.total - 1;
 
         if (this.index === lastIndex) {
@@ -195,7 +197,7 @@ class ImageViewerStore {
         }
 
         await this.jumpToPoint(lastIndex);
-    }
+    };
 }
 
 const imageViewerStore = new ImageViewerStore();
