@@ -27,7 +27,7 @@ export default class MercatorTransform {
          */
         this.origin = {
             x: -this.perimeter / 2.0,
-            y: -this.perimeter / 2.0,
+            y: this.perimeter / 2.0,
         };
         /**
          * 初始像素分辨率.
@@ -90,7 +90,7 @@ export default class MercatorTransform {
         const res = this.resolution(zoom);
         const x = px * res + this.origin.x;
         const y = this.origin.y - py * res;
-        return [px, py];
+        return [x, y];
     }
 
     /**
