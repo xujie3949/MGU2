@@ -26,15 +26,8 @@ class TrajectoryPlaybackControl extends navinfo.framework.editControl.EditContro
         return true;
     }
 
-    abort() {
-        super.abort();
-        this.clearFeedback();
-    }
-
     onFinish = async point => {
-        await point.fetchDetail();
-        stores.imageViewerStore.setIndex(point.id);
-        this.eventController.fire('SelectedTrajectoryPointChanged', null);
+        stores.imageViewerStore.jumpToPoint(point.id);
     };
 }
 
