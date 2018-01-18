@@ -402,7 +402,7 @@ const symbols = [
     }, {
         name: 'snap_pt_given_point',
         type: 'CircleMarkerSymbol',
-        radius: 4,
+        radius: 1,
         color: 'blue',
     }, {
         name: 'snap_pt_vertex',
