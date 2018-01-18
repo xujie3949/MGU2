@@ -1,20 +1,40 @@
 import { Modal } from 'antd';
 
 class ModalStore {
-    info(config) {
-        Modal.info(config);
+    info(message) {
+        Modal.info(
+            {
+                title: '信息',
+                content: message,
+            },
+        );
     }
 
-    success(config) {
-        Modal.success(config);
+    success(message) {
+        Modal.success(
+            {
+                title: '成功',
+                content: message,
+            },
+        );
     }
 
-    warning(config) {
-        Modal.warning(config);
+    warning(message) {
+        Modal.warning(
+            {
+                title: '警告',
+                content: message,
+            },
+        );
     }
 
-    error(config) {
-        Modal.error(config);
+    error(message) {
+        Modal.error(
+            {
+                title: '错误',
+                content: message,
+            },
+        );
     }
 }
 
