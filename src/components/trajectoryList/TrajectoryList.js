@@ -28,6 +28,12 @@ export default class TrajectoryQuery extends Component {
         this.installFeedback();
 
         navinfo.common.HotKey.bind('space', () => stores.imageViewerStore.pause());
+        navinfo.common.HotKey.bind('mod+left', () => stores.imageViewerStore.prev());
+        navinfo.common.HotKey.bind('mod+right', () => stores.imageViewerStore.next());
+        navinfo.common.HotKey.bind('shift+left', () => stores.imageViewerStore.reversePlay());
+        navinfo.common.HotKey.bind('shift+right', () => stores.imageViewerStore.play());
+        navinfo.common.HotKey.bind('shift+pageup', () => stores.imageViewerStore.first());
+        navinfo.common.HotKey.bind('shift+pagedown', () => stores.imageViewerStore.last());
 
         this.eventController.on('SelectedTrajectoryLineChanged', this.onSelectedTrajectoryLineChanged);
         this.eventController.on('SelectedTrajectoryPointChanged', this.onSelectedTrajectoryPointChanged);
@@ -41,6 +47,12 @@ export default class TrajectoryQuery extends Component {
         this.eventController.off('SelectedTrajectoryPointChanged', this.onSelectedTrajectoryPointChanged);
 
         navinfo.common.HotKey.unbind('space');
+        navinfo.common.HotKey.unbind('mod+left');
+        navinfo.common.HotKey.unbind('mod+right');
+        navinfo.common.HotKey.unbind('shift+left');
+        navinfo.common.HotKey.unbind('shift+right');
+        navinfo.common.HotKey.unbind('shift+pageup');
+        navinfo.common.HotKey.unbind('shift+pagedown');
 
         this.uninstallFeedback();
     }
