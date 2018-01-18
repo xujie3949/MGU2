@@ -770,6 +770,8 @@ const symbols = [
         name: 'trajectory_currentPoint',
         type: 'ImageMarkerSymbol',
         url: triangleImage,
+        height: 20,
+        width: 30,
     },
 ];
 
