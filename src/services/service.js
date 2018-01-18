@@ -70,6 +70,10 @@ class Service {
         this.cancelSource.clear();
     }
 
+    isCancelError(err) {
+        return axios.isCancel(err);
+    }
+
     handleTokenError(data) {
         if (data.errcode === -100) {
             appStore.setError(data.errmsg);
