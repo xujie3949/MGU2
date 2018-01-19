@@ -4,7 +4,7 @@ import {
     computed,
 } from 'mobx';
 
-import BrowserStore from 'Utils/browserStore';
+import navinfo from 'Navinfo';
 import User from 'Models/User';
 
 class UserStore {
@@ -16,8 +16,8 @@ class UserStore {
 
     @action
     initialize() {
-        if (BrowserStore.hasItem('userInfo')) {
-            const userInfo = BrowserStore.getItem('userInfo');
+        if (navinfo.common.BrowserStore.hasItem('userInfo')) {
+            const userInfo = navinfo.common.BrowserStore.getItem('userInfo');
             const user = new User();
             user.fromJson(userInfo);
             this.user = user;
@@ -30,11 +30,11 @@ class UserStore {
     }
 
     saveUserInfo() {
-        BrowserStore.setItem('userInfo', this.user.toJson());
+        navinfo.common.BrowserStore.setItem('userInfo', this.user.toJson());
     }
 
     clearUserInfo() {
-        BrowserStore.removeItem('userInfo');
+        navinfo.common.BrowserStore.removeItem('userInfo');
     }
 }
 

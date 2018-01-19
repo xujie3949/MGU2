@@ -5,10 +5,9 @@ import {
 } from 'mobx';
 
 import service from 'Services/service';
-import delay from 'Utils/delay';
+import navinfo from 'Navinfo';
 import User from 'Models/User';
-import loadingStore from 'Stores/loadingStore';
-import userStore from 'Stores/userStore';
+import stores from 'Stores/stores';
 
 class LoginStore {
   @observable username;
@@ -31,9 +30,9 @@ class LoginStore {
 
   @action
   initialize() {
-      if (userStore.user) {
-          this.username = userStore.user.name;
-          this.password = userStore.user.password;
+      if (stores.userStore.user) {
+          this.username = stores.userStore.user.name;
+          this.password = stores.userStore.user.password;
       }
   }
 
@@ -78,7 +77,7 @@ class LoginStore {
 
   async login() {
       try {
-          loadingStore.show();
+          stores.loadingStore.show();
 
           const start = Date.now();
 
@@ -89,10 +88,10 @@ class LoginStore {
           const diff = Date.now() - start;
 
           if (diff < 1000) {
-              await delay(1000 - diff);
+              await navinfo.common.Util.delay(1000 - diff);
           }
 
-          loadingStore.close();
+          stores.loadingStore.close();
 
           if (data.errcode === 0) {
               const user = new User();
@@ -102,24 +101,24 @@ class LoginStore {
                   token: data.data.token,
                   mapToken: mapData.data.access_token,
               });
-              userStore.setUser(user);
+              stores.userStore.setUser(user);
               if (this.rememberMe) {
-                  userStore.saveUserInfo();
+                  stores.userStore.saveUserInfo();
               } else {
-                  userStore.clearUserInfo();
+                  stores.userStore.clearUserInfo();
               }
           } else {
-              // popupStore.showError(data.errmsg);
+              stores.modalStore.error(data.errmsg);
           }
       } catch (err) {
-          loadingStore.close();
-      // popupStore.showError(err.message);
+          stores.loadingStore.close();
+          stores.modalStore.error(err.message);
       }
   }
 
   logout() {
-      userStore.setUser(null);
-      userStore.clearUserInfo();
+      stores.userStore.setUser(null);
+      stores.userStore.clearUserInfo();
   }
 }
 

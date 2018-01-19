@@ -5,12 +5,6 @@ import {
 } from 'mobx';
 import { Modal } from 'antd';
 
-import service from 'Services/service';
-import delay from 'Utils/delay';
-import User from 'Models/User';
-import loadingStore from 'Stores/loadingStore';
-import userStore from 'Stores/userStore';
-
 class StatusBarStore {
     @observable toolName;
     @observable.ref mousePoint;
