@@ -1,6 +1,5 @@
 import { autorun } from 'mobx';
 
-import userStore from 'Stores/userStore';
 import navinfo from 'Navinfo';
 import mapConfig from './mapConfig';
 import dataTransform from '../feature/dataTransform';
@@ -9,7 +8,7 @@ import dataTransform from '../feature/dataTransform';
  * Created by xujie3949 on 2017/1/11.
  */
 
-const url = `${mapConfig.serviceUrl}/render/obj/getByTileWithGap`;
+const url = `${mapConfig.serviceUrl}/render/obj/getByTileWithGap?access_token={token}`;
 
 const sourceConfig = {
     objSource: {
@@ -24,16 +23,6 @@ const sourceConfig = {
         },
     },
 };
-
-autorun(() => {
-    if (!userStore.user) {
-        return;
-    }
-
-    navinfo.common.Util.forOwn(sourceConfig, source => {
-        source.sourceUrl = `${url}?access_token=${userStore.user.mapToken}`;
-    });
-});
 
 export default sourceConfig;
 
