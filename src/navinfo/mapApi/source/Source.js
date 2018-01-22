@@ -63,6 +63,23 @@ export default class Source {
     }
 
     /**
+     * 设置数据源请求地址.
+     * @param {String} value - url地址
+     * @returns {undefined} - 返回值为undefined
+     */
+    setSourceUrl(value) {
+        this._sourceUrl = value;
+    }
+
+    /**
+     * 获取数据源请求地址.
+     * @returns {String} - 返回数据源的请求url地址
+     */
+    getSourceUrl(value) {
+        return this._sourceUrl;
+    }
+
+    /**
      * 设置瓦片请求参数.
      * @param {String} key - 请求参数的键
      * @param {Number} value - 请求参数对应的值
