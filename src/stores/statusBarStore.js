@@ -5,6 +5,8 @@ import {
 } from 'mobx';
 import { Modal } from 'antd';
 
+import navinfo from 'Navinfo';
+
 class StatusBarStore {
     @observable toolName;
     @observable.ref mousePoint;
@@ -14,6 +16,9 @@ class StatusBarStore {
         this.toolName = null;
         this.mousePoint = null;
         this.zoom = null;
+
+        const eventController = navinfo.common.EventController.getInstance();
+        eventController.on('ToolChanged', this.onToolChanged);
     }
 
     @action
@@ -39,6 +44,14 @@ class StatusBarStore {
 
         return `${this.mousePoint.coordinates[0].toFixed(10)},${this.mousePoint.coordinates[1].toFixed(10)}`;
     }
+
+    onToolChanged = e => {
+        if (!e.newCurrentTool) {
+            this.setToolName(null);
+            return;
+        }
+        this.setToolName(e.newCurrentTool.name);
+    };
 }
 
 const statusBarStore = new StatusBarStore();
