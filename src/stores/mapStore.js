@@ -18,10 +18,19 @@ import registerTools from 'Business/tool/registerTools';
 import registerEditControls from 'Business/editControl/registerEditControls';
 
 class MapStore {
+    @observable mapToken;
     @observable.ref map;
 
     constructor() {
+        this.mapToken = null;
         this.map = null;
+    }
+
+    @action
+    setMapToken(value) {
+        this.mapToken = value;
+        navinfo.common.BrowserStore.setItem('mapToken', this.mapToken);
+        this.updateSourceUrl();
     }
 
     @action
@@ -73,11 +82,34 @@ class MapStore {
 
         this.loadConfig();
 
+        // 必须在加载数据源配置后调用
+        this.loadMapToken();
+
         this.setMap(map);
     }
 
-    shutdown() {
+    unInitialize() {
+        this.remove();
         this.destroySingleton();
+        this.setMap(null);
+        this.clearMapToken();
+    }
+
+    loadMapToken() {
+        if (!navinfo.common.BrowserStore.hasItem('mapToken')) {
+            return;
+        }
+
+        const mapToken = navinfo.common.BrowserStore.getItem('mapToken');
+        this.setMapToken(mapToken);
+    }
+
+    clearMapToken() {
+        if (!navinfo.common.BrowserStore.hasItem('mapToken')) {
+            return;
+        }
+
+        navinfo.common.BrowserStore.removeItem('mapToken');
     }
 
     destroySingleton() {
@@ -103,6 +135,15 @@ class MapStore {
         sceneController.loadBackground(scenes.background);
         sceneController.loadOverlay(scenes.overlay);
         sceneController.loadScenes(scenes.scenes);
+    }
+
+    updateSourceUrl() {
+        const sourceController = navinfo.mapApi.source.SourceController.getInstance();
+        const sources = sourceController.getAllSources();
+        sources.forEach(item => {
+            const url = item.getSourceUrl().replace('{token}', this.mapToken);
+            item.setSourceUrl(url);
+        });
     }
 }
 
