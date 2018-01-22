@@ -93,13 +93,13 @@ class LoginStore {
 
           stores.loadingStore.close();
 
-          if (data.errcode === 0) {
+          if (data.errcode === 0 && mapData.errcode === 0) {
+              stores.mapStore.setMapToken(mapData.data.access_token);
               const user = new User();
               user.fromJson({
                   name: this.username,
                   password: this.password,
                   token: data.data.token,
-                  mapToken: mapData.data.access_token,
               });
               stores.userStore.setUser(user);
               if (this.rememberMe) {
@@ -108,7 +108,7 @@ class LoginStore {
                   stores.userStore.clearUserInfo();
               }
           } else {
-              stores.modalStore.error(data.errmsg);
+              stores.modalStore.error(`${data.errmsg}+${mapData.errmsg}`);
           }
       } catch (err) {
           stores.loadingStore.close();
