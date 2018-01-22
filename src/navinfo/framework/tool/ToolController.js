@@ -242,6 +242,10 @@ class ToolController {
             return false;
         }
 
+        this.eventController.fire('ToolChanging', {
+            currentTool: this.currentTool,
+        });
+
         const tool = this.tools[toolName];
 
         if (this.currentTool) {
@@ -252,7 +256,13 @@ class ToolController {
             return false;
         }
 
+        this.eventController.fire('ToolChanged', {
+            oldCurrentTool: this.currentTool,
+            newCurrentTool: tool,
+        });
+
         this.currentTool = tool;
+
         return true;
     }
 
