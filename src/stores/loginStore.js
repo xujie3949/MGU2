@@ -5,7 +5,7 @@ import {
 } from 'mobx';
 
 import service from 'Services/service';
-import navinfo from 'Navinfo';
+import navinfo from 'navinfo';
 import User from 'Models/User';
 import stores from 'Stores/stores';
 

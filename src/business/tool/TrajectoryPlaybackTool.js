@@ -1,4 +1,4 @@
-import navinfo from 'Navinfo';
+import navinfo from 'navinfo';
 import stores from 'Stores/stores';
 
 /**

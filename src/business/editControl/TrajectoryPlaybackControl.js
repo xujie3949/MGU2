@@ -1,6 +1,6 @@
 import React from 'react';
 
-import navinfo from 'Navinfo';
+import navinfo from 'navinfo';
 import stores from 'Stores/stores';
 import service from 'Services/service';
 

@@ -10,7 +10,7 @@ import 'viewerjs/dist/viewer.css';
 
 import stores from 'Stores/stores';
 import Panel from 'Components/panel/Panel';
-import navinfo from 'Navinfo';
+import navinfo from 'navinfo';
 import style from './styles/style.styl';
 
 const { Group: ButtonGroup } = Button;

@@ -4,7 +4,7 @@ import {
     computed,
 } from 'mobx';
 
-import navinfo from 'Navinfo';
+import navinfo from 'navinfo';
 import User from 'Models/User';
 
 class UserStore {

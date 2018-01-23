@@ -20,7 +20,7 @@ import SelectedManager from 'Components/selectedManager/SelectedManager';
 import Map from 'Components/map/Map';
 import PropertyEdit from 'Components/propertyEdit/PropertyEdit';
 import StatusBar from 'Components/statusBar/StatusBar';
-import navinfo from 'Navinfo';
+import navinfo from 'navinfo';
 
 import style from './styles/style.styl';
 

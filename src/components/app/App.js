@@ -7,11 +7,13 @@ import stores from 'Stores/stores';
 import Login from 'Components/login/Login';
 import Editor from 'Components/editor/Editor';
 import Loading from 'Components/loading/Loading';
+
+import 'antd/dist/antd.css';
+import 'navinfo/dist/navinfo.css';
+import 'Styles/common.styl';
+
 import initApp from './initApp';
 import style from './styles/style.styl';
-
-import 'Styles/common.styl';
-import 'antd/dist/antd.css';
 
 @observer
 export default class App extends Component {

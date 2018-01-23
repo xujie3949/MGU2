@@ -1,4 +1,4 @@
-import navinfo from 'Navinfo';
+import navinfo from 'navinfo';
 
 /**
  * 道路点的前端数据模型

@@ -1,4 +1,4 @@
-import navinfo from 'Navinfo';
+import navinfo from 'navinfo';
 
 /**
  * 道路点 的前端渲染模型

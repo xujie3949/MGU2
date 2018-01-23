@@ -1,4 +1,4 @@
-import navinfo from 'Navinfo';
+import navinfo from 'navinfo';
 import RdLink from './RdLink';
 import RdNode from './RdNode';
 

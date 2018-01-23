@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SplitJS from 'split.js';
 
 import stores from 'Stores/stores';
-import navinfo from 'Navinfo';
+import navinfo from 'navinfo';
 
 export default class Split extends PureComponent {
     static propTypes = {

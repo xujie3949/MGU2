@@ -1,4 +1,4 @@
-import navinfo from 'Navinfo';
+import navinfo from 'navinfo';
 
 /**
  * 将服务返回的数据转换为渲染要素

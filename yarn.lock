@@ -2708,6 +2708,12 @@ eslint-config-airbnb-base@^11.3.0:
   dependencies:
     eslint-restricted-globals "^0.1.1"
 
+eslint-config-airbnb-base@^12.1.0:
+  version "12.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-airbnb-base/-/eslint-config-airbnb-base-12.1.0.tgz#386441e54a12ccd957b0a92564a4bafebd747944"
+  dependencies:
+    eslint-restricted-globals "^0.1.1"
+
 eslint-config-airbnb@^15.1.0:
   version "15.1.0"
   resolved "http://registry.npm.taobao.org/eslint-config-airbnb/download/eslint-config-airbnb-15.1.0.tgz#fd432965a906e30139001ba830f58f73aeddae8e"
@@ -5121,6 +5127,22 @@ nan@^2.3.0:
 natural-compare@^1.4.0:
   version "1.4.0"
   resolved "http://registry.npm.taobao.org/natural-compare/download/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
+
+navinfo@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/navinfo/-/navinfo-1.0.0.tgz#35ddff2a417210542751b8368b19a480f4a8bbca"
+  dependencies:
+    babel-runtime "^6.26.0"
+    debug "^3.1.0"
+    eslint-config-airbnb-base "^12.1.0"
+    eventemitter3 "^3.0.0"
+    jsts "^1.5.0"
+    leaflet "^1.2.0"
+    lodash "^4.17.4"
+    mousetrap "^1.6.1"
+    node-forge "^0.7.1"
+    proj4 "^2.4.4"
+    uuid "^3.1.0"
 
 ncname@1.0.x:
   version "1.0.0"

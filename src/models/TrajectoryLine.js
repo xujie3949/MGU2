@@ -4,7 +4,7 @@ import {
     computed,
 } from 'mobx';
 
-import navinfo from 'Navinfo';
+import navinfo from 'navinfo';
 import service from 'Services/service';
 import stores from 'Stores/stores';
 import TrajectoryPoint from 'Models/TrajectoryPoint';

@@ -7,7 +7,7 @@ import {
     Divider,
 } from 'antd';
 
-import navinfo from 'Navinfo';
+import navinfo from 'navinfo';
 import stores from 'Stores/stores';
 import Panel from 'Components/panel/Panel';
 import OperationCell from './OperationCell';

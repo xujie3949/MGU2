@@ -4,7 +4,7 @@ import {
     computed,
 } from 'mobx';
 
-import navinfo from 'Navinfo/index';
+import navinfo from 'navinfo';
 import symbols from 'Business/config/symbolsFile';
 import sourceConfig from 'Business/config/sourceConfig';
 import featureLayers from 'Business/config/featureLayers';

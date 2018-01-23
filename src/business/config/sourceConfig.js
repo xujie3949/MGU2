@@ -1,6 +1,6 @@
 import { autorun } from 'mobx';
 
-import navinfo from 'Navinfo';
+import navinfo from 'navinfo';
 import mapConfig from './mapConfig';
 import dataTransform from '../feature/dataTransform';
 

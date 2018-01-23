@@ -113,6 +113,7 @@
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.13",
     "mousetrap": "^1.6.1",
+    "navinfo": "^1.0.0",
     "node-forge": "^0.7.1",
     "proj4": "^2.4.4",
     "prop-types": "^15.6.0",

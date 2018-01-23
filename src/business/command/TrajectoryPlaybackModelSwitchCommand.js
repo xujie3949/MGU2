@@ -1,5 +1,5 @@
 import React from 'react';
-import navinfo from 'Navinfo';
+import navinfo from 'navinfo';
 import stores from 'Stores/stores';
 import ImageViewer from 'Components/imageViewer/ImageViewer';
 import Map from 'Components/map/Map';

@@ -7,7 +7,7 @@ import {
     Input,
 } from 'antd';
 
-import navinfo from 'Navinfo';
+import navinfo from 'navinfo';
 import stores from 'Stores/stores';
 import style from './styles/style.styl';
 

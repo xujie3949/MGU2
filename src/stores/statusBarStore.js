@@ -5,7 +5,7 @@ import {
 } from 'mobx';
 import { Modal } from 'antd';
 
-import navinfo from 'Navinfo';
+import navinfo from 'navinfo';
 
 class StatusBarStore {
     @observable toolName;
