@@ -5128,9 +5128,9 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "http://registry.npm.taobao.org/natural-compare/download/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
-navinfo@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/navinfo/-/navinfo-1.0.0.tgz#35ddff2a417210542751b8368b19a480f4a8bbca"
+navinfo@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/navinfo/-/navinfo-1.0.3.tgz#de4774cd45ad28902e1d3b4112a5a6069103794d"
   dependencies:
     babel-runtime "^6.26.0"
     debug "^3.1.0"

@@ -3,6 +3,7 @@ const loginSuccess = {
     errmsg: '登录成功',
     data: {
         token: 'abc',
+        access_token: 'abc',
     },
 };
 

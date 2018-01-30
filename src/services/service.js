@@ -83,18 +83,19 @@ class Service {
     }
 
     async loginMap(username, password) {
-        const params = new URLSearchParams();
-        params.append('parameter', JSON.stringify(
-            {
-                userNickName: username,
-                userPassword: password,
-            },
-        ));
-        const response = await this.axiosInstance.get(
-            'http://fastmap.navinfo.com/beta/service/man/userInfo/login',
-            { params: params },
-        );
-        return response.data;
+        // const params = new URLSearchParams();
+        // params.append('parameter', JSON.stringify(
+        //     {
+        //         userNickName: username,
+        //         userPassword: password,
+        //     },
+        // ));
+        // const response = await this.axiosInstance.get(
+        //     'http://fastmap.navinfo.com/beta/service/man/userInfo/login',
+        //     { params: params },
+        // );
+        // return response.data;
+        return mockData.loginSuccess;
     }
 
     async login(username, password) {
@@ -113,6 +114,17 @@ class Service {
         // const response = await this.axiosInstance.get('photos/getSummaryByGeometry', { params: params });
         // return response.data;
         return mockData.trajectoryListSuccess;
+        // const params = new URLSearchParams();
+        // // params.append('minx', northWest.lng);
+        // // params.append('maxx', southEast.lng);
+        // // params.append('miny', southEast.lat);
+        // // params.append('maxy', northWest.lat);
+        // params.append('minx', 53);
+        // params.append('maxx', 154.2);
+        // params.append('miny', 6.1);
+        // params.append('maxy', 53.4);
+        // const response = await this.axiosInstance.get('esindex/getbyenvelop', { params: params });
+        // return response.data;
     }
 
     async getTrajectoryLineDetail(trajectoryLine) {

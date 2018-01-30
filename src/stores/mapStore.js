@@ -141,8 +141,7 @@ class MapStore {
         const sourceController = navinfo.mapApi.source.SourceController.getInstance();
         const sources = sourceController.getAllSources();
         sources.forEach(item => {
-            const url = item.getSourceUrl().replace('{token}', this.mapToken);
-            item.setSourceUrl(url);
+            item.setPlaceholders('token', this.mapToken);
         });
     }
 }
