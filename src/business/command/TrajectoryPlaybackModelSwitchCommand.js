@@ -59,10 +59,13 @@ class TrajectoryPlaybackModelSwitchCommand extends navinfo.framework.command.Com
     }
 
     updateEditorMainToTrajectory() {
+        const style = {
+            minWidth: '550px',
+        };
         const main = {
             children: [
-                <ImageViewer id="photo" key="photo"/>,
-                <Map id="map" key="map"/>,
+                <ImageViewer id="photo" key="photo" style={ { ...style } }/>,
+                <Map id="map" key="map" style={ { ...style } }/>,
             ],
             config: {
                 sizes: [50, 50],
